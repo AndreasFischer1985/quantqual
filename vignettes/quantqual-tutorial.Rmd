@@ -1,0 +1,176 @@
+---
+title: "How to use the quantqual package for web-scraping, wrangling, plotting and analyzing data."
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{quantqual tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+  
+On the following pages you will learn some basics on how to use the `quantqual` package for scraping, wrangling, plotting and analyzing data. Let's start by installing and loading the `quantqual` package.
+```{r, echo=TRUE,message=FALSE,eval=FALSE,results='hide',fig.keep='all'}
+devtools::install_github("AndreasFischer1985/quantqual")
+library(quantqual)
+```
+  
+## Web-Scraping
+In an empirical study on "How to identify hot topics in psychology using topic modeling" Bittermann & Fischer (2018) recently identified the so-called "refugee crisis" and related contents (e.g., Cross-Cultural Differences, Human Migration, Cross-Cultural Communication, Cultural Sensitivity, Cross-Cultural Treatment,
+Multiculturalism, Expatriates, Transcultural Psychiatry, International Organizations, Cross-Cultural Counseling, Globalization, Multicultural Education, Foreign Workers, Acculturation, Racial And Ethnic Differences) as one of the hot topics in today's psychological research.
+  
+Thus, let's download a pdf-document with up-to-date data on asylum seekers in Germany (provided by the Federal Office for Migration and Refugees) and use the `extractTable`-function to extract a table with data on the number of asylum seekers from different countries of origin.
+The table in this pdf-document is surrounded by text, so we have to specify a regular expression to identify the first line of the table (`reg.up`), the first line below the table (`reg.down`), as well as the start (`reg.left`) and end-point (`reg.right`) of the first line. As the table contains information we don't need, we also specify, which pattern to exclude (`reg.fix`).
+```{r web-scraping table, echo=TRUE,message=FALSE,results='hide',fig.keep='all'}
+#Get pdf document from an url and save it to the working directory:
+url=paste0("http://www.bamf.de/SharedDocs/Anlagen/DE/Publikationen/Flyer/",
+"flyer-schluesselzahlen-asyl-halbjahr-2018.pdf?__blob=publicationFile");
+fn=paste0(gsub("[/?.:]","",url),".pdf");
+doc=getFile(url,fn);
+
+#Extract table:
+tab=extractTable(strsplit(doc,"\r\n")[[1]],
+reg.up="Staatsangeh.rigkeit",reg.down="Entscheidungen",reg.left="Staatsangeh.rigkeit",
+reg.right="$",reg.fix="(^[ ]*[0-9]{1,2}[ ]+|[ ]+[0-9][ ]*$)",correctNotation=T,convert=T)
+```
+In addition to information on applications for asylum, let's download some data on family reunification of immigrants. This time, we'll extract the tables from the appenix of a multi-page document (with one table per page), which makes extracting the table a lot easier.
+```{r web-scraping tables, echo=TRUE,message=FALSE,results='hide',fig.keep='all'}
+#Get pdf document from an url and save it to the working directory:
+url=paste0("http://www.bamf.de/SharedDocs/Anlagen/EN/Publikationen/EMN/Studien/",
+"wp73-emn-familiennachzug-drittstaatsangehoerige-deutschland.pdf?__blob=publicationFile")
+doc=getFile(url,paste0(gsub("[/?.:]","",url),".pdf"))
+doc=strsplit(doc,"\r\n")[[1]]
+
+#Extract tables (skipping dots):
+tab2015=extractTable(
+doc[(last(which(grepl("Table 4",doc)),1)+4):(last(which(grepl("Table 5",doc)),1)-3)],reg.fix="[.]")
+
+tab2014=extractTable(
+doc[(last(which(grepl("Table 5",doc)),1)+5):(last(which(grepl("Table 6",doc)),1)-3)],reg.fix="[.]")
+
+tab2013=extractTable(
+doc[(last(which(grepl("Table 6",doc)),1)+4):(last(which(grepl("Table 7",doc)),1)-3)],reg.fix="[.]")
+
+tab2012=extractTable(
+doc[(last(which(grepl("Table 7",doc)),1)+5):(last(which(grepl("Table 8",doc)),1)-3)],reg.fix="[.]")
+
+tab2011=extractTable(
+doc[(last(which(grepl("Table 8",doc)),1)+4):(last(which(grepl("Table 9",doc)),1)-3)],reg.fix="[.]")
+
+tab2010=extractTable(
+doc[(last(which(grepl("Table 9",doc)),1)+5):(last(which(grepl("Table 10",doc)),1)-3)],reg.fix="[.]")
+
+```
+  
+## Wrangling
+Now we'll extract an interesting subset from the first table we extracted (the number of first time applications per year for each country of origin) for further analysis, translate rownames from German to English, replace missing values with 0 (which makes plotting a lot more comfortable) and bring some order to the data.
+```{r wrangling 1}
+dat=tab[c(1:16,19),-c(1,4,6)]
+rownames(dat)=c("Afghanistan","Albania","Eritrea","Georgia",
+"Iraq","Iran","Kosovo","Macedonia","Nigeria","Pakistan",
+"Russ.Fed.","Serbia","Somalia","Syria","Turkey","Unknown","Total")
+colnames(dat)=c("2015","2016","2017","1st half of 2018")
+dat[is.na(dat)]=0
+dat=dat[order(rowSums(dat,na.rm=T),decreasing=T),]
+dat
+```
+  
+From the other tables (from tab2010 to tab2015) we'll extract the total numbers of immigrations for family reunification purposes, and combine them in a `data.frame` `dat2`.
+```{r wrangling 2}
+#Select first and last column of each table:
+t15=tab2015[,c(1,dim(tab2015)[2])]
+t14=tab2014[,c(1,dim(tab2014)[2])]
+t13=tab2013[,c(1,dim(tab2013)[2])]
+t12=tab2012[,c(1,dim(tab2012)[2])]
+t11=tab2011[,c(1,dim(tab2011)[2])]
+t10=tab2010[,c(1,dim(tab2010)[2])]
+
+#Combine the last columns of all tables to a matrix
+dat2=cbind(
+"2015"=as.numeric(t15[,2]),
+"2014"=as.numeric(t14[match(t15[,1],t14[,1]),2]),
+"2013"=as.numeric(t13[match(t15[,1],t13[,1]),2]),
+"2012"=as.numeric(t12[match(t15[,1],t12[,1]),2]),
+"2011"=as.numeric(t11[match(t15[,1],t11[,1]),2]),
+"2010"=as.numeric(t10[match(t15[,1],t10[,1]),2]))
+rownames(dat2)=t15[,1]
+
+dat2 #looks like lines 13:15 need a little face-lifting...
+dat2=dat2[-c(13,15),];rownames(dat2)[13]="Serbia"
+dat2[is.na(dat2)]=0
+dat2=dat2[order(rowSums(dat2,na.rm=T),decreasing=T),]
+dat2
+```
+  
+## Plotting
+
+First, let's have a look at the number of first time applications for asylum in Germany from different countries of origin using the `bp`-function.
+```{r plot bp, fig.height=7, fig.width=7}
+options(scipen=5)
+b=bp(dat[-1,],beside=F,
+main=paste0("First Time Applications from Top-10 Countries of Origin\n",
+"between 2015 and the First Half of 2018"),ylim=c(0,700000))
+text(b,colSums(dat[-1,]),colSums(dat[-1,]),pos=3,xpd=T)
+
+```
+Let's plot the numbers of first time applications for the Top-3 countries of origin over time using the `plotMAT`-function.
+```{r plotMAT, fig.height=7, fig.width=7}
+plotMAT(dat[1:4,],"Accumulation of First Time Applications since 2015",show.legend=F)
+```
+
+Next, let's have a look at how the immigration for the purpose of family reunification accumulated over the years for different countries of origin.
+```{r plot plotMAT2, fig.height=7, fig.width=7}
+plotMAT(dat2[2:21,6:1],paste0("Accumulation of Immigration for Family",
+"Reunification Purposes\nfrom Top-20 Countries of Origin"))
+```
+
+For a quick overview over our data, we can also use `plotDF` to plot a histogram per column.
+```{r plot plotDF, fig.height=7, fig.width=7}
+plotDF(dat[-1,])
+plotDF(dat2[2:21,6:1])
+```
+
+Now we'll plot the number of applications from the Top-Ten different countries in 2017 using the function `packedBubbleChart`.
+```{r plot packedBubbleChart, fig.height=7, fig.width=7}
+packedBubbleChart(dat[dat[,"2017"]>0,"2017"],break.names=T,
+main="\n\nFirst Time Applications for Asylum\nfrom Top-10 Countries of Origin in 2017",cex=.7)
+```
+
+Maybe a `spiderplot` is better suited for comparing the numbers of different countries? Let's try with a single line of code.
+```{r plot spiderplot, fig.height=7, fig.width=7}
+spiderplot(dat[dat[,"2017"]>0,"2017"][-1],max=50000,main=
+"\n\nFirst Time Applications from Top-10 Countries of Origin\nin 2017")
+```
+  
+## Analyzing
+
+Let's have a look at all the correlations between years (over countries) using the `correlationplot`-function (and skipping observations with missing values).
+```{r plot correlationplot, fig.height=7, fig.width=7}
+dat[dat==0]=NA;
+correlationplot(dat[-1,])
+```
+
+If we want to examine a single correlation in more detail (let's say the correlation between 2017 and the first half of 2018) we could use the `plotXY`-function (skipping observations with missing values).
+```{r plot plotXY, fig.height=7, fig.width=7}
+plotXY(dat[-1,3],dat[-1,4],xlab="2017",ylab="1st half of 2018")
+```
+
+Based on the plots presented above we can say that the numbers of applications from Syrian refugees stand out quite a bit (compared to the rest of the data). Let's check this in a more formal manner by conducting an outlier analysis. The function `outlier.analysis` gives us boxplots of scaled variables (to detect univariate outliers) and - as an attribute of the boxplot-object - the mahalanobis distance for each observation (to detect multivariate outliers).
+```{r plot outlier.analysis, fig.height=7, fig.width=7}
+outlier.analysis(dat[-1,])
+```
+As expected, the number of Syrian applications is beyond the inter-quartile range (with regard to the other numbers examined). From a multivariate perspective, however, applications from Afghanistan are even more outstanding.
+  
+
+Last but not least, let's return to our document on family reunification and have a short look at its content by building a `wordcloud` of the most frequent terms (omitting stopwords and numbers from 1 to 100).
+```{r wordcloud, fig.height=7, fig.width=7, cache=TRUE}
+tdm=vecToTDM(doc,plot=F)
+fre=sort(rowSums(tdm))
+fre=fre[is.na(match(names(fre),c(0:100,quanteda::stopwords("English"))))]
+set.seed(0);wordcloud::wordcloud(names(fre),fre,min.freq=30,random.order=F)
+```
+  
+## References
+* Bittermann, A., & Fischer, A. (2018). How to identify hot topics in psychology using topic modeling. *Zeitschrift fuer Psychologie, 226*, 3-13.
+  
+* Fischer, A., Holt, D., & Funke, J. (2018). Web-Scraping the JDDM Database:  Citations, Reads and Downloads. *Journal of Dynamic Decision Making, 4*(4), 1-5.
+
