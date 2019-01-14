@@ -66,11 +66,13 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
         sin(theta)[-(length(dimensions) + 1)], paste0(1:length(dimensions), 
         ". ", names(dimensions)), pos = ifelse(cos(theta)[-(length(dimensions) + 
         1)] < 0, 2, 4), xpd = T, cex = 0.6)
-    text(c(1, 0.5), c(0, 0) + 0.05, c(round(max(dimensions, max), 
-        2), round(max(dimensions, max)/2, 2)), cex = 0.6, pos = 2, 
-        col = "darkgrey")
-    text(c(-1, -0.5), c(0, 0) + 0.05, c(round(max(dimensions, 
-        max), 2), round(max(dimensions, max)/2, 2)), cex = 0.6, 
-        pos = 4, col = "darkgrey")
+    text(c(1 * weights2[1], 0.5 * weights2[1]), c(0, 0) + 0.05, 
+        c(round(max(dimensions, max), 2), round(max(dimensions, 
+            max)/2, 2)), cex = 0.6, pos = 2, col = "darkgrey")
+    if (length(dimensions)/2 == round(length(dimensions)/2)) 
+        text(c(-1 * weights2[round(length(weights2)/2)], -0.5 * 
+            weights2[round(length(weights2)/2)]), c(0, 0) + 0.05, 
+            c(round(max(dimensions, max), 2), round(max(dimensions, 
+                max)/2, 2)), cex = 0.6, pos = 4, col = "darkgrey")
     title(main, cex.main = 0.8)
 }

@@ -9,4 +9,4 @@
 #' first(c(1,2,3))
 
 first <- function (x, s = 0) 
-x[[1 + s]]
+ifelse(length(x) > 0, x[[1 + s]], NA)

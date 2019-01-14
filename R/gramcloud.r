@@ -2,21 +2,30 @@
 #' 
 #' Plots wordcloud based on words and/or ngrams.
 #' @param x Character vector containing the text of documents.
-#' @keywords ngram Numeric value that determines the maximum order of ngrams that is plotted. Defaults to 2.
-#' @keywords min.freq Numeric value that determines the minimum number of occurences for a word or ngram to be plotted. Defaults to 1.
-#' @keywords equal.shares Logical value indicating whether the size of a word or ngram should be relative to all tokens of the same ngram-order (T) or corresponding to the least frequent constituting word or ngram (F). Defaults to T.
-#' @keywords delete Logical value indicating whether ngrams of lower order should be deleted if they are part of an ngram of higher order that is plotted. Defaults to T.
+#' @param ngram Numeric value that determines the maximum order of ngrams that is plotted. Defaults to 1.
+#' @param max.num Numeric value that determines the maximum number of ngrams plotted. Defaults to 100.
+#' @param min.freq Numeric value that determines the minimum number of occurences for a word or ngram to be plotted. Defaults to 1.
+#' @param equal.shares Logical value indicating whether the size of a word or ngram should be relative to all tokens of the same ngram-order (T) or corresponding to the least frequent constituting word or ngram (F). Defaults to T.
+#' @param delete Logical value indicating whether ngrams of lower order should be deleted if they are part of an ngram of higher order that is plotted. Defaults to T.
+#' @param lowerCase Logical value indicating whether x should be transformed to lower-case. Defaults to T.
+#' @param color Color of the most frequent ngram. Defaults to "red".
+#' @param ... Additional graphical parameters for wordcloud.
 #' @details Plots wordcloud based on words and/or ngrams. By default words that are part of plotted ngrams are not plotted (delete=T).
 #' @keywords plotting
 #' @export
 #' @examples
 #' gramcloud(c("This is an exemplary text","This is too","And this is probably the longest text"),ngram=2,min.freq=1)
 
-gramcloud <- function (x = NULL, ngram = 3, min.freq = 1, equal.shares = T, 
-    delete = T) 
+gramcloud <- function (x = NULL, ngram = 1, max.num = 100, min.freq = 1, equal.shares = T, 
+    delete = T, lowerCase = T, main = "Cloud of n-grams", color = "red", 
+    random.order = FALSE, rot.per = 0.2, scale = c(4, 0.5), use.r.layout = T, 
+    ordered.colors = T, ...) 
 {
-    data = x
-    if (is.null(data)) 
+    if (lowerCase) {
+        data = tolower(x)
+    }
+    else data = x
+    if (length(data) == 0) 
         data = c("This is an exemplary text", "This is too", 
             "And this is probably the longest text")
     require(stringr)
@@ -49,13 +58,13 @@ gramcloud <- function (x = NULL, ngram = 3, min.freq = 1, equal.shares = T,
                 l[[j]][i] = NA
             }
     freq = sort(unlist(l), decreasing = T)
-    if (length(freq) > 100) 
-        freq = freq[1:100]
+    if (length(freq) > max.num) 
+        freq = freq[1:max.num]
     set.seed(0)
-    wordcloud::wordcloud(names(freq), freq/max(freq), random.order = FALSE, 
-        rot.per = 0.2, min.freq = 0, scale = c(1.1, 0.1), use.r.layout = T, 
-        ordered.colors = T, colors = colorRampPalette(c("red", 
-            "lightgrey"))(length(freq)))
-    title("Cloud of n-grams")
+    wordcloud::wordcloud(names(freq), freq/max(freq), random.order = random.order, 
+        rot.per = rot.per, min.freq = 0, scale = scale, use.r.layout = use.r.layout, 
+        ordered.colors = ordered.colors, colors = colorRampPalette(c(color, 
+            "lightgrey"))(length(freq)), ...)
+    title(main)
     return(freq)
 }

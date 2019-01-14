@@ -1,29 +1,18 @@
-#' Function scrapJDDM
+#' Function scrapeJDDM
 #' 
-#' Downloads data and metadata from the database of the Journal of Dynamic Decision Making to the working directory.
-#' @param wd Pathname for the working directory to save the files into.
-#' @details Downloads data and metadata from the database of the Journal of Dynamic Decision Making to the working directory. Returns a data.frame containing the relevant information.
-#' @keywords JDDM
+#' Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
+#' @param plot Logical vakue specifying wether to plot data on reads and downloads.
+#' @details Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
+#' @keywords scraping
 #' @export
 #' @examples
 #' s=scrapeJDDM();
 
-scrapeJDDM <- function (wd = NULL, saveHTML = F) 
+scrapeJDDM <- function (plot = T) 
 {
     library(stringr)
-    g = getwd()
-    if (!is.null(wd)) 
-        setwd(wd)
-    tryCatch({
-        load("html0.RData")
-    }, error = function(c) {
-    })
-    if (!exists("html0")) {
-        html0 = paste(readLines("https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles", 
-            encoding = "UTF-8"), collapse = "\n")
-        if (saveHTML) 
-            save(html0, file = "html0.RData")
-    }
+    html0 = paste(readLines("https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles", 
+        encoding = "UTF-8"), collapse = "\n")
     links = str_match_all(html0, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
         2]
     article.ids = gsub(".*view/", "", links)
@@ -63,20 +52,12 @@ scrapeJDDM <- function (wd = NULL, saveHTML = F)
         s, value = T))
     article.labels = paste0(authors, " (", years, ")")
     names(article.labels) = article.ids
-    tryCatch({
-        load("html.RData")
-    }, error = function(c) {
-    })
-    if (!exists("html")) {
-        html = list()
-        for (i in 1:length(article.ids)) {
-            html[as.character(article.ids[i])] = paste(readLines(paste0("https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:", 
-                gsub("/.*", "", article.ids[i]), ";lang=ende;overlay=1"), 
-                encoding = "UTF-8"), collapse = "\n")
-            message(article.ids[i])
-        }
-        if (saveHTML) 
-            save(html, file = "html.RData")
+    html = list()
+    for (i in 1:length(article.ids)) {
+        html[as.character(article.ids[i])] = paste(readLines(paste0("https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:", 
+            gsub("/.*", "", article.ids[i]), ";lang=ende;overlay=1"), 
+            encoding = "UTF-8"), collapse = "\n")
+        message(article.ids[i])
     }
     html = unlist(html)
     current.year = as.numeric(gsub("-.*", "", (Sys.Date())))
@@ -117,6 +98,13 @@ scrapeJDDM <- function (wd = NULL, saveHTML = F)
     for (i in 1:length(results)) m = rbind(m, results[[i]])
     m = m[-1, ]
     rownames(m) = paste(rownames(m), rep(article.ids, each = 2))
+    if (as.numeric(gsub("(^[0-9]*-|-[0-9]*$)", "", Sys.Date())) < 
+        12) {
+        shift = which(!is.na(m[, 1]))
+        m[shift, 13:24] = m[shift, 1:12]
+        m[shift, 1:12] = NA
+        m = m[, first(which(dim(m)[1] != colSums(is.na(m)))):dim(m)[2]]
+    }
     names(article.labels) = article.ids
     current.year = as.numeric(gsub("-.*", "", (Sys.Date())))
     years.JDDM = (as.numeric(gsub("-.*", "", (Sys.Date()))) - 
@@ -133,12 +121,30 @@ scrapeJDDM <- function (wd = NULL, saveHTML = F)
     df = data.frame(article.ids, article.labels, all.authors, 
         authors, years, download.link = paste0("https://journals.ub.uni-heidelberg.de/index.php/jddm/article/download/", 
             article.ids), downloads, frontdoor, statistics.htmls = unlist(html))
-    if (any(rowSums(is.na(downloads[, (current.year - 2013):dim(downloads)[2]])) > 
-        11) | any(rowSums(is.na(frontdoor[, (current.year - 2013):dim(frontdoor)[2]])) > 
-        11)) 
-        warning("only a subset of papers is returned. please try again next month")
-    df = df[(rowSums(is.na(downloads[, (current.year - 2013):dim(downloads)[2]])) < 
-        12 & rowSums(is.na(frontdoor[, (current.year - 2013):dim(frontdoor)[2]])) < 
-        12), ]
+    if (F) {
+        if (any(rowSums(is.na(downloads[, (current.year - 2013):dim(downloads)[2]])) > 
+            11) | any(rowSums(is.na(frontdoor[, (current.year - 
+            2013):dim(frontdoor)[2]])) > 11)) 
+            warning("only a subset of papers is returned. please try again next month")
+        df = df[(rowSums(is.na(downloads[, (current.year - 2013):dim(downloads)[2]])) < 
+            12 & rowSums(is.na(frontdoor[, (current.year - 2013):dim(frontdoor)[2]])) < 
+            12), ]
+    }
+    if (plot) {
+        downloads2 = downloads[, colnames(downloads) != as.character(current.year - 
+            1) & colnames(downloads) != as.character(current.year)]
+        rownames(downloads2) = article.labels
+        downloads2 = downloads2[order(rowSums(downloads2, na.rm = T), 
+            decreasing = T)[1:min(dim(downloads2)[1], 25)], ]
+        dev.new(width = 10, height = 7)
+        plotMAT(downloads2, main = "Cumulation of Downloads")
+        frontdoor2 = frontdoor[, colnames(frontdoor) != as.character(current.year - 
+            1) & colnames(frontdoor) != as.character(current.year)]
+        rownames(frontdoor2) = article.labels
+        frontdoor2 = frontdoor2[order(rowSums(frontdoor2, na.rm = T), 
+            decreasing = T)[1:min(dim(frontdoor2)[1], 25)], ]
+        dev.new(width = 10, height = 7)
+        plotMAT(frontdoor2, main = "Cumulation of Reads")
+    }
     return(df)
 }

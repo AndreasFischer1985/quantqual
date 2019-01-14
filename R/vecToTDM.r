@@ -6,10 +6,10 @@
 #' @keywords text mining
 #' @export
 #' @examples
-#' vetToDTM("hello world")
+#' vecToTDM("hello world")
 
 vecToTDM <- function (corpus = "hello,  \nworld", lowerCase = T, min = 0, 
-    sort = F, plot = T) 
+    sort = F, plot = F) 
 {
     if (lowerCase) 
         corpus = tolower(corpus)
@@ -32,12 +32,7 @@ vecToTDM <- function (corpus = "hello,  \nworld", lowerCase = T, min = 0,
     m[is.na(m)] = 0
     m = data.frame(m)
     if (sort) 
-        for (i in 1:dim(m)[1]) for (j in 1:dim(m)[1]) if (i > 
-            j & sum(m[i, ]) < sum(m[j, ])) {
-            h = m[i, ]
-            m[i, ] = m[j, ]
-            m[j, ] = h
-        }
+        m = m[order(rowSums(m)), ]
     m = as.matrix(m)
     m1 = NULL
     if (!is.null(min)) 

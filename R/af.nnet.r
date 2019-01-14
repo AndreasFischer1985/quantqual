@@ -15,7 +15,7 @@ af.nnet <- function (data.train, output = NULL, rep.nnet = 5, seed = 0,
     plot = F, size = 3, decay = 0, linout = T, trace = F, ...) 
 {
     require(nnet)
-    data.train = data.frame(scale(data.train))
+    data.train = data.frame(data.train)
     if (is.null(names(data.train))) 
         names(data.train) = 1:dim(data.train)[2]
     if (is.numeric(output)) 

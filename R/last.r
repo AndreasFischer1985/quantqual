@@ -9,4 +9,4 @@
 #' last(c(1,2,3))
 
 last <- function (x, s = 0) 
-x[[length(x) - s]]
+ifelse(length(x) > 0, x[[length(x) - s]], NA)

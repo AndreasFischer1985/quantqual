@@ -90,5 +90,5 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
     legend(x = legX - dist, y = legX - dist, legend = c(rownames), 
         fill = farben[1:(dim(data)[1] + 1)], bg = "white", bty = "n", 
         xpd = T)
-    return(legX)
+    return(data)
 }

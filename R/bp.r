@@ -30,8 +30,13 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         x = data.frame(test1 = c(1, 2, 3), test2 = c(2, 3, 4))
     else if (is.table(x)) {
         y = matrix(sapply(x, as.numeric), nrow = dim(x)[1])
-        rownames(y) = rownames(x)
-        colnames(y) = colnames(x)
+        if (length(dim(x)) == 1) {
+            rownames(y) = names(x)
+        }
+        else {
+            rownames(y) = rownames(x)
+            colnames(y) = colnames(x)
+        }
         x = y
     }
     el = list(...)
