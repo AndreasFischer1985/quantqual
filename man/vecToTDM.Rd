@@ -5,7 +5,7 @@
 \title{Function vecToTDM}
 \usage{
 vecToTDM(corpus = "hello,  \\nworld", lowerCase = T, min = 0,
-  sort = F, plot = T)
+  sort = F, plot = F)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}
@@ -17,7 +17,7 @@ Term-Document matrix based on character vector.
 Term-Document matrix based on character vector.
 }
 \examples{
-vetToDTM("hello world")
+vecToTDM("hello world")
 }
 \keyword{mining}
 \keyword{text}

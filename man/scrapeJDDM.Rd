@@ -2,20 +2,20 @@
 % Please edit documentation in R/scrapeJDDM.r
 \name{scrapeJDDM}
 \alias{scrapeJDDM}
-\title{Function scrapJDDM}
+\title{Function scrapeJDDM}
 \usage{
-scrapeJDDM(wd = NULL, saveHTML = F)
+scrapeJDDM(plot = T)
 }
 \arguments{
-\item{wd}{Pathname for the working directory to save the files into.}
+\item{plot}{Logical vakue specifying wether to plot data on reads and downloads.}
 }
 \description{
-Downloads data and metadata from the database of the Journal of Dynamic Decision Making to the working directory.
+Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
 }
 \details{
-Downloads data and metadata from the database of the Journal of Dynamic Decision Making to the working directory. Returns a data.frame containing the relevant information.
+Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
 }
 \examples{
 s=scrapeJDDM();
 }
-\keyword{JDDM}
+\keyword{scraping}

@@ -4,11 +4,30 @@
 \alias{gramcloud}
 \title{Function gramcloud}
 \usage{
-gramcloud(x = NULL, ngram = 3, min.freq = 1, equal.shares = T,
-  delete = T)
+gramcloud(x = NULL, ngram = 1, max.num = 100, min.freq = 1,
+  equal.shares = T, delete = T, lowerCase = T,
+  main = "Cloud of n-grams", color = "red", random.order = FALSE,
+  rot.per = 0.2, scale = c(4, 0.5), use.r.layout = T,
+  ordered.colors = T, ...)
 }
 \arguments{
 \item{x}{Character vector containing the text of documents.}
+
+\item{ngram}{Numeric value that determines the maximum order of ngrams that is plotted. Defaults to 1.}
+
+\item{max.num}{Numeric value that determines the maximum number of ngrams plotted. Defaults to 100.}
+
+\item{min.freq}{Numeric value that determines the minimum number of occurences for a word or ngram to be plotted. Defaults to 1.}
+
+\item{equal.shares}{Logical value indicating whether the size of a word or ngram should be relative to all tokens of the same ngram-order (T) or corresponding to the least frequent constituting word or ngram (F). Defaults to T.}
+
+\item{delete}{Logical value indicating whether ngrams of lower order should be deleted if they are part of an ngram of higher order that is plotted. Defaults to T.}
+
+\item{lowerCase}{Logical value indicating whether x should be transformed to lower-case. Defaults to T.}
+
+\item{color}{Color of the most frequent ngram. Defaults to "red".}
+
+\item{...}{Additional graphical parameters for wordcloud.}
 }
 \description{
 Plots wordcloud based on words and/or ngrams.
@@ -19,56 +38,4 @@ Plots wordcloud based on words and/or ngrams. By default words that are part of 
 \examples{
 gramcloud(c("This is an exemplary text","This is too","And this is probably the longest text"),ngram=2,min.freq=1)
 }
-\keyword{(F).}
-\keyword{(T)}
-\keyword{1.}
-\keyword{2.}
-\keyword{Defaults}
-\keyword{Logical}
-\keyword{Numeric}
-\keyword{T.}
-\keyword{a}
-\keyword{all}
-\keyword{an}
-\keyword{are}
-\keyword{be}
-\keyword{constituting}
-\keyword{corresponding}
-\keyword{delete}
-\keyword{deleted}
-\keyword{determines}
-\keyword{equal.shares}
-\keyword{for}
-\keyword{frequent}
-\keyword{higher}
-\keyword{if}
-\keyword{indicating}
-\keyword{is}
-\keyword{least}
-\keyword{lower}
-\keyword{maximum}
-\keyword{min.freq}
-\keyword{minimum}
-\keyword{ngram}
-\keyword{ngram-order}
-\keyword{ngrams}
-\keyword{number}
-\keyword{occurences}
-\keyword{of}
-\keyword{or}
-\keyword{order}
-\keyword{part}
-\keyword{plotted.}
 \keyword{plotting}
-\keyword{relative}
-\keyword{same}
-\keyword{should}
-\keyword{size}
-\keyword{that}
-\keyword{the}
-\keyword{they}
-\keyword{to}
-\keyword{tokens}
-\keyword{value}
-\keyword{whether}
-\keyword{word}
