@@ -5,7 +5,8 @@
 \title{Function spiderplot}
 \usage{
 spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
-  names = NULL, main = NULL, max = 1, xylim = 1.5, add.scale = T)
+  names = NULL, main = NULL, max = 1, xylim = 1.5, add.scale = T,
+  col = rgb(0, 0, 1), col2 = rgb(0, 0, 1, 0.5))
 }
 \arguments{
 \item{x}{Numeric vector containing the values to be displayed. Values should be between 0 and 1.}
@@ -21,6 +22,10 @@ spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
 \item{max}{Numeric value determining the largest possible value of the data to be displayed. Defaults to 1.}
 
 \item{xylim}{Numeric value determining both upper and lower limits on both x and y axis (xlim & ylim). Defaults to 1.5.}
+
+\item{col}{Character or rgb value specifying the line's color. Defaults to rgb(0,0,1).}
+
+\item{col}{Character or rgb value specifying the color of the area between upper and lower bound. Defaults to rgb(0,0,1,.5).}
 }
 \description{
 Plots a radar chart based on a numeric vector.

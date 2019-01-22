@@ -5,18 +5,23 @@
 \title{Function packedBubbleChart}
 \usage{
 packedBubbleChart(vec = NULL, main = NULL, show.text = T,
-  break.names = F, add.vec = T, cex = 0.8, col = NULL)
+  break.names = F, add.vec = T, cex = 0.8, col = NULL,
+  cutoff = 2, a = 90, b = 10)
 }
 \arguments{
 \item{vec}{Numeric vector, potentially with names.}
 
-\item{main}{Character vector with one element containing the barplot's title. Defaults to NULL}
+\item{main}{Character vector with one element containing the plot's title. Defaults to NULL}
 
 \item{show.text}{Logical value indicating whether bubbles should be labelled with names(vec). Defaults to T.}
 
-\item{cex}{Numeric vector indicating the text size. Defaults to .8.}
+\item{cex}{Numeric value indicating the text size. Defaults to .8.}
 
 \item{col}{Character vector indicating the bubbles' color. If NULL (default) the rainbow palette is applied to vec's ranks.}
+
+\item{a}{Numeric value multiplied with normalizd vec. Defaults to 90.}
+
+\item{b}{Numeric value added to normalized vec*a. Defaults to 10.}
 
 \item{beak.names}{Logical value indicating whether line breaks should be added after each whitespace. Defaults to F.}
 

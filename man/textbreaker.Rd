@@ -6,8 +6,13 @@
 \usage{
 
   textbreaker(text = "Let's write some text with many different words and plot it in a nice little device.",
-  zeilenabstand = 1, maxlength = 30, size = 1, centered = F,
+  maxlength = 30, lspace = 1, size = 1, centered = F,
   separator = "\\n     ", plot = F)
+}
+\arguments{
+\item{text}{Character value containing the text to be split into multiple lines.}
+
+\item{maxlength}{Numeric value specifying the maximum number of characters per line.}
 }
 \description{
 Adds linebreaks to text.

@@ -4,9 +4,11 @@
 \alias{plotXY}
 \title{Function plotXY}
 \usage{
-plotXY(x = NULL, y = NULL, na.rm = T, color1 = rgb(0/255, 84/255,
-  122/255, 0.7), color2 = "darkorange", show.text = T, xlab = "x",
-  ylab = "y", main = "Correlation", pch = 16, ...)
+plotXY(x = NULL, y = NULL, complexity = 1, na.rm = T,
+  color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 0, 1), color3 = rgb(0,
+  0, 1, 0.2), xlab = "x", ylab = "y", main = "Bivariate Relation",
+  sub = "Shaded area represents 95\%-prediction interval.", pch = 16,
+  lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector.}
@@ -15,11 +17,11 @@ plotXY(x = NULL, y = NULL, na.rm = T, color1 = rgb(0/255, 84/255,
 
 \item{na.rm}{Logical value indicating whether missing values should be skipped. Defaults to T.}
 
-\item{color1}{Color of points in the scattergram. Defaults to rgb(0/255,84/255,122/255,.7).}
+\item{color1}{Color of points in the scattergram. Defaults to rgb(0,0,0,.7).}
 
-\item{color2}{Color of the regression line. Defaults to "darkorange".}
+\item{color2}{Color of the regression line. Defaults to rgb(0,0,1).}
 
-\item{show.text}{Logical value indicating whether text should be added to the regression line. Defaults to T.}
+\item{color3}{Color of the prediction interval. Defaults to rgb(0,0,1,.2).}
 }
 \description{
 Plots bivariate correlation based on two numeric vectors.

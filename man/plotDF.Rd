@@ -8,6 +8,8 @@ plotDF(data = NULL, col = NULL, ...)
 }
 \arguments{
 \item{data}{Numeric data.frame.}
+
+\item{col}{Character vector specifying each plot's color. If NULL (default) the rainbow palette is applied.}
 }
 \description{
 Plots each vector of a data.frame.

@@ -4,8 +4,10 @@
 \alias{af.nnet}
 \title{Function af.nnet}
 \usage{
-af.nnet(data.train, output = NULL, rep.nnet = 5, seed = 0,
-  plot = F, size = 3, decay = 0, linout = T, trace = F, ...)
+af.nnet(data.train, output = NULL, rep.nnet = 10, seed = 0,
+  plot = F, size = NULL, decay = 0, linout = T, trace = F,
+  maxit = 1000, preProc = c("center", "scale"),
+  control = caret::trainControl(method = "boot", number = 10), ...)
 }
 \arguments{
 \item{data.train}{data.frame containing training data.}

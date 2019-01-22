@@ -4,7 +4,9 @@
 \alias{af.fit}
 \title{Function af.fit}
 \usage{
-af.fit(data.train, output = NULL, rep.nnet = 10)
+af.fit(data.train, output = NULL, rep.nnet = 5, preProc = c("center",
+  "scale"), control = caret::trainControl(method = "boot", number = 10),
+  nnet.linout = T, nnet.maxit = 1000, nnet.trace = F, ...)
 }
 \arguments{
 \item{data.train}{data.frame containing training data.}
@@ -14,7 +16,7 @@ af.fit(data.train, output = NULL, rep.nnet = 10)
 \item{rep.nnet}{number of random initialisations that should be applied for choosing af.nnet.}
 }
 \description{
-Fits nnet and linear regression (with and without interaction terms) to a data.frame.
+Fits nnet, glmnet and linear regression (with and without interaction terms) to a data.frame.
 }
 \examples{
 data=data.frame(y=rnorm(100),x1=rnorm(100),x2=rnorm(100));

@@ -5,9 +5,10 @@
 \title{Function plotMAT}
 \usage{
 plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
-  ylab = "cumulated sum", xlim.factor = 1.5, cumsum = T,
-  show.legend = T, add.shadow = F, add.grid = T, col = NULL,
-  cex = 0.7, manual.addon = 0)
+  ylab = "cumulated sum", xlim = NULL, ylim = NULL,
+  xlim.factor = 1.5, las = 1, srt = 45, cumsum = T,
+  show.legend = F, add.shadow = F, add.grid = T, col = NULL,
+  cex = 0.7, frame = 1, manual.addon = NULL)
 }
 \arguments{
 \item{matrix}{Numeric matrix containing the values to be displayed.}
@@ -16,7 +17,15 @@ plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
 
 \item{xlab}{Character value representing the x-axis label. Defaults to "time"}
 
-\item{xlim.factor}{Numeric value for adding extra space to the right of the barplot. Defaults to 1.}
+\item{xlim}{Numeric vector with two elements. If NULL (default) xlim is detemined automatically.}
+
+\item{ylim}{Numeric vector with two elements. If NULL (default) ylim is detemined automatically.}
+
+\item{xlim.factor}{Numeric value for adding extra space to the right of the plot. Defaults to 1.}
+
+\item{las}{Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.}
+
+\item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
 
 \item{cumsum}{Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.}
 
@@ -26,9 +35,11 @@ plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
 
 \item{add.grid}{Logical value indicating whether a grid should be drawn. Defaults to F.}
 
-\item{col}{Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.}
+\item{col}{Vector containing each line's color. If NULL (default) colors are generated based on the rainbow-palette.}
 
-\item{cex}{Size of fonts. Defaults to .7.}
+\item{cex}{Relative size of fonts. Defaults to .7.}
+
+\item{frame}{Relative size of invisible frame around fonts. Defaults to 1.}
 
 \item{manual.addon}{Numeric vector containing verical adjustments.}
 

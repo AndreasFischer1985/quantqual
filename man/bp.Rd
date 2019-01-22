@@ -5,9 +5,10 @@
 \title{Function bp}
 \usage{
 bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
-  add.numbers = F, plot = T, main = NULL, xlim.factor = 1.5,
-  xlim = NULL, names.arg = NULL, legend.text = NULL, col = NULL,
-  ...)
+  add.numbers = F, ndigits = 2, plot = T, main = NULL,
+  xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
+  names.arg = NULL, legend.text = NULL, col = NULL, axes = T,
+  add = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector, matrix or data.frame containing the values to be displayed.}
@@ -20,7 +21,9 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{horiz}{Logical value indicating if bars should be placed horizontal. Defaults to F.}
 
-\item{add.numbers}{Logical value indicating if numbers should be placed above bars. Defaults to Fs.}
+\item{add.numbers}{Logical value indicating if numbers should be placed above bars. Defaults to F.}
+
+\item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
 
 \item{plot}{Logical value indicating whether to plot the barplot. Defaults to T.}
 
@@ -28,13 +31,21 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{xlim.factor}{Numeric value for adding extra space to the right of the barplot. Defaults to 1.}
 
+\item{las}{Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.}
+
+\item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
+
 \item{xlim}{Numeric vector containing xlim.}
 
 \item{names.arg}{Character vector containing names of bars. If NULL (default) colnames of x will be applied as names.arg.}
 
-\item{legend.text}{Legend text. If NULL (default) rownames of x will be applied as legend.text.}
+\item{legend.text}{Legend text. Set to NA or to F to supress legend. If NULL (default) rownames of x will be applied as legend.text.}
 
 \item{col}{Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.}
+
+\item{axes}{Logical value indicating whether to plot axes. Defaults to T.}
+
+\item{add}{Logical value indicating whether to plot the barplot to the current device. Defaults to F.}
 
 \item{...}{Additional graphical parameters for barplot.}
 }

@@ -4,7 +4,7 @@
 \alias{plotLM}
 \title{Function plotLM}
 \usage{
-plotLM(lm = NULL)
+plotLM(lm = NULL, ...)
 }
 \arguments{
 \item{lm}{Object of class lm.}

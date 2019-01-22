@@ -10,9 +10,9 @@ af.sensitivity(model, x = NULL, y = NULL, steps = 100,
 \arguments{
 \item{model}{Any object that works as input for function predict.}
 
-\item{x}{data.frame with numeric vectors.}
+\item{x}{data.frame with numeric predictor variables.}
 
-\item{y}{numeric vector.}
+\item{y}{numeric criterion variable.}
 }
 \description{
 Plots Lek-Pofiles and Fischer's Deltas.

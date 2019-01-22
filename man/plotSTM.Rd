@@ -6,12 +6,14 @@
 \usage{
 plotSTM(stm = NULL, labels = NULL,
   main = "Topic distribution over documents", border = NA, space = 0,
-  stopwords = NULL, cex = 0.7)
+  stopwords = NULL, cex = 0.7, srt = 45)
 }
 \arguments{
 \item{stm}{Object of class stm.}
 
 \item{labels}{character vector with document labels.}
+
+\item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
 }
 \description{
 Plots topic document distribution and topic descriptions based on an stm object.

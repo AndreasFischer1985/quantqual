@@ -4,7 +4,8 @@
 \alias{reduceDF}
 \title{Function reduceDF}
 \usage{
-reduceDF(data, output = NULL)
+reduceDF(data, output = NULL, cutoff = 0.1,
+  control = caret::trainControl(method = "boot", number = 30))
 }
 \arguments{
 \item{data}{data.frame containing data.}
@@ -14,7 +15,7 @@ reduceDF(data, output = NULL)
 \item{y}{numeric vector.}
 }
 \description{
-Applies LASSO regression on predictors and their criterion.
+Applies LASSO regression and returns a data.frame with the most important predictors.
 }
 \examples{
 data=data.frame(y=rnorm(100),x1=rnorm(100),x2=rnorm(100));

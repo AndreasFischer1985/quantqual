@@ -6,12 +6,14 @@
 \usage{
 plotLDA(lda = NULL, labels = NULL,
   main = "Topic distribution over documents", border = NA, space = 0,
-  stopwords = NULL, cex = 0.7)
+  stopwords = NULL, cex = 0.7, srt = 45)
 }
 \arguments{
 \item{lda}{Object of class LDA.}
 
 \item{labels}{character vector with document labels.}
+
+\item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
 }
 \description{
 Plots topic document distribution and topic descriptions.
