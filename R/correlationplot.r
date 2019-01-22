@@ -16,7 +16,8 @@
 correlationplot <- function (x = NULL, stars = T, numbers = T, cex = 0.6, show.legend = F, 
     ...) 
 {
-    require(psych)
+    if (is.null(x)) 
+        x = data.frame(a = rnorm(100), b = rnorm(100), c = rnorm(100))
     data = x
     if (is.null(dim(data))) 
         stop("data should be a data.frame or a numeric matrix")
@@ -24,5 +25,5 @@ correlationplot <- function (x = NULL, stars = T, numbers = T, cex = 0.6, show.l
         data = data.frame(x = rnorm(100), y = rnorm(100), z = rnorm(100))
     psych::cor.plot(data, stars = stars, numbers = numbers, cex = cex, 
         show.legend = show.legend, ...)
-    return(corr.test(data))
+    return(psych::corr.test(data))
 }

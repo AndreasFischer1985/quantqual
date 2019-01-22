@@ -5,13 +5,18 @@
 #' @param main Character value representing the barplot's title. Defaults to "Cumulation over time"
 #' @param xlab Character value representing the x-axis label. Defaults to "time"
 #' @param main Character value representing the y-axis label. Defaults to "cumulated sum"
-#' @param xlim.factor Numeric value for adding extra space to the right of the barplot. Defaults to 1.
+#' @param xlim Numeric vector with two elements. If NULL (default) xlim is detemined automatically.
+#' @param ylim Numeric vector with two elements. If NULL (default) ylim is detemined automatically.
+#' @param xlim.factor Numeric value for adding extra space to the right of the plot. Defaults to 1.
+#' @param las Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.
+#' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
 #' @param cumsum Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.
 #' @param show.legend Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.
 #' @param add.shadow Logical value indicating whether lines should be surrounded ba a black line. Defaults to F.
 #' @param add.grid Logical value indicating whether a grid should be drawn. Defaults to F.
-#' @param col Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.
-#' @param cex Size of fonts. Defaults to .7.
+#' @param col Vector containing each line's color. If NULL (default) colors are generated based on the rainbow-palette.
+#' @param cex Relative size of fonts. Defaults to .7.
+#' @param frame Relative size of invisible frame around fonts. Defaults to 1.
 #' @param manual.addon Numeric vector containing verical adjustments.
 #' @details Plots a numeric matrix as one line per row. By default cumsum of each row is plotted.
 #' @keywords plotting
@@ -20,8 +25,9 @@
 #' plotMAT()
 
 plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "", 
-    ylab = "cumulated sum", xlim.factor = 1.5, cumsum = T, show.legend = T, 
-    add.shadow = F, add.grid = T, col = NULL, cex = 0.7, manual.addon = 0) 
+    ylab = "cumulated sum", xlim = NULL, ylim = NULL, xlim.factor = 1.5, 
+    las = 1, srt = 45, cumsum = T, show.legend = F, add.shadow = F, 
+    add.grid = T, col = NULL, cex = 0.7, frame = 1, manual.addon = NULL) 
 {
     if (is.null(matrix)) {
         matrix = t(data.frame(`ID 15455/20157` = c(32, 254, 22, 
@@ -72,8 +78,9 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
                 "May 2018", "Jun 2018", "Jul 2018", "Aug 2018", 
                 "Sep 2018", "Oct 2018", "Nov 2018", "Dec 2018")))
     }
-    if (length(manual.addon) != dim(matrix)[1]/2) 
-        manual.addon = rep(0, dim(matrix)[1]/2)
+    if (!is.null(manual.addon)) 
+        if (length(manual.addon) != dim(matrix)[1]/2) 
+            manual.addon = rep(0, dim(matrix)[1]/2)
     cs = matrix
     if (cumsum) 
         cs = t(apply(matrix, 1, function(x) {
@@ -87,10 +94,13 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
             ]
     if (is.null(col)) 
         col = rainbow(dim(cs)[1])
+    if (is.null(ylim)) 
+        ylim = c(min(cs), max(cs))
+    if (is.null(xlim)) 
+        xlim = c(1, dim(cs)[2] * xlim.factor)
     plot(1:dim(cs)[2], seq(0, max(cs, na.rm = T), length.out = dim(cs)[2]), 
-        type = "n", ylim = c(min(cs), max(cs)), xlim = c(1, dim(cs)[2] * 
-            xlim.factor), xaxt = "n", xlab = xlab, ylab = ylab, 
-        main = main)
+        type = "n", ylim = ylim, xlim = xlim, xaxt = "n", xlab = xlab, 
+        ylab = ylab, main = main, las = las)
     if (add.grid) 
         grid()
     for (i in 1:dim(cs)[1]) {
@@ -99,14 +109,14 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
         lines(1:dim(cs)[2], cs[i, ], col = col[i], lwd = 2)
     }
     axis(1, at = 1:dim(cs)[2], labels = rep(NA, dim(cs)[2]), 
-        cex.axis = 0.5)
+        cex.axis = 0.5, las)
     x0 = cs
     x0 = min(x0) - 0.08 * (max(x0) - min(x0))
     text((1:dim(cs)[2]) + (0.02 * dim(cs)[2]), x0, colnames(cs), 
-        pos = 2, srt = 45, xpd = T, cex = 0.5)
+        pos = 2, srt = srt, xpd = T, cex = 0.5)
     order = order(cs[, dim(cs)[2]], decreasing = T)
     cs = cs[order, ]
-    if (!show.legend) {
+    if (!is.null(manual.addon) & !show.legend) {
         text(dim(cs)[2] + 1, cs[, dim(cs)[2]] + manual.addon, 
             rownames(cs), pos = 4, cex = cex)
         points(x = rep(dim(cs)[2] + 1, dim(cs)[1]), y = cs[, 
@@ -114,6 +124,20 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
             dim(cs)[2]], decreasing = T)], pch = 15)
         points(x = rep(dim(cs)[2] + 1, dim(cs)[1]), y = cs[, 
             dim(cs)[2]] + manual.addon, col = "black", pch = 0)
+    }
+    else if (!show.legend) {
+        x1 = rep(dim(cs)[2] + 1, dim(cs)[1])
+        y1 = cs[, dim(cs)[2]]
+        text1 = rownames(cs)
+        d = quantqual::decollide(x1, y1, text1, cex = cex, verbose = F, 
+            frame = frame)
+        x1 = as.numeric(d[, 1])
+        y1 = as.numeric(d[, 2])
+        text1 = d[, 3]
+        text(x1, y1, text1, pos = 4, cex = cex)
+        points(x = x1, y = y1, col = rainbow(dim(cs)[1])[order(y1, 
+            decreasing = T)], pch = 15)
+        points(x = x1, y = y1, col = "black", pch = 0)
     }
     if (show.legend) 
         legend("right", rownames(cs), fill = col[order], cex = cex)

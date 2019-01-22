@@ -28,8 +28,12 @@ deltas <- function (model, x = NULL, y = NULL, fun = mean, plot = T, main = "Fis
         stop("Please specify predictor x and criterion y!")
     if (sd(predict(model), na.rm = T) == 0) 
         stop("No variation in model predictions")
-    if (dim(data.frame(x))[2] < 2) 
-        return(cor(predict(model, newdata = data.frame(x)), y)[1]^2)
+    if (dim(data.frame(x))[2] < 2) {
+        val = rep(cor(predict(model), data.frame(y)[[1]])[1]^2, 
+            2)
+        names(val) = c("x1", "reference")
+        return(val)
+    }
     l = list()
     for (j in 1:dim(data.frame(x))[2]) {
         d = data.frame(x)

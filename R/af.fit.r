@@ -1,6 +1,6 @@
 #' Function af.fit
 #' 
-#' Fits nnet and linear regression (with and without interaction terms) to a data.frame.
+#' Fits nnet, glmnet and linear regression (with and without interaction terms) to a data.frame.
 #' @param data.train data.frame containing training data.
 #' @param output index or name of criterion in training data.
 #' @param rep.nnet number of random initialisations that should be applied for choosing af.nnet.
@@ -10,10 +10,18 @@
 #' data=data.frame(y=rnorm(100),x1=rnorm(100),x2=rnorm(100));
 #' fit.quant(data,"y1")
 
-af.fit <- function (data.train, output = NULL, rep.nnet = 10) 
+af.fit <- function (data.train, output = NULL, rep.nnet = 5, preProc = c("center", 
+    "scale"), control = caret::trainControl(method = "boot", 
+    number = 10), nnet.linout = T, nnet.maxit = 1000, nnet.trace = F, 
+    ...) 
 {
-    require(caret)
     require(nnet)
+    if (sum(grepl("center", preProc)) > 0) 
+        data.train = apply(data.train, 2, function(x) x - mean(x, 
+            na.rm = T))
+    if (sum(grepl("scale", preProc)) > 0) 
+        data.train = apply(data.train, 2, function(x) x/sd(x, 
+            na.rm = T))
     data.train = data.frame(data.train)
     if (is.null(names(data.train))) 
         names(data.train) = 1:dim(data.train)[2]
@@ -26,7 +34,6 @@ af.fit <- function (data.train, output = NULL, rep.nnet = 10)
         names(data.train)[output] = "output"
     if (is.null(output)) 
         names(data.train)[1] = "output"
-    control = trainControl(method = "cv", number = 10)
     af.nnet = list(label = "Andreas Fischer's Neural Network", 
         library = "nnet", loop = NULL, type = c("Classification", 
             "Regression"), parameters = data.frame(parameter = c("size", 
@@ -91,27 +98,34 @@ af.fit <- function (data.train, output = NULL, rep.nnet = 10)
     fits = list()
     message(paste0("Started fiting at ", Sys.time()))
     fits[["lm"]] = caret::train(output ~ ., data = data.train, 
-        method = "lm", preProc = c("center", "scale"), trControl = control)
+        method = "lm", preProc = preProc, trControl = control)
     message(names(fits)[length(fits)])
     message(Sys.time())
     fits[["lm.Int"]] = caret::train(output ~ . * ., data = data.train, 
-        method = "lm", preProc = c("center", "scale"), trControl = control)
+        method = "lm", preProc = preProc, trControl = control)
+    message(names(fits)[length(fits)])
+    message(Sys.time())
+    fits[["glmnet"]] = caret::train(output ~ ., data = data.train, 
+        method = "glmnet", preProc = preProc, trControl = control)
     message(names(fits)[length(fits)])
     message(Sys.time())
     fits[["nnet"]] = caret::train(output ~ ., data = data.train, 
-        method = "nnet", preProc = c("center", "scale"), trControl = control, 
-        tuneGrid = grid.nnet, linout = T, maxit = 1000, trace = F)
+        method = "nnet", preProc = preProc, trControl = control, 
+        tuneGrid = grid.nnet, linout = nnet.linout, maxit = nnet.maxit, 
+        trace = nnet.trace, ...)
     message(names(fits)[length(fits)])
     message(Sys.time())
     fits[["af.nnet"]] = caret::train(output ~ ., data = data.train, 
-        method = af.nnet, preProc = c("center", "scale"), trControl = control, 
-        tuneGrid = grid.nnet, linout = T, maxit = 1000, trace = F)
+        method = af.nnet, preProc = preProc, trControl = control, 
+        tuneGrid = grid.nnet, linout = nnet.linout, maxit = nnet.maxit, 
+        trace = nnet.trace)
     message(names(fits)[length(fits)])
     message(Sys.time())
     fits = fits[order(cor(data.frame(data.train[, "output"], 
         lapply(fits, function(x) predict(x, data.train))))[-1, 
-        1])]
+        1], decreasing = T)]
     bp(cor(data.frame(data.train[, "output"], lapply(fits, function(x) predict(x, 
-        data.train))))[-1, 1], ylim = c(0, 1))
+        data.train))))[-1, 1], ylim = c(0, 1), add.numbers = T, 
+        main = "Model Comparison")
     return(fits)
 }

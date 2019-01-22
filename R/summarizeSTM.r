@@ -63,8 +63,7 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
     title(sub = paste0(dim(stm$theta)[2], " topics; ", dim(stm$theta)[1], 
         " documents"), cex.sub = 0.7)
     textbreaker = function(text = "Lass uns einen langen Text in eine Textbox setzen, die es in sich hat und viele Zeilen enthaelt.", 
-        zeilenabstand = 1, maxlength = 30, size = 1, centered = F, 
-        separator = "\n     ") {
+        maxlength = 30, lspace = 1, size = 1, centered = F, separator = "\n     ") {
         if (nchar(text) > maxlength * 4) 
             text = paste(substr(text, 1, maxlength * 4), "(...)")
         count = 1
@@ -89,8 +88,7 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
         p2 = p1 * 0
         par(mai = p2)
         th = par()$ps * 1/72
-        fac = (th * zeilenabstand * 1/dev.size()[2] * 6 * size * 
-            length(text))
+        fac = (th * lspace * 1/dev.size()[2] * 6 * size * length(text))
         pos = NULL
         if (!centered) 
             pos = 4
@@ -127,8 +125,8 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
             plot(1, 1, type = "n", xlab = "", ylab = "", axes = F)
             text(1, 1, paste0("Document ", doc[i], " (", round(stm.probs[[2]][paste0("d", 
                 doc[i]), i] * 100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
-                zeilenabstand = 0.2, maxlength = 30, size = 1, 
-                centered = F), "\""), cex = 0.8)
+                lspace = 0.2, maxlength = 30, size = 1, centered = F), 
+                "\""), cex = 0.8)
             title(paste0("Topic", i, " (", round(colMeans(stm.probs[[2]])[i] * 
                 100, 0), "%) :\n"), cex.main = 1)
             title(paste0("\n\n\n", topicDescriptions[i]), cex.main = 0.5)

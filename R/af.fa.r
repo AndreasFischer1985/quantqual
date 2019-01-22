@@ -11,12 +11,11 @@
 af.fa <- function (data, nfactors = NULL, rotate = "varimax", fm = "pa", 
     plot = T, ...) 
 {
-    library(psych)
     if (is.null(nfactors)) {
-        fap = fa.parallel(data, plot = F, show.legend = F)
+        fap = psych::fa.parallel(data, plot = F, show.legend = F)
         nfactors = max(1, fap$nfact)
     }
-    fa = fa(cor(data), rotate = rotate, fm = fm, nfactors = nfactors, 
+    fa = psych::fa(cor(data), rotate = rotate, fm = fm, nfactors = nfactors, 
         ...)
     if (plot) 
         plotFA(fa)

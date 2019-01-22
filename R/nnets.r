@@ -31,7 +31,7 @@ nnets <- function (data.train, output = NULL, rep.nnet = 10, seed = 0,
     out <- out[order(sapply(out, function(x) cor(predict(x), 
         data.train$output, use = "pairwise")), decreasing = T)]
     if (plot) 
-        plot(predict(out[[1]]), data.train$output, col = "blue", 
-            lwd = 3, main = "Performance")
+        af.sensitivity(out[[1]], data.train[colnames(data.train) != 
+            "output"], data.train["output"])
     return(out)
 }

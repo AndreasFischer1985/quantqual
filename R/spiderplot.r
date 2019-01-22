@@ -8,6 +8,8 @@
 #' @param main Character vector with one element containing the barplot's title. Defaults to NULL
 #' @param max Numeric value determining the largest possible value of the data to be displayed. Defaults to 1.
 #' @param xylim Numeric value determining both upper and lower limits on both x and y axis (xlim & ylim). Defaults to 1.5.
+#' @param col Character or rgb value specifying the line's color. Defaults to rgb(0,0,1).
+#' @param col Character or rgb value specifying the color of the area between upper and lower bound. Defaults to rgb(0,0,1,.5).
 #' @details Plots a radar chart based on a numeric vector. Each dimension of the radar chart can be assigned a weight and/or an upper and lower bound.
 #' @keywords plotting
 #' @export
@@ -15,7 +17,8 @@
 #' spiderplot()
 
 spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL, 
-    names = NULL, main = NULL, max = 1, xylim = 1.5, add.scale = T) 
+    names = NULL, main = NULL, max = 1, xylim = 1.5, add.scale = T, 
+    col = rgb(0, 0, 1), col2 = rgb(0, 0, 1, 0.5)) 
 {
     dimensions = x
     if (is.null(dimensions) & is.null(weights) & is.null(main)) {
@@ -49,7 +52,7 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     if (!is.null(upper) & !is.null(lower)) {
         polygon(weights2 * c(upper, upper[1])/max(upper, max) * 
             cos(theta), weights2 * c(upper, upper[1])/max(upper, 
-            max) * sin(theta), col = rgb(0, 0, 1, 0.5), lty = 1)
+            max) * sin(theta), col = col2, lty = 1)
         polygon(weights2 * c(lower, lower[1])/max(lower, max) * 
             cos(theta), weights2 * c(lower, lower[1])/max(lower, 
             max) * sin(theta), col = rgb(1, 1, 1), lty = 1)
@@ -61,7 +64,7 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     if (!is.null(dimensions)) 
         lines(weights2 * c(dimensions, dimensions[1])/max(dimensions, 
             max) * cos(theta), weights2 * c(dimensions, dimensions[1])/max(dimensions, 
-            max) * sin(theta), col = "blue", lwd = 2)
+            max) * sin(theta), col = col, lwd = 2)
     text(weights * cos(theta)[-(length(dimensions) + 1)], weights * 
         sin(theta)[-(length(dimensions) + 1)], paste0(1:length(dimensions), 
         ". ", names(dimensions)), pos = ifelse(cos(theta)[-(length(dimensions) + 

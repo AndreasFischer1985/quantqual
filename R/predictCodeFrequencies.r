@@ -11,10 +11,6 @@
 predictCodeFrequencies <- function (corpus, predictor, binary = T, min = NULL, mostFrequent = 10, 
     plot = T) 
 {
-    binary = F
-    min = 0.2
-    plot = T
-    mostFrequent = 20
     t = retrieveCodeFrequencies(corpus = corpus, byString = T, 
         binary = binary, plot = F)
     m = matrix(nrow = length(predictor), ncol = dim(t)[2])

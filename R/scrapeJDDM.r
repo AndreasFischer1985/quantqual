@@ -11,8 +11,9 @@
 scrapeJDDM <- function (plot = T) 
 {
     library(stringr)
-    html0 = paste(readLines("https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles", 
-        encoding = "UTF-8"), collapse = "\n")
+    url = "https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles"
+    url2 = "https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:"
+    html0 = paste(readLines(url, encoding = "UTF-8"), collapse = "\n")
     links = str_match_all(html0, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
         2]
     article.ids = gsub(".*view/", "", links)
@@ -54,7 +55,7 @@ scrapeJDDM <- function (plot = T)
     names(article.labels) = article.ids
     html = list()
     for (i in 1:length(article.ids)) {
-        html[as.character(article.ids[i])] = paste(readLines(paste0("https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:", 
+        html[as.character(article.ids[i])] = paste(readLines(paste0(url2, 
             gsub("/.*", "", article.ids[i]), ";lang=ende;overlay=1"), 
             encoding = "UTF-8"), collapse = "\n")
         message(article.ids[i])

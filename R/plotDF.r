@@ -2,6 +2,7 @@
 #' 
 #' Plots each vector of a data.frame.
 #' @param data Numeric data.frame.
+#' @param col Character vector specifying each plot's color. If NULL (default) the rainbow palette is applied.
 #' @details Plots each vector of a data.frame either as histogram or as barplot.
 #' @keywords plotting
 #' @export

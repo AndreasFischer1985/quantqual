@@ -11,10 +11,18 @@
 #' @examples
 #'  
 
-af.nnet <- function (data.train, output = NULL, rep.nnet = 5, seed = 0, 
-    plot = F, size = 3, decay = 0, linout = T, trace = F, ...) 
+af.nnet <- function (data.train, output = NULL, rep.nnet = 10, seed = 0, 
+    plot = F, size = NULL, decay = 0, linout = T, trace = F, 
+    maxit = 1000, preProc = c("center", "scale"), control = caret::trainControl(method = "boot", 
+        number = 10), ...) 
 {
     require(nnet)
+    if (sum(grepl("center", preProc)) > 0) 
+        data.train = apply(data.train, 2, function(x) x - mean(x, 
+            na.rm = T))
+    if (sum(grepl("scale", preProc)) > 0) 
+        data.train = apply(data.train, 2, function(x) x/sd(x, 
+            na.rm = T))
     data.train = data.frame(data.train)
     if (is.null(names(data.train))) 
         names(data.train) = 1:dim(data.train)[2]
@@ -29,7 +37,6 @@ af.nnet <- function (data.train, output = NULL, rep.nnet = 5, seed = 0,
         names(data.train)[1] = "output"
     set.seed(seed)
     out <- NULL
-    control = caret::trainControl(method = "cv", number = 10)
     af.nnet = list(label = "Andreas Fischer's Neural Network", 
         library = "nnet", loop = NULL, type = c("Classification", 
             "Regression"), parameters = data.frame(parameter = c("size", 
@@ -93,35 +100,35 @@ af.nnet <- function (data.train, output = NULL, rep.nnet = 5, seed = 0,
         grid.nnet = expand.grid(size = 1:6, decay = c(0, 10^seq(-5, 
             1, by = 1)))
         out1 <- caret::train(output ~ ., data = data.train, method = af.nnet, 
-            preProc = c("center", "scale"), trControl = control, 
-            tuneGrid = grid.nnet, linout = T, maxit = 1000, trace = F)
+            preProc = preProc, trControl = control, tuneGrid = grid.nnet, 
+            linout = T, maxit = maxit, trace = trace, ...)
         out = out1$finalModel
     }
     else if (!is.null(size) & is.null(decay)) {
         grid.nnet = expand.grid(size = size, decay = c(0, 10^seq(-5, 
             1, by = 1)))
         out1 <- caret::train(output ~ ., data = data.train, method = af.nnet, 
-            preProc = c("center", "scale"), trControl = control, 
-            tuneGrid = grid.nnet, linout = T, maxit = 1000, trace = F)
+            preProc = preProc, trControl = control, tuneGrid = grid.nnet, 
+            linout = T, maxit = maxit, trace = trace, ...)
         out = out1$finalModel
     }
     else if (is.null(size) & !is.null(decay)) {
         grid.nnet = expand.grid(size = 1:6, decay = decay)
         out1 <- caret::train(output ~ ., data = data.train, method = af.nnet, 
-            preProc = c("center", "scale"), trControl = control, 
-            tuneGrid = grid.nnet, linout = T, maxit = 1000, trace = F)
+            preProc = preProc, trControl = control, tuneGrid = grid.nnet, 
+            linout = T, maxit = maxit, trace = trace, ...)
         out = out1$finalModel
     }
     else {
         out <- lapply(c(1:rep.nnet), function(x) nnet::nnet(output ~ 
             ., data = data.train, size = size, decay = decay, 
-            linout = linout, trace = trace))
+            linout = linout, maxit = maxit, trace = trace, ...))
         out <- out[order(sapply(out, function(x) cor(predict(x), 
             data.train$output, use = "pairwise")), decreasing = T)][[1]]
     }
     if (plot) 
-        plot(predict(out), data.train$output, col = "blue", lwd = 3, 
-            main = "Performance")
+        af.sensitivity(out, data.train[colnames(data.train) != 
+            "output"], data.train["output"])
     print(out$tuneValue)
     return(out)
 }

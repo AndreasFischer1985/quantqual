@@ -11,9 +11,8 @@
 #' data=data.frame(y=rnorm(100),x1=rnorm(100),x2=rnorm(100));
 #' prepareDF(data,"y1")
 
-prepareDF <- function (data, output = NULL, out.omit = T, na.omit = T) 
+prepareDF <- function (data, output = NULL, scale = T, out.omit = T, na.omit = T) 
 {
-    require(psych)
     data = data.frame(data)
     if (is.null(names(data))) 
         names(data) = 1:dim(data)[2]
@@ -27,22 +26,29 @@ prepareDF <- function (data, output = NULL, out.omit = T, na.omit = T)
     if (is.null(output)) 
         names(data)[1] = "output"
     data = data.frame(data)
-    data = data.frame(data)
-    data0 = data.frame(scale(data[!sapply(data, function(x) is.factor(x))]))
+    if (scale) 
+        data0 = data.frame(scale(data[!sapply(data, function(x) is.factor(x))]))
+    else data0 = data.frame(data[!sapply(data, function(x) is.factor(x))])
     data1 = data[sapply(data, function(x) is.factor(x))]
     if (dim(data1)[2]) 
         for (i in 1:dim(data1)[2]) {
-            dum = dummy.code(data1[, i])
+            dum = psych::dummy.code(data1[, i])
             colnames.dum = paste0(colnames(data1)[i], ".", colnames(dum))
-            dum = data.frame(dum[, -dim(dummy.code(data1[, i]))[2]])
-            colnames(dum) = colnames.dum[-dim(dummy.code(data1[, 
+            dum = data.frame(dum[, -dim(psych::dummy.code(data1[, 
+                i]))[2]])
+            colnames(dum) = colnames.dum[-dim(psych::dummy.code(data1[, 
                 i]))[2]]
             data0 = data.frame(data0, dum)
         }
-    if (out.omit) 
+    data = data0
+    if (out.omit & sum(abs(scale(data)) > 3) > 0) {
         while (sum(abs(scale(data)) > 3) > 0) data[abs(scale(data)) > 
             3, ] = NA
-    if (na.omit) 
+        message("Ouliers set to NA")
+    }
+    if (na.omit & sum(complete.cases(data)) != dim(data)[1]) {
         data = data[complete.cases(data), ]
+        message("Rows with NA removed")
+    }
     return(data)
 }

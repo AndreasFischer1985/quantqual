@@ -1,6 +1,8 @@
 #' Function textbreaker
 #' 
 #' Adds linebreaks to text.
+#' @param text Character value containing the text to be split into multiple lines.
+#' @param maxlength Numeric value specifying the maximum number of characters per line.
 #' @details Adds linebreaks to text.
 #' @keywords helper
 #' @export
@@ -8,8 +10,8 @@
 #' textbreaker("hello world hello world hello world hello world")
 
 textbreaker <- function (text = "Let's write some text with many different words and plot it in a nice little device.", 
-    zeilenabstand = 1, maxlength = 30, size = 1, centered = F, 
-    separator = "\n     ", plot = F) 
+    maxlength = 30, lspace = 1, size = 1, centered = F, separator = "\n     ", 
+    plot = F) 
 {
     count = 1
     text = gsub("<br>", " ", text)
@@ -33,8 +35,7 @@ textbreaker <- function (text = "Let's write some text with many different words
     p2 = p1 * 0
     par(mai = p2)
     th = par()$ps * 1/72
-    fac = (th * zeilenabstand * 1/dev.size()[2] * 6 * size * 
-        length(text))
+    fac = (th * lspace * 1/dev.size()[2] * 6 * size * length(text))
     pos = NULL
     if (!centered) 
         pos = 4

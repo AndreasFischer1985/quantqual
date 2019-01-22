@@ -2,8 +2,8 @@
 #' 
 #' Plots Lek-Pofiles and Fischer's Deltas.
 #' @param model Any object that works as input for function predict.
-#' @param x data.frame with numeric vectors.
-#' @param y numeric vector.
+#' @param x data.frame with numeric predictor variables.
+#' @param y numeric criterion variable.
 #' @details Plots Lek-Pofiles and Fischer's Deltas (i.e., the difference in R^2 that results from omitting a predictor for each predictor, as described by Fischer(2015)).
 #' @keywords modeling
 #' @export
@@ -18,10 +18,10 @@ af.sensitivity <- function (model, x = NULL, y = NULL, steps = 100, splitseq = s
     el = list(...)
     if (is.null(x) | is.null(y)) 
         stop("Please specify predictor x and criterion y!")
+    x = as.data.frame(x)
+    y = as.data.frame(y)
     if (is.null(colnames(x))) 
         colnames(x) = paste0("Input ", 1:dim(x)[2])
-    x = data.frame(x)
-    y = data.frame(y)
     con = deltas(model, x, y, plot = F)
     vars = dim(x)[2]
     splits = length(splitseq)
@@ -42,7 +42,7 @@ af.sensitivity <- function (model, x = NULL, y = NULL, steps = 100, splitseq = s
     }
     ar = ar2
     tryCatch({
-        ar = (ar2 - mean(y, na.rm = T))/sd(y, na.rm = T)
+        ar = (ar2 - mean(y[[1]], na.rm = T))/sd(y[[1]], na.rm = T)
     }, error = function(cond) {
     })
     re = array(dim = c(steps, vars))

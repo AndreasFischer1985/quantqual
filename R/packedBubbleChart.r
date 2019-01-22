@@ -2,11 +2,13 @@
 #' 
 #' Plots vector as packed bubble chart.
 #' @param vec Numeric vector, potentially with names.
-#' @param main Character vector with one element containing the barplot's title. Defaults to NULL
+#' @param main Character vector with one element containing the plot's title. Defaults to NULL
 #' @param show.text Logical value indicating whether bubbles should be labelled with names(vec). Defaults to T.
 #' @param beak.names Logical value indicating whether line breaks should be added after each whitespace. Defaults to F.
 #' @param beak.names Logical value indicating whether values of vec should be added to vec's names before labelling the bubbles.
-#' @param cex Numeric vector indicating the text size. Defaults to .8.
+#' @param cex Numeric value indicating the text size. Defaults to .8.
+#' @param a Numeric value multiplied with normalizd vec. Defaults to 90.
+#' @param b Numeric value added to normalized vec*a. Defaults to 10.
 #' @param col Character vector indicating the bubbles' color. If NULL (default) the rainbow palette is applied to vec's ranks.
 #' @details Plots vector as packed bubble chart. Returns coordinates and radius of each bubble
 #' @keywords plotting
@@ -15,7 +17,7 @@
 #' packedBubbleChart()
 
 packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.names = F, 
-    add.vec = T, cex = 0.8, col = NULL) 
+    add.vec = T, cex = 0.8, col = NULL, cutoff = 2, a = 90, b = 10) 
 {
     parmar = par()$mar
     par(mar = parmar - min(parmar))
@@ -40,7 +42,7 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
     if (add.vec) 
         names(vec) = paste0(vec, " x\n", names(vec))
     vec = (((vec - min(vec))/(max(vec) - min(vec))))
-    vec = sort(vec * 90 + 10, decreasing = T)
+    vec = sort(vec * a + b, decreasing = T)
     coord = circleProgressiveLayout(vec)
     plot(c(min(coord[, 1]) - max(coord[, 3]), max(coord[, 1]) + 
         max(coord[, 3])), c(min(coord[, 2]) - max(coord[, 3]), 
@@ -53,8 +55,8 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
         col = rainbow(max(rank(vec)))[max(rank(vec)) + 1 - round(rank(vec))]
     for (i in 1:dim(coord)[1]) {
         circle(coord[i, 1], coord[i, 2], coord[i, 3], col[i])
-        text(coord[i, 1], coord[i, 2], names(vec)[i], cex = ifelse(i > 
-            11, 0.7, cex))
+        text(coord[i, 1], coord[i, 2], names(vec)[i], cex = ifelse(coord[i, 
+            3] < cutoff, cex * 0.7, cex))
     }
     par(mar = parmar)
     return(coord)
