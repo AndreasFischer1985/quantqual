@@ -4,10 +4,19 @@
 \alias{af.stm}
 \title{Function af.stm}
 \usage{
-af.stm(data = c("Hallo Welt", "Hello World"), K = 3,
-  lower.thresh = 0, removestopwords = F, ...)
+af.stm(data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"),
+  k = 2:10, lower.thresh = 0, lowercase = T, removestopwords = F,
+  removenumbers = F, removepunctuation = T, stem = F,
+  language = "german", wordLengths = c(0, Inf), sparselevel = 1,
+  verbose = TRUE, onlycharacter = FALSE, striphtml = F, seed1 = 0,
+  attrData = F, plot.kSTM = T, init.type = "LDA", ...)
+}
+\arguments{
+\item{data}{Character vector containing data.}
+
+\item{k}{Number of topics. If length(k)>1, kSTM will be applied to suggest an optimal number of topics.}
 }
 \description{
-Function af.stm
+Applies stm::stm to a character vector containing documents.
 }
 \keyword{modeling}

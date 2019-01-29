@@ -4,8 +4,9 @@
 \alias{vecToDTM}
 \title{Function vecToDTM}
 \usage{
-vecToDTM(corpus = "hello,  \\nworld", lowerCase = T, min = 0,
-  sort = F, plot = F, remove_punct = T, ...)
+vecToDTM(corpus = "hello,  \\nworld", stopwords = NULL,
+  lowerCase = T, min = 0, sort = F, plot = F, remove_punct = T,
+  ...)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

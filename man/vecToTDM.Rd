@@ -4,8 +4,8 @@
 \alias{vecToTDM}
 \title{Function vecToTDM}
 \usage{
-vecToTDM(corpus = "hello,  \\nworld", lowerCase = T, min = 0,
-  sort = F, plot = F)
+vecToTDM(corpus = "hello,  \\nworld", stopwords = NULL,
+  lowerCase = T, min = 0, sort = F, plot = F)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

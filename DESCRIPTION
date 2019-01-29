@@ -21,4 +21,5 @@ Imports: caret,
     quanteda,
     wordcloud,
     knitr,
-    rmarkdown
+    rmarkdown,
+    topicmodels

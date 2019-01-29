@@ -4,7 +4,8 @@
 \alias{summarizeLDA}
 \title{Function summarizeLDA}
 \usage{
-summarizeLDA(lda, data, dtm, main = "Ergebnisse", stopwords = NULL)
+summarizeLDA(lda, data, dtm, topicNo = NULL, main = "Results",
+  stopwords = NULL, cex = 0.5)
 }
 \arguments{
 \item{lda}{Object of class LDA.}

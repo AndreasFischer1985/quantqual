@@ -31,7 +31,7 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{xlim.factor}{Numeric value for adding extra space to the right of the barplot. Defaults to 1.}
 
-\item{las}{Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.}
+\item{las}{Numeric value specifying the rotation of the y-axis (0 for 90 percent rotation, 1 for 0 percent rotation). Defaults to 1.}
 
 \item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
 

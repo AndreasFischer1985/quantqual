@@ -4,10 +4,18 @@
 \alias{af.lda}
 \title{Function af.lda}
 \usage{
-af.lda(data = c("Hallo Welt", "Hello World"), k = 3,
-  method = "Gibbs", nstart = 10, seed = 0)
+af.lda(data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"),
+  k = 2:10, method = "Gibbs", seed1 = 0, control = list(nstart = 1,
+  seed = NULL, best = T, burnin = 4000, iter = 1000, thin = 500),
+  dtm = NULL, stopwords = NULL, attrData = F, plot.kLDA = T,
+  trace = T)
+}
+\arguments{
+\item{data}{Character vector containing data.}
+
+\item{k}{Number of topics. If length(k)>1, kLDA will be applied to suggest an optimal number of topics.}
 }
 \description{
-Function af.lda
+Applies topicmodels::LDA to a character vector containing documents.
 }
 \keyword{modeling}

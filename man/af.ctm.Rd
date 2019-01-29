@@ -4,10 +4,17 @@
 \alias{af.ctm}
 \title{Function af.ctm}
 \usage{
-af.ctm(data = c("Hallo Welt", "Hello World"), k = 3, method = "VEM",
-  nstart = 10, seed = 0)
+af.ctm(data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"),
+  k = 3, method = "VEM", seed1 = 0, control = list(nstart = 10,
+  seed = NULL, best = T, burnin = 4000, iter = 2000, thin = 500),
+  dtm = NULL, attrData = F)
+}
+\arguments{
+\item{data}{Character vector containing data.}
+
+\item{k}{Number of topics. If length(k)>1, kCTM will be applied to suggest an optimal number of topics.}
 }
 \description{
-Function af.ctm
+Applies topicmodels::CTM to a character vector containing documents.
 }
 \keyword{modeling}
