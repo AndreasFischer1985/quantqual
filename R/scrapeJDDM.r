@@ -10,11 +10,10 @@
 
 scrapeJDDM <- function (plot = T) 
 {
-    library(stringr)
     url = "https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles"
     url2 = "https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:"
     html0 = paste(readLines(url, encoding = "UTF-8"), collapse = "\n")
-    links = str_match_all(html0, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
+    links = stringr::str_match_all(html0, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
         2]
     article.ids = gsub(".*view/", "", links)
     if (F) {
@@ -23,7 +22,7 @@ scrapeJDDM <- function (plot = T)
         if (length(files) == 0) {
             html = paste(readLines("https://journals.ub.uni-heidelberg.de/index.php/jddm/search/titles", 
                 encoding = "UTF-8"), collapse = "\n")
-            links = str_match_all(html, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
+            links = stringr::str_match_all(html, "<a href=\\\"(.*)?\\\" class=\\\"file\\\">PDF</a>")[[1]][, 
                 2]
             article.ids = gsub(".*view/", "", links)
             downloadlinks = paste0("https://journals.ub.uni-heidelberg.de/index.php/jddm/article/download/", 
@@ -68,11 +67,11 @@ scrapeJDDM <- function (plot = T)
         months = paste(paste0(">", c("Jan", "Feb", "Mar", "Apr", 
             "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", 
             "Dec"), "<"), collapse = "|")
-        df = data.frame(c("Intro", str_match_all(html[i], months)[[1]]), 
-            strsplit(as.character(html[i]), months))
+        df = data.frame(c("Intro", stringr::str_match_all(html[i], 
+            months)[[1]]), strsplit(as.character(html[i]), months))
         df[, 2] = gsub("<table class=\\\"stats\\\"><tr><th>201[0-9]</th>", 
             "", df[, 2])
-        numbers = sapply(str_match_all(df[, 2], ">[0-9]+<"), 
+        numbers = sapply(stringr::str_match_all(df[, 2], ">[0-9]+<"), 
             function(x) as.numeric(gsub("[<>]", "", c(x[1:2]))))[, 
             -1]
         if (is.null(dim(numbers))) 
@@ -84,7 +83,7 @@ scrapeJDDM <- function (plot = T)
             mo))
         colnames(numbers) = paste(colnames(numbers), c(rep(current.year, 
             12), rep(current.year - 1, 12)))
-        st = str_match_all(df[, 2], ">[0-9]+<")
+        st = stringr::str_match_all(df[, 2], ">[0-9]+<")
         prior = as.numeric(gsub("[<>]", "", st[[length(st)]][-c(1:2), 
             1]))
         prior = c(prior, rep(NA, 2 * (as.numeric(gsub("-.*", 

@@ -30,11 +30,16 @@ plotSTM <- function (stm = NULL, labels = NULL, main = "Topic distribution over 
         dim(posteriorSTM(stm)$topics)[1]), col = rainbow(dim(posteriorSTM(stm)$topics)[2]), 
         xlim = c(0, dim(posteriorSTM(stm)$topics)[1] * 1.5), 
         main = main, border = border, space = space)
-    legend("right", paste0("Topic ", 1:dim(posteriorSTM(stm)$topics)[2], 
-        "\n(", gsub(", ", ",\n", topic.descriptions), ")\n"), 
+    if (dim(posteriorSTM(stm)$topics)[2] < 5) 
+        legend("right", paste0("Topic ", 1:dim(posteriorSTM(stm)$topics)[2], 
+            "\n(", gsub(", ", ",\n", topic.descriptions), ")\n"), 
+            bty = "n", fill = rainbow(dim(posteriorSTM(stm)$topics)[2]), 
+            cex = cex)
+    else legend("right", paste0("Topic ", 1:dim(posteriorSTM(stm)$topics)[2]), 
         bty = "n", fill = rainbow(dim(posteriorSTM(stm)$topics)[2]), 
         cex = cex)
     if (length(bp) <= 30) 
         text(bp + 0.5, 0, paste(labels, " "), srt = srt, pos = 2, 
             xpd = T, cex = 0.8)
+    return(topic.descriptions)
 }

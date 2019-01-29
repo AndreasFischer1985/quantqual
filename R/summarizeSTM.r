@@ -8,7 +8,8 @@
 #' @examples
 #' 
 
-summarizeSTM <- function (stm, data, main = "results", stopwords = NULL) 
+summarizeSTM <- function (stm, data, topicNo = NULL, main = "Results", stopwords = NULL, 
+    cex = 0.5) 
 {
     rem2 = ""
     if (!is.null(stopwords)) 
@@ -27,7 +28,8 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
     k = length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(k, 
         5))]
-    par(mfrow = c(ceiling(sqrt(k)), ceiling(sqrt(k + 1))))
+    if (is.null(topicNo)) 
+        par(mfrow = c(3, 2))
     color = rgb(0/255, 84/255, 122/255)
     k = dim(stm.probs.topics)[2]
     files = 1:dim(stm.probs.topics)[1]
@@ -53,15 +55,22 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
     labels2 = labels2[as.numeric(names(s1))]
     if (nchar(main) > 200) 
         title = paste(substr(main, 1, 200), "(...)")
-    bp = barplot(s1, horiz = T, main = main, xlim = c(0, 1), 
-        col = color, cex.names = 0.5, cex.main = 0.6)
-    show = dim(stm$theta)[2]
-    text(s1, bp, paste0("  ", labels2), srt = 0, cex = 0.5, pos = 4, 
-        col = "grey", xpd = T)
-    text(s1, bp, paste0("  ", labels), srt = 0, cex = 0.5, pos = 4, 
-        xpd = T)
-    title(sub = paste0(dim(stm$theta)[2], " topics; ", dim(stm$theta)[1], 
-        " documents"), cex.sub = 0.7)
+    bed = F
+    if (!is.null(topicNo)) 
+        if (topicNo == 0) 
+            bed = T
+    if (is.null(topicNo) | bed == T) {
+        bp = barplot(s1, horiz = T, main = main, xlim = c(0, 
+            1), col = color, cex.names = cex, cex.main = cex + 
+            0.1)
+        show = dim(stm$theta)[2]
+        text(s1, bp, paste0("  ", labels2), srt = 0, cex = cex, 
+            pos = 4, col = "grey", xpd = T)
+        text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
+            pos = 4, xpd = T)
+        title(sub = paste0(dim(stm$theta)[2], " topics; ", dim(stm$theta)[1], 
+            " documents"), cex.sub = cex + 0.2)
+    }
     textbreaker = function(text = "Lass uns einen langen Text in eine Textbox setzen, die es in sich hat und viele Zeilen enthaelt.", 
         maxlength = 30, lspace = 1, size = 1, centered = F, separator = "\n     ") {
         if (nchar(text) > maxlength * 4) 
@@ -120,16 +129,25 @@ summarizeSTM <- function (stm, data, main = "results", stopwords = NULL)
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
         10))]
-    for (i in as.numeric(topics)) {
-        if (!is.na(topicTopDocuments[i])) {
-            plot(1, 1, type = "n", xlab = "", ylab = "", axes = F)
-            text(1, 1, paste0("Document ", doc[i], " (", round(stm.probs[[2]][paste0("d", 
-                doc[i]), i] * 100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
-                lspace = 0.2, maxlength = 30, size = 1, centered = F), 
-                "\""), cex = 0.8)
-            title(paste0("Topic", i, " (", round(colMeans(stm.probs[[2]])[i] * 
-                100, 0), "%) :\n"), cex.main = 1)
-            title(paste0("\n\n\n", topicDescriptions[i]), cex.main = 0.5)
-        }
+    if (is.null(topicNo)) {
+        topicNo = as.numeric(topics)
+        topicNo = topicNo[topicNo <= 5]
     }
+    if (!bed) 
+        for (i in topicNo) {
+            if (!is.na(topicTopDocuments[i])) {
+                plot(1, 1, type = "n", xlab = "", ylab = "", 
+                  axes = F)
+                text(1, 1, paste0("Document ", doc[i], " (", 
+                  round(stm.probs[[2]][paste0("d", doc[i]), i] * 
+                    100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
+                    lspace = 0.2, maxlength = 30, size = 1, centered = F), 
+                  "\""), cex = cex + 0.2)
+                title(paste0("Topic", i, " (", round(colMeans(stm.probs[[2]])[i] * 
+                  100, 0), "%) :\n"), cex.main = cex + 0.5)
+                title(paste0("\n\n\n", topicDescriptions[i]), 
+                  cex.main = cex)
+            }
+        }
+    return(topicDescriptions)
 }

@@ -14,7 +14,6 @@
 
 scrapeHTML <- function (html, short = F, show = T, save = T, prefix = Sys.Date()) 
 {
-    library(stringr)
     strings = gsub("(\n|\t)+", " ", gsub("[ ]+", " ", paste0("<", 
         strsplit(html, "<")[[1]])))
     info = gsub("^[ ]*$", "", gsub("^<[^<]*>", "", strings))

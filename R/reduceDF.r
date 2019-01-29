@@ -55,7 +55,6 @@ reduceDF <- function (data, output = NULL, cutoff = 0.1, control = caret::trainC
     optimal.coef1 = abs(optimal.coef0[2:dim(data)[2]]) + abs(optimal.coef0[(dim(data)[2] + 
         1):dim(data2)[2]])
     optimal.coef2 = abs(optimal.coef0[2:dim(data)[2]])
-    dev.new(width = 14, height = 7)
     par(mfrow = c(1, 2))
     colors = rainbow(dim(data)[2] - 1)[order(optimal.coef1, decreasing = T)]
     colors2 = apply(col2rgb(colors), 2, function(x) rgb(x[1]/255, 

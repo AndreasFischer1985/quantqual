@@ -12,7 +12,7 @@
 #' @param main Character vector with one element containing the barplot's title. Defaults to NULL
 #' @param xlim.factor Numeric value for adding extra space to the right of the barplot. Defaults to 1.
 #' @param xlim Numeric vector containing xlim.
-#' @param las Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.
+#' @param las Numeric value specifying the rotation of the y-axis (0 for 90 percent rotation, 1 for 0 percent rotation). Defaults to 1.
 #' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
 #' @param names.arg Character vector containing names of bars. If NULL (default) colnames of x will be applied as names.arg.
 #' @param legend.text Legend text. Set to NA or to F to supress legend. If NULL (default) rownames of x will be applied as legend.text.

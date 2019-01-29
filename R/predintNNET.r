@@ -288,6 +288,10 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
         xTrain = d[c("x")]
         yTrain = d["y"]
     }
+    if (is.null(nnet) | is.null(xTrain) | is.null(yTrain)) 
+        stop("Please provide a nnet object as well as input (xTrain) and output (yTrain).")
+    if (grepl("skip", deparse(nnet$call)) == T) 
+        warning("parameter 'skip' will be ignored")
     xTrain = as.matrix(xTrain)
     yTrain = as.matrix(yTrain)
     if (is.null(xTest)) 

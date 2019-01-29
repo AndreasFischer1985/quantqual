@@ -8,8 +8,8 @@
 #' @examples
 #' vecToTDM("hello world")
 
-vecToTDM <- function (corpus = "hello,  \nworld", lowerCase = T, min = 0, 
-    sort = F, plot = F) 
+vecToTDM <- function (corpus = "hello,  \nworld", stopwords = NULL, lowerCase = T, 
+    min = 0, sort = F, plot = F) 
 {
     if (lowerCase) 
         corpus = tolower(corpus)
@@ -31,10 +31,10 @@ vecToTDM <- function (corpus = "hello,  \nworld", lowerCase = T, min = 0,
     }
     m[is.na(m)] = 0
     m = data.frame(m)
+    if (!is.null(stopwords)) 
+        m = m[is.na(match(rownames(m), stopwords)), ]
     if (sort) 
         m = m[order(rowSums(m)), ]
-    m = as.matrix(m)
-    m1 = NULL
     if (!is.null(min)) 
         m1 = m[rowSums(m) >= min, ]
     if (is.null(min)) 

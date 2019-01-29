@@ -8,7 +8,7 @@
 #' @param xlim Numeric vector with two elements. If NULL (default) xlim is detemined automatically.
 #' @param ylim Numeric vector with two elements. If NULL (default) ylim is detemined automatically.
 #' @param xlim.factor Numeric value for adding extra space to the right of the plot. Defaults to 1.
-#' @param las Numeric value specifying the rotation of the y-axis (0 for 90%-rotation, 1 for 0% rotation). Defaults to 1.
+#' @param las Numeric value specifying the rotation of the y-axis (0 for 90 percent rotation, 1 for 0 percent rotation). Defaults to 1.
 #' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
 #' @param cumsum Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.
 #' @param show.legend Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.
@@ -95,7 +95,7 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
     if (is.null(col)) 
         col = rainbow(dim(cs)[1])
     if (is.null(ylim)) 
-        ylim = c(min(cs), max(cs))
+        ylim = c(min(cs, na.rm = T), max(cs, na.rm = T))
     if (is.null(xlim)) 
         xlim = c(1, dim(cs)[2] * xlim.factor)
     plot(1:dim(cs)[2], seq(0, max(cs, na.rm = T), length.out = dim(cs)[2]), 
@@ -120,8 +120,7 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
         text(dim(cs)[2] + 1, cs[, dim(cs)[2]] + manual.addon, 
             rownames(cs), pos = 4, cex = cex)
         points(x = rep(dim(cs)[2] + 1, dim(cs)[1]), y = cs[, 
-            dim(cs)[2]] + manual.addon, col = rainbow(dim(cs)[1])[order(cs[, 
-            dim(cs)[2]], decreasing = T)], pch = 15)
+            dim(cs)[2]] + manual.addon, col = col[order], pch = 15)
         points(x = rep(dim(cs)[2] + 1, dim(cs)[1]), y = cs[, 
             dim(cs)[2]] + manual.addon, col = "black", pch = 0)
     }
@@ -135,8 +134,7 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
         y1 = as.numeric(d[, 2])
         text1 = d[, 3]
         text(x1, y1, text1, pos = 4, cex = cex)
-        points(x = x1, y = y1, col = rainbow(dim(cs)[1])[order(y1, 
-            decreasing = T)], pch = 15)
+        points(x = x1, y = y1, col = col[order], pch = 15)
         points(x = x1, y = y1, col = "black", pch = 0)
     }
     if (show.legend) 

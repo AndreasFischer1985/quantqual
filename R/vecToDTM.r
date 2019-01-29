@@ -8,11 +8,13 @@
 #' @examples
 #' vecToDTM("hello world")
 
-vecToDTM <- function (corpus = "hello,  \nworld", lowerCase = T, min = 0, 
-    sort = F, plot = F, remove_punct = T, ...) 
+vecToDTM <- function (corpus = "hello,  \nworld", stopwords = NULL, lowerCase = T, 
+    min = 0, sort = F, plot = F, remove_punct = T, ...) 
 {
     m = as.matrix(quanteda::dfm(corpus, tolower = lowerCase, 
         remove_punct = remove_punct, ...))
+    if (!is.null(stopwords)) 
+        m = m[, is.na(match(colnames(m), stopwords))]
     if (sort) 
         m = m[order(rowSums(m)), ]
     m1 = NULL

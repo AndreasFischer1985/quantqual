@@ -15,6 +15,8 @@ plotNNET <- function (net = NULL, cex = 4, xlim = c(0, 4), xnames = NULL,
     if (is.null(net)) 
         net = nnet(y ~ ., data = data.frame(y = rnorm(100), x = rnorm(100)), 
             size = 3, trace = F)
+    if (grepl("skip", deparse(net$call)) == T) 
+        warning("parameter 'skip' will be ignored")
     inp = net$n[1] + 1
     hid = net$n[2] + 1
     out = net$n[3]

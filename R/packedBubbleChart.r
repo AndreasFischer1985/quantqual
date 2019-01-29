@@ -21,7 +21,6 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
 {
     parmar = par()$mar
     par(mar = parmar - min(parmar))
-    library(packcircles)
     if (is.null(vec)) {
         vec = c(`Kretzschmar\n&\nSüß\n2015` = 16, `Güß\net. al.\n2015` = 12, 
             `Fischer\n&\nNeubert\n2105` = 12, `Editorial\n2015` = 9, 
@@ -43,7 +42,7 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
         names(vec) = paste0(vec, " x\n", names(vec))
     vec = (((vec - min(vec))/(max(vec) - min(vec))))
     vec = sort(vec * a + b, decreasing = T)
-    coord = circleProgressiveLayout(vec)
+    coord = packcircles::circleProgressiveLayout(vec)
     plot(c(min(coord[, 1]) - max(coord[, 3]), max(coord[, 1]) + 
         max(coord[, 3])), c(min(coord[, 2]) - max(coord[, 3]), 
         max(coord[, 2]) + max(coord[, 3])), type = "n", xlab = "", 

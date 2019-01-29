@@ -9,7 +9,8 @@
 #' @examples
 #'  
 
-summarizeLDA <- function (lda, data, dtm, main = "Ergebnisse", stopwords = NULL) 
+summarizeLDA <- function (lda, data, dtm, topicNo = NULL, main = "Results", stopwords = NULL, 
+    cex = 0.5) 
 {
     rem2 = ""
     if (!is.null(stopwords)) 
@@ -18,13 +19,14 @@ summarizeLDA <- function (lda, data, dtm, main = "Ergebnisse", stopwords = NULL)
         data = as.character(data[[1]])
     d = dtm
     data = as.character(data)
-    ldaPost = posterior(lda)
+    ldaPost = topicmodels::posterior(lda)
     ldaPost$terms = ldaPost$terms[, is.na(match(colnames(ldaPost$terms), 
         rem2))]
     color = rgb(0/255, 84/255, 122/255)
     files = 1:dim(ldaPost$topics)[1]
     k = dim(ldaPost$topics)[2]
-    par(mfrow = c(ceiling(sqrt(k)), ceiling(sqrt(k + 1))))
+    if (is.null(topicNo)) 
+        par(mfrow = c(3, 2))
     topicProbability = (colMeans(ldaPost$topics))
     labels = character(0)
     labels2 = character(0)
@@ -46,16 +48,22 @@ summarizeLDA <- function (lda, data, dtm, main = "Ergebnisse", stopwords = NULL)
     s1 = sort(topicProbability, decreasing = F)
     labels = labels[as.numeric(names(s1))]
     labels2 = labels2[as.numeric(names(s1))]
-    bp = barplot(s1, horiz = T, main = main, xlim = c(0, 1), 
-        col = color, cex.names = 0.5, cex.main = 0.6)
-    show = dim(ldaPost$topics)[2]
-    text(s1, bp, paste0("  ", labels2), srt = 0, cex = 0.5, pos = 4, 
-        col = "grey", xpd = T)
-    text(s1, bp, paste0("  ", labels), srt = 0, cex = 0.5, pos = 4, 
-        xpd = T)
-    title(sub = paste0(k, " topics; ", dim(ldaPost$topics)[1], 
-        " documents; alpha = ", round(slot(lda, "alpha"), 2)), 
-        cex.sub = 0.7)
+    bed = F
+    if (!is.null(topicNo)) 
+        bed = T
+    if (is.null(topicNo) | bed == T) {
+        bp = barplot(s1, horiz = T, main = main, xlim = c(0, 
+            1), col = color, cex.names = cex, cex.main = cex + 
+            0.1)
+        show = dim(ldaPost$topics)[2]
+        text(s1, bp, paste0("  ", labels2), srt = 0, cex = cex, 
+            pos = 4, col = "grey", xpd = T)
+        text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
+            pos = 4, xpd = T)
+        title(sub = paste0(k, " topics; ", dim(ldaPost$topics)[1], 
+            " documents; alpha = ", round(slot(lda, "alpha"), 
+                2)), cex.sub = cex + 0.2)
+    }
     textbreaker = function(text = "Lass uns einen langen Text in eine Textbox setzen, die es in sich hat und viele Zeilen enthaelt.", 
         maxlength = 30, lspace = 1, size = 1, centered = F, separator = "\n     ") {
         if (nchar(text) > maxlength * 4) 
@@ -109,16 +117,25 @@ summarizeLDA <- function (lda, data, dtm, main = "Ergebnisse", stopwords = NULL)
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
         10))]
-    for (i in as.numeric(topics)) {
-        if (!is.na(topicTopDocuments[i])) {
-            plot(1, 1, type = "n", xlab = "", ylab = "", axes = F)
-            text(1, 1, paste0("Document ", doc[i], " (", round(lda.probs[[2]][paste0("d", 
-                doc[i]), i] * 100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
-                lspace = 0.2, maxlength = 30, size = 1, centered = F), 
-                "\""), cex = 0.8)
-            title(paste0("Topic", i, " (", round(colMeans(lda.probs[[2]])[i] * 
-                100, 0), "%) :"), cex.main = 1)
-            title(paste0("\n\n\n", topicDescriptions[i]), cex.main = 0.5)
-        }
+    if (is.null(topicNo)) {
+        topicNo = as.numeric(topics)
+        topicNo = topicNo[topicNo <= 5]
     }
+    if (!bed) 
+        for (i in topicNo) {
+            if (!is.na(topicTopDocuments[i])) {
+                plot(1, 1, type = "n", xlab = "", ylab = "", 
+                  axes = F)
+                text(1, 1, paste0("Document ", doc[i], " (", 
+                  round(lda.probs[[2]][paste0("d", doc[i]), i] * 
+                    100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
+                    lspace = 0.2, maxlength = 30, size = 1, centered = F), 
+                  "\""), cex = cex + 0.2)
+                title(paste0("Topic", i, " (", round(colMeans(lda.probs[[2]])[i] * 
+                  100, 0), "%) :"), cex.main = cex + 0.5)
+                title(paste0("\n\n\n", topicDescriptions[i]), 
+                  cex.main = cex)
+            }
+        }
+    return(topicDescriptions)
 }

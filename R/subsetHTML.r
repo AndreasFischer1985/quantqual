@@ -16,7 +16,6 @@
 subsetHTML <- function (html, pattern = "class=\"m-resultListEntries__content\"", 
     start = "<div", end = "</div>", save = T, prefix = Sys.Date()) 
 {
-    library(stringr)
     strings = gsub("[ ]+", " ", paste0("<", strsplit(html, "<")[[1]]))
     loc.pat = grep(pattern, strings)
     loc.div1 = grep(start, strings)
