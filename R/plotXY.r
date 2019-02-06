@@ -28,6 +28,7 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, na.rm = T, color1 = rgb(
     data = data.frame(x, y)
     if (na.rm == T) 
         data = data[complete.cases(data), ]
+    data0 = data
     data = data.frame(scale(data))
     colnames(data) = colnames(data0)
     if (complexity > 0) {
