@@ -21,7 +21,7 @@ kCTM <- function (data = NULL, d = NULL, K = c(2:10), method = "VEM",
         stop("DTM contains less than 2 documents")
     if (is.null(control$seed)) 
         control$seed = as.list(1:control$nstart + ifelse(seed1 == 
-            0, as.numeric(gsub("-", "", Sys.Date()))), control$seed)
+            0, 0, as.numeric(gsub("-", "", Sys.Date()))), control$seed)
     normalize <- function(x) return((x - min(x))/(max(x) - min(x)))
     Arun = function(model, dtm) {
         len <- slam::row_sums(dtm)

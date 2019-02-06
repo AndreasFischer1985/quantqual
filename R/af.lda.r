@@ -34,7 +34,8 @@ af.lda <- function (data = c("a b c d e f g h i j k l m n o p", "a b c Hello Wor
     if (!is.null(control)) 
         if (is.null(control$seed)) 
             control$seed = as.list(1:control$nstart + ifelse(seed1 == 
-                0, as.numeric(gsub("-", "", Sys.Date()))), control$seed)
+                0, 0, as.numeric(gsub("-", "", Sys.Date()))), 
+                control$seed)
     data = data.frame(data)
     if (seed1 > 0) 
         set.seed(seed1)
