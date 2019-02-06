@@ -20,8 +20,8 @@ kLDA <- function (data = NULL, K = c(2:10), dtm = NULL, method = "Gibbs",
     if (dim(dtm)[1] < 2) 
         stop("DTM contains less than 2 documents")
     if (is.null(control$seed)) 
-        control$seed = as.list(1:control$nstart + ifelse(seed1 == 
-            0, 0, as.numeric(gsub("-", "", Sys.Date()))), control$seed)
+        control$seed = as.list(1:control$nstart + ifelse(is.null(seed1), 
+            0, seed1), control$seed)
     normalize <- function(x) return((x - min(x))/(max(x) - min(x)))
     Arun = function(model, dtm) {
         len <- slam::row_sums(dtm)

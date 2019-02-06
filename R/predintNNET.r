@@ -290,7 +290,7 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
     }
     if (is.null(nnet) | is.null(xTrain) | is.null(yTrain)) 
         stop("Please provide a nnet object as well as input (xTrain) and output (yTrain).")
-    if (grepl("skip", deparse(nnet$call)) == T) 
+    if (sum(grepl("skip", deparse(nnet$call))) == T) 
         warning("parameter 'skip' will be ignored")
     xTrain = as.matrix(xTrain)
     yTrain = as.matrix(yTrain)
@@ -313,7 +313,7 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
         dat = data.frame(xTest0, yTest, predint)
         dat = dat[order(xTest0), ]
         plot(dat[, 1], dat[, 2], type = "n", main = main, xlab = xlab, 
-            ylab = ylab)
+            ylab = ylab, ...)
         polygon(c(dat[, 1], dat[dim(dat)[1]:1, 1]), c(dat[, 4], 
             dat[dim(dat)[1]:1, 5]), col = col3, border = NA)
         points(dat[, 1], dat[, 2], pch = pch, col = col1)
