@@ -7,6 +7,7 @@
 #' @param y2 Numeric value specifying the arrow's position on the y-axis.
 #' @param txt Character value specifying the text to be plotted.
 #' @param col Character value specifying the color of the box. Defaults to "yellow".
+#' @param col Character value specifying the color of the border. Defaults to "black".
 #' @param pos Numeric value specifying the position of the arrow relative to the box (0=no arrow plotted, 1=down, 2=left, 3=up, 4=right).
 #' @param ... Additional graphical parameters for text.
 #' @details Adds a boxed text to a plot.
@@ -16,8 +17,8 @@
 #' plot(1:10,1:10);boxedText(7,2.5,3,3,,txt="This (3;3) is a remarkable point worth emphasizing",col="yellow",maxlength=20)
 
 boxedText <- function (x, y, x2 = NULL, y2 = NULL, txt = "Hallo, du\nWelt", 
-    maxlength = NULL, col = "yellow", pos = NULL, font = 1, hspace = 1, 
-    vspace = 1.2, cex = 1, ...) 
+    maxlength = NULL, col = "yellow", border = "black", pos = NULL, 
+    font = 1, hspace = 1, vspace = 1.2, cex = 1, ...) 
 {
     if (is.null(x2) | is.null(y2)) 
         pos = NA
@@ -48,33 +49,34 @@ boxedText <- function (x, y, x2 = NULL, y2 = NULL, txt = "Hallo, du\nWelt",
         }
     if (is.na(pos)) {
         polygon(x = c(x - sw/2, x + sw/2, x + sw/2, x - sw/2), 
-            y = c(y + sh/2, y + sh/2, y - sh/2, y - sh/2), col = col)
+            y = c(y + sh/2, y + sh/2, y - sh/2, y - sh/2), col = col, 
+            border = border)
     }
     else {
         if (pos == 0) 
             polygon(x = c(x - sw/2, x + sw/2, x + sw/2, x - sw/2), 
                 y = c(y + sh/2, y + sh/2, y - sh/2, y - sh/2), 
-                col = col)
+                col = col, border = border)
         if (pos == 1) 
             polygon(x = c(x - sw/2, x + sw/2, x + sw/2, x + sw/6, 
                 x2, x - sw/6, x - sw/2), y = c(y + sh/2, y + 
                 sh/2, y - sh/2, y - sh/2, y2, y - sh/2, y - sh/2), 
-                col = col)
+                col = col, border = border)
         if (pos == 2) 
             polygon(x = c(x - sw/2, x + sw/2, x + sw/2, x - sw/2, 
                 x - sw/2, x2, x - sw/2), y = c(y + sh/2, y + 
                 sh/2, y - sh/2, y - sh/2, y - sh/6, y2, y + sh/6), 
-                col = col)
+                col = col, border = border)
         if (pos == 3) 
             polygon(x = c(x - sw/2, x - sw/6, x2, x + sw/6, x + 
                 sw/2, x + sw/2, x - sw/2), y = c(y + sh/2, y + 
                 sh/2, y2, y + sh/2, y + sh/2, y - sh/2, y - sh/2), 
-                col = col)
+                col = col, border = border)
         if (pos == 4) 
             polygon(x = c(x - sw/2, x + sw/2, x + sw/2, x2, x + 
                 sw/2, x + sw/2, x - sw/2), y = c(y + sh/2, y + 
                 sh/2, y + sh/6, y2, y - sh/6, y - sh/2, y - sh/2), 
-                col = col)
+                col = col, border = border)
     }
     text(x, y, txt, cex = cex, font = font, ...)
 }

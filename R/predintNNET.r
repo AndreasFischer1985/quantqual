@@ -65,6 +65,10 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
         y = 1 - (tanh(x))^2
         return(y)
     }
+    linDeri <- function(x) {
+        y = rep(1, length(x))
+        return(y)
+    }
     activate <- function(x, funName) {
         if (funName == "linear") {
             res = x
@@ -82,7 +86,7 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
     }
     activateDeri <- function(x, funName) {
         if (funName == "linear") {
-            res = 1
+            res = linDeri(x)
         }
         else if (funName == "sigmoid") {
             res = sigmoidDeri(x)
@@ -183,7 +187,7 @@ predintNNET <- function (nnet = NULL, xTrain = NULL, yTrain = NULL, xTest = NULL
             }
             else {
                 multiplier = matrix(activateDeri(outVect[[k - 
-                  1]], funName))
+                  1]], ifelse(m > k, funName, fun2Name)))
             }
             numSk = dim(wk)[1]
             numSk_1 = dim(wk)[2]

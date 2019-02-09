@@ -22,21 +22,29 @@ writeReport <- function (code = list(function() {
     spiderplot()
 }, function() {
     "Hello world"
-}), intro = c("# Section 1\nThis is an exemplary research report demonstrating the default output of some quantqual-functions.", 
-    "# Section 2"), options = "fig.height=7, fig.width=7", author = "Mr. X", 
-    title = "Research Report", format = "word_document", date = "`r Sys.Date()`") 
+}), intro = c("# Report\nThe research report was generated using the \"quantqual\" package for GNU R."), 
+    options = "fig.height=7, fig.width=7", author = NULL, title = "Research Report", 
+    format = "word_document", date = "`r Sys.Date()`") 
 {
-    intro = as.list(intro)
-    options = as.list(options)
-    code = as.list(code)
+    if (!is.list(intro)) 
+        intro = list(intro)
+    if (!is.list(options)) 
+        options = list(options)
+    if (!is.list(code)) 
+        code = list(code)
     if (length(intro) == 1) 
         intro = list(intro[[1]], rep("", (length(code) - 1)))
     if (length(options) == 1) 
         options = as.list(rep(options[[1]], length(code)))
     library(knitr)
-    c = paste0("---\n", "title: \"", title, "\"\n", "author:\n", 
-        "- ", author, "\n", "date: \"", date, "\"\n", "output: ", 
-        "rmarkdown::", format, "\n", "---\n  \n")
+    if (is.null(title) | is.null(format)) 
+        stop("Please provide title and format of the file to be created.")
+    c = paste0("---\n", "title: \"", title, "\"\n")
+    if (!is.null(author)) 
+        c = paste0(c, "author:\n", "- ", author, "\n")
+    if (!is.null(date)) 
+        c = paste0(c, "date: \"", date, "\"\n")
+    c = paste0(c, "output: ", "rmarkdown::", format, "\n", "---\n  \n")
     for (i in 1:length(code)) c = paste0(c, intro[[i]], "\n```{r ", 
         options[[i]], "}\n", paste(deparse(code[[i]])[3:(length(deparse(code[[i]])) - 
             1)], collapse = "\n"), "\n```\n  \n")

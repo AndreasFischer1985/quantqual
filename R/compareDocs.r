@@ -1,25 +1,24 @@
 #' Function compareDocs
 #' 
-#' Plots difference between two documents as packed bubble chart.
+#' Plots difference between two documents as a modified dotchart.
 #' @param a Character value.
 #' @param b Character value.
 #' @param relative Logical value. Defaults to T.
-#' @param main Character vector with one element containing the plot's title. Defaults to NULL
-#' @param show.text Logical value indicating whether bubbles should be labelled with names(vec). Defaults to T.
-#' @param beak.names Logical value indicating whether line breaks should be added after each whitespace. Defaults to F.
-#' @param beak.names Logical value indicating whether values of vec should be added to vec's names before labelling the bubbles.
-#' @param cex Numeric value indicating the text size. Defaults to .8.
-#' @param a Numeric value multiplied with normalizd vec. Defaults to 90.
-#' @param b Numeric value added to normalized vec*a. Defaults to 10.
-#' @param col Character vector indicating the bubbles' color. If NULL (default) the rainbow palette is applied to vec's ranks.
-#' @details Plots vector as packed bubble chart. Returns coordinates and radius of each bubble
+#' @param vertLine Logical value specifying whether to plot a vertical line at x=0. Defaults to T.
+#' @param horizLines Logical value specifying whether to plot horizontal lines between each point and the y axis. Defaults to T.
+#' @param max Numeric value indicating the maximum number of word frequencies to be displayed. Defaults to 40.
+#' @param main Character value specifying the plot's title. Defaults to "Comparison of Word Frequencies"
+#' @param pch Numeric element speccifying the symbol to represent points. Defaults to 16
+#' @param cex Numeric value indicating the text size. Defaults to .7.
+#' @details Plots difference between two documents as a modified dotchart. Returns matrix with relative frequencies and differences between documents a and b.
 #' @keywords plotting
 #' @export
 #' @examples
 #' compareDocs("This is document 1","this is another document")
 
-compareDocs <- function (a = NULL, b = NULL, legendtext = c("a", "b"), relative = T, 
-    ...) 
+compareDocs <- function (a = NULL, b = NULL, relative = T, vertLine = T, horizLines = T, 
+    max = 40, main = "Comparison of Word Frequencies", pch = 16, 
+    cex = 0.7, ...) 
 {
     if (is.null(a) & is.null(b)) {
         a = "a a b d c c"
@@ -29,29 +28,25 @@ compareDocs <- function (a = NULL, b = NULL, legendtext = c("a", "b"), relative 
         stop("Please provide two character elements a and b")
     a = paste(a, collapse = " ")
     b = paste(b, collapse = " ")
-    c = vecToTDM(c(a, b))
-    common.terms = subset(c, c[, 1] > 0 & c[, 2] > 0)
+    common.terms = vecToTDM(c(a, b))
     if (relative) 
         common.terms = apply(common.terms, 2, function(x) x/sum(x))
     common.terms = common.terms/colSums(common.terms)
-    diff = abs(common.terms[, 1] - common.terms[, 2])
+    diff = (common.terms[, 1] - common.terms[, 2])
     common.terms = cbind(common.terms, diff)
-    common.terms = common.terms[order(common.terms[, 3], decreasing = T), 
+    common.terms = common.terms[order(common.terms[, 3], decreasing = F), 
         ]
-    com = common.terms[dim(common.terms)[1]:1, ]
-    com = com[com[, 3] > 0, ]
-    col = character(length(com[, 1]))
-    diff1 = com[, 3][com[, 2] > com[, 1]]
-    col[com[, 2] > com[, 1]] = cols(length(diff1), "lightblue", 
-        "blue")[rank(diff1)]
-    diff1 = com[, 3][com[, 2] < com[, 1]]
-    col[com[, 2] < com[, 1]] = cols(length(diff1), "orange", 
-        "red")[rank(diff1)]
-    col[com[, 2] == com[, 1]] = "white"
-    if (sd(com[, 3]) > 0) {
-        packedBubbleChart(round(com[, 3], 2), col = col, ...)
-        legend("topright", legendtext, fill = c("red", "blue"))
+    com = common.terms
+    if (dim(com)[1] > max) {
+        com = com[c(1:floor(max/2), (dim(com)[1] - floor(max/2)):dim(com)[1]), 
+            ]
+        warning(paste("Only", max, "differences are displayed"))
     }
-    else warning("No variance in common terms")
-    return(com)
+    dotchart(com[, 3], pch = pch, main = main, cex = cex, ...)
+    if (horizLines) 
+        segments(x0 = 0, y0 = 1:dim(com)[1], x1 = round(com[, 
+            3], 2), y1 = 1:dim(com)[1])
+    if (vertLine) 
+        abline(v = 0)
+    return(common.terms)
 }

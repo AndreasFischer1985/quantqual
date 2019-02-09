@@ -14,10 +14,10 @@
 #' @examples
 #' plotXY()
 
-plotXY <- function (x = NULL, y = NULL, complexity = 1, na.rm = T, color1 = rgb(0, 
-    0, 0, 0.7), color2 = rgb(0, 0, 1), color3 = rgb(0, 0, 1, 
-    0.2), xlab = "x", ylab = "y", axes = T, add = F, main = "Bivariate Relation", 
-    sub = "Shaded area represents 95%-prediction interval.", 
+plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10, 
+    attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 
+        0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x", ylab = "y", 
+    axes = T, add = F, main = "Bivariate Relation", sub = "Shaded area represents 95%-prediction interval.", 
     pch = 16, lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, 
     ...) 
 {
@@ -31,12 +31,14 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, na.rm = T, color1 = rgb(
     data0 = data
     data = data.frame(scale(data))
     colnames(data) = colnames(data0)
+    nnet = NULL
+    lm = NULL
     if (complexity > 0) {
-        nnet = NULL
         if (!generalize) 
-            nnet = nnet::nnet(y ~ ., data = data, size = complexity, 
-                linout = T)
-        else nnet = af.nnet(data, "y", size = NULL, linout = T)
+            nnet = nnets(data, "y", size = complexity, linout = T, 
+                rep.nnet = rep.nnet)[[1]]
+        else nnet = af.nnet(data, "y", size = complexity, decay = NULL, 
+            linout = T, rep.nnet = rep.nnet)
         xTrain = data[colnames(data) != "y"]
         yTrain = data["y"]
         p = predintNNET(nnet, xTrain, yTrain, main = main, sub = sub, 
@@ -51,6 +53,7 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, na.rm = T, color1 = rgb(
     }
     else {
         l1 = lm(data[, 2] ~ data[, 1])
+        lm = l1
         co1 = confint(l1)
         len = 100
         in1 = seq(min(data[, 1]), max(data[, 1]), length.out = len)
@@ -76,6 +79,11 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, na.rm = T, color1 = rgb(
         col = color3[1], border = NA)
     points(x, y, pch = pch, col = color1[1])
     lines(in1, ou1, , col = color2[1], lwd = lwd)
-    return(data.frame(predictor = in1, prediction = ou1, lower.bound = inner, 
-        upper.bound = outer))
+    dat = data.frame(predictor = in1, prediction = ou1, lower.bound = inner, 
+        upper.bound = outer)
+    if (attrModel) 
+        if (!is.null(nnet)) 
+            attr(dat, "model") = nnet
+        else attr(dat, "model") = lm
+    return(dat)
 }

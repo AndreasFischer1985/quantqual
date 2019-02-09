@@ -22,8 +22,8 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
     parmar = par()$mar
     par(mar = parmar - min(parmar))
     if (is.null(vec)) {
-        vec = c(`Kretzschmar\n&\nSüß\n2015` = 16, `Güß\net. al.\n2015` = 12, 
-            `Fischer\n&\nNeubert\n2105` = 12, `Editorial\n2015` = 9, 
+        vec = c(`Güß\net. al.\n2015` = 12, `Fischer\n&\nNeubert\n2105` = 12, 
+            `Kretzschmar\n&\nSüß\n2015` = 16, `Editorial\n2015` = 9, 
             `Hundertmark\net al.\n2015` = 9, `Dutt\n2015` = 7, 
             `Engelhart\net al.\n2017` = 6, `Wendt\n2017` = 5, 
             `Gonzalez\net al.\n2016` = 4, `Vangsnes\net al.\n2017` = 3, 
@@ -40,8 +40,12 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
         names(vec) = gsub(" ", "\n", names(vec))
     if (add.vec) 
         names(vec) = paste0(vec, " x\n", names(vec))
-    vec = (((vec - min(vec))/(max(vec) - min(vec))))
-    vec = sort(vec * a + b, decreasing = T)
+    vec = (((vec - min(vec))/(max(vec) - min(vec)))) * a + b
+    if (is.null(col)) 
+        col = rainbow(max(rank(vec)))[max(rank(vec)) + 1 - round(rank(vec))]
+    dat = cbind(vec, col)[order(vec, decreasing = T), ]
+    vec = dat[, 1]
+    col = dat[, 2]
     coord = packcircles::circleProgressiveLayout(vec)
     plot(c(min(coord[, 1]) - max(coord[, 3]), max(coord[, 1]) + 
         max(coord[, 3])), c(min(coord[, 2]) - max(coord[, 3]), 
@@ -50,8 +54,6 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
     circle = function(x, y, r = 1, c = "black") polygon(x + r * 
         sin(seq(0, 2 * pi, length.out = 100)), y + r * cos(seq(0, 
         2 * pi, length.out = 100)), col = c)
-    if (is.null(col)) 
-        col = rainbow(max(rank(vec)))[max(rank(vec)) + 1 - round(rank(vec))]
     for (i in 1:dim(coord)[1]) {
         circle(coord[i, 1], coord[i, 2], coord[i, 3], col[i])
         text(coord[i, 1], coord[i, 2], names(vec)[i], cex = ifelse(coord[i, 
