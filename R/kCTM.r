@@ -17,6 +17,8 @@ kCTM <- function (data = NULL, d = NULL, K = c(2:10), method = "VEM",
         dtm = as.matrix(dtm[!is.na(rownames(dtm)) & !rowSums(dtm) == 
             0, ])
     }
+    if (length(grep("^matrix$", class(dtm))) == 0) 
+        dtm = as.matrix(dtm)
     if (dim(dtm)[1] < 2) 
         stop("DTM contains less than 2 documents")
     if (is.null(control$seed)) 

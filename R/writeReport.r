@@ -49,7 +49,7 @@ writeReport <- function (code = list(function() {
         options[[i]], "}\n", paste(deparse(code[[i]])[3:(length(deparse(code[[i]])) - 
             1)], collapse = "\n"), "\n```\n  \n")
     message(code)
-    title = paste0(gsub("[/?.:]", "", title))
+    title = paste0(gsub("\\W", "", title))
     write(c, file = paste0(title, ".Rmd"))
     rmarkdown::render(paste0(title, ".Rmd"))
     return(c)

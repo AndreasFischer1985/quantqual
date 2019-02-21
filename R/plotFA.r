@@ -13,6 +13,7 @@ plotFA <- function (fa = NULL)
     if (is.null(fa)) 
         fa = af.fa(data.frame(x = rnorm(100), y = rnorm(100) + 
             scale(1:100), z = rnorm(100) + scale(1:100)))
+    nfact = dim(fa$loadings)[2]
     if (fa$factors == 1) {
         plot(fa)
     }

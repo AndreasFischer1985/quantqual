@@ -14,12 +14,51 @@
 #' @keywords plotting
 #' @export
 #' @examples
-#' plot(1:10,1:10);boxedText(7,2.5,3,3,,txt="This (3;3) is a remarkable point worth emphasizing",col="yellow",maxlength=20)
+#' plot(1:10,1:10);boxedText(7,2.5,text="This (3;3) is a remarkable point worth emphasizing",3,3,col="yellow",maxlength=20)
 
-boxedText <- function (x, y, x2 = NULL, y2 = NULL, txt = "Hallo, du\nWelt", 
+boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL, 
     maxlength = NULL, col = "yellow", border = "black", pos = NULL, 
-    font = 1, hspace = 1, vspace = 1.2, cex = 1, ...) 
+    font = 1, hspace = 1, vspace = 1.2, cex = 1, decollide = F, 
+    ...) 
 {
+    if (length(x) > 1 | length(y) > 1) {
+        if (length(y) > length(x)) 
+            x = rep(x[1], length(y))
+        if (length(y) < length(x)) 
+            y = rep(y[1], length(x))
+        if (length(text) != length(x)) 
+            text = rep(text[1], length(x))
+        if (is.null(x2)) 
+            x2 = x
+        if (is.null(y2)) 
+            y2 = y
+        if (length(x2) != length(x)) 
+            x2 = rep(x2[1], length(x))
+        if (length(y2) != length(x)) 
+            y2 = rep(y2[1], length(x))
+        if (length(col) != length(x)) 
+            col = rep(col[1], length(x))
+        if (length(border) != length(x)) 
+            border = rep(border[1], length(x))
+        if (length(pos) != length(x)) 
+            pos = rep(pos[1], length(x))
+        if (length(cex) != length(x)) 
+            cex = rep(cex[1], length(x))
+        if (!is.null(maxlength)) 
+            for (i in 1:length(x)) text[i] = quantqual::trim(quantqual::textbreaker(text[i], 
+                maxlength = maxlength))
+        if (decollide) {
+            print(paste0("x=", x, "\ny=", y, "\ntext=", text))
+            d = quantqual::decollide(x, y, text)
+            x = d[, "x"]
+            y = d[, "y"]
+        }
+        for (i in 1:length(x)) boxedText(x = x[i], y = y[i], 
+            text = text[i], x2 = x2[i], y2 = y2[i], maxlength = maxlength, 
+            col = col[i], border = border[i], pos = pos[i], font = font, 
+            hspace = hspace, vspace = vspace, cex = cex[i], ...)
+        return()
+    }
     if (is.null(x2) | is.null(y2)) 
         pos = NA
     if (!is.null(pos)) 
@@ -28,10 +67,15 @@ boxedText <- function (x, y, x2 = NULL, y2 = NULL, txt = "Hallo, du\nWelt",
         else if (pos > 4) 
             pos = NA
     if (!is.null(maxlength)) 
-        txt = quantqual::trim(quantqual::textbreaker(txt, maxlength = maxlength))
-    sw = strwidth(txt, font = font, cex = cex, units = "user") * 
+        text = quantqual::trim(quantqual::textbreaker(text, maxlength = maxlength))
+    if (decollide) {
+        d = quantqual::decollide(x, y, text)
+        x = d[, "x"]
+        y = d[, "y"]
+    }
+    sw = strwidth(text, font = font, cex = cex, units = "user") * 
         hspace
-    sh = strheight(txt, font = font, cex = cex, units = "user") * 
+    sh = strheight(text, font = font, cex = cex, units = "user") * 
         vspace
     if (is.null(pos)) 
         if ((y2 <= y + sh/2 & y2 >= y - sh/2 & x2 <= x + sw/2 & 
@@ -78,5 +122,5 @@ boxedText <- function (x, y, x2 = NULL, y2 = NULL, txt = "Hallo, du\nWelt",
                 sh/2, y + sh/6, y2, y - sh/6, y - sh/2, y - sh/2), 
                 col = col, border = border)
     }
-    text(x, y, txt, cex = cex, font = font, ...)
+    text(x, y, text, cex = cex, font = font, ...)
 }

@@ -3,6 +3,7 @@
 export(af.ctm)
 export(af.fa)
 export(af.fit)
+export(af.hclust)
 export(af.lasso)
 export(af.lda)
 export(af.nnet)

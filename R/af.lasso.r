@@ -59,14 +59,12 @@ af.lasso <- function (data, output = NULL, control = caret::trainControl(method 
     rangeX = abs(abs(min(log(glmnet.lambdas)))/2 - min(log(glmnet.lambdas)))
     rangeY = c(-1.5, 1.5)
     xl = log(fit.glmnet0$finalModel$lambdaOpt)
-    boxedText(xl + rangeX/4, -1.25, xl, -1, paste0("log(Lambda):\n", 
-        round(xl, 3)), hspace = 1.2, vspace = 1.5)
-    legend("topleft", paste0("Lambda = ", round(fit.glmnet0$finalModel$lambdaOpt, 
-        3), "; Alpha =", fit.glmnet0$bestTune[, "alpha"]), box.col = NA, 
+    legend("bottomleft", paste0("log(Lambda) = ", round(xl, 3), 
+        "; Alpha =", fit.glmnet0$bestTune[, "alpha"]), box.col = NA, 
         bg = "white")
     box()
     legend("topright", paste(1:length(names(data)[-1]), ". ", 
-        names(data)[-1]), fill = colors, cex = 0.7)
+        names(data)[-1]), fill = colors, cex = 0.7, bg = "white")
     attr(glmnet0, "opt.lambda") = fit.glmnet0$finalModel$lambdaOpt
     attr(glmnet0, "opt.coef") = coef(glmnet0)[, glmnet0$lambda == 
         fit.glmnet0$bestTune[, "lambda"]]

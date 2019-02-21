@@ -8,15 +8,15 @@
 #' @examples
 #' 
 
-exclusivityLDA <- function (lda, dtm, lambda = 0, num.words = 0) 
+exclusivityLDA <- function (lda, dtm, lambda = 0, num.terms = 0) 
 {
     require(topicmodels)
-    if (num.words == 0) 
-        num.words = dim(posterior(lda)$terms)[2]
-    pwt = posterior(lda)$terms
-    pw <- colSums(dtm)/sum(dtm)
-    apply(pwt, 1, function(x, num.words, pw, lambda) {
-        x <- lambda * log(x) + (1 - lambda) * log(x/pw)
-        return((sort(x, decreasing = T)[1:num.words]))
-    }, num.words, pw, lambda)
+    if (num.terms == 0) 
+        num.terms = dim(posterior(lda)$terms)[2]
+    postt = posterior(lda)$terms
+    frac <- colSums(dtm)/sum(dtm)
+    apply(postt, 1, function(x, num.terms, frac, lambda) {
+        x <- lambda * log(x) + (1 - lambda) * log(x/frac)
+        return((sort(x, decreasing = T)[1:num.terms]))
+    }, num.terms, frac, lambda)
 }

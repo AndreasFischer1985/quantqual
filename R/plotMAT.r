@@ -92,6 +92,10 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
     if (!cumsum) 
         cs = cs[order(rowSums(cs, na.rm = T), decreasing = T), 
             ]
+    if (is.null(rownames(cs))) 
+        rownames(cs) = 1:dim(cs)[1]
+    if (is.null(colnames(cs))) 
+        colnames(cs) = 1:dim(cs)[2]
     if (is.null(col)) 
         col = rainbow(dim(cs)[1])
     if (is.null(ylim)) 
@@ -129,7 +133,7 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
         y1 = cs[, dim(cs)[2]]
         text1 = rownames(cs)
         d = quantqual::decollide(x1, y1, text1, cex = cex, verbose = F, 
-            frame = frame)
+            frame = frame, lock.x = T)
         x1 = as.numeric(d[, 1])
         y1 = as.numeric(d[, 2])
         text1 = d[, 3]

@@ -78,14 +78,12 @@ reduceDF <- function (data, output = NULL, cutoff = 0.1, control = caret::trainC
     rangeX = abs(abs(min(log(glmnet.lambdas)))/2 - min(log(glmnet.lambdas)))
     rangeY = c(-1.5, 1.5)
     xl = log(fit.glmnet0$finalModel$lambdaOpt)
-    boxedText(xl + rangeX/4, -1.25, xl, -1, paste0("log(Lambda):\n", 
-        round(xl, 3)), hspace = 1.2, vspace = 1.5)
-    legend("topleft", paste0("Lambda = ", round(fit.glmnet0$finalModel$lambdaOpt, 
-        3), "; Alpha =", fit.glmnet0$bestTune[, "alpha"]), box.col = NA, 
+    legend("bottomleft", paste0("log(Lambda) = ", round(xl, 3), 
+        "; Alpha =", fit.glmnet0$bestTune[, "alpha"]), box.col = NA, 
         bg = "white")
     box()
     legend("topright", paste(1:length(names(data2)[-1]), ". ", 
-        names(data2)[-1]), fill = colors3, cex = 0.7)
+        names(data2)[-1]), fill = colors3, cex = 0.7, bg = "white")
     if (sum(optimal.coef1 <= cutoff) > 0) 
         message(paste("skipped:\n", paste(names(optimal.coef1[optimal.coef1 <= 
             cutoff]), collapse = ",")))

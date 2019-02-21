@@ -22,13 +22,15 @@ decollide <- function (x, y, text, jitter = F, cex = 1, font = 1, frame = 1.5,
 {
     x0 = x
     y0 = y
-    xrange = max(x) - min(x)
-    yrange = max(y) - min(y)
     if (plot) {
+        xrange = max(x) - min(x)
+        yrange = max(y) - min(y)
         plot(x, y, type = "n", xlim = c(min(x) - xrange/2, max(x) + 
             xrange/2), ylim = c(min(y) - yrange/2, max(y) + yrange/2))
         text(x, y, text, font = font, cex = cex)
     }
+    else xrange = par("usr")[2] - par("usr")[1]
+    yrange = par("usr")[4] - par("usr")[3]
     sw = strwidth(text, font = font, cex = cex * frame, units = "user")
     sh = strheight(text, font = font, cex = cex * frame, units = "user")
     co = cbind(x - sw/2, x + sw/2, y - sh/2, y + sh/2)

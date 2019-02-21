@@ -54,9 +54,9 @@ plotNNET <- function (net = NULL, cex = 0.8, cex2 = 4, xlim = c(0, 4), xnames = 
             xd = x2 - x1
             yd2 = (p * xd) * yd/xd + min(y1, y2)
         }
-        for (i in 1:dim(dat)[1]) boxedText(ifelse(i > (net$n[1] + 
-            1) * net$n[2], 2.5, 1.5), (findpos(dat[i, "y1"], 
-            dat[i, "y2"])), txt = round(dat[i, "wts"], digits), 
+        for (i in 1:dim(dat)[1]) boxedText(x = ifelse(i > (net$n[1] + 
+            1) * net$n[2], 2.5, 1.5), y = (findpos(dat[i, "y1"], 
+            dat[i, "y2"])), text = round(dat[i, "wts"], digits), 
             col = "white", border = NA, vspace = 1.5, hspace = 1.2, 
             cex = cex)
     }
