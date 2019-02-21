@@ -4,8 +4,9 @@
 \alias{compareDocs}
 \title{Function compareDocs}
 \usage{
-compareDocs(a = NULL, b = NULL, legendtext = c("a", "b"),
-  relative = T, ...)
+compareDocs(a = NULL, b = NULL, relative = T, vertLine = T,
+  horizLines = T, max = 40, main = "Comparison of Word Frequencies",
+  pch = 16, cex = 0.7, ...)
 }
 \arguments{
 \item{a}{Character value.}
@@ -14,27 +15,23 @@ compareDocs(a = NULL, b = NULL, legendtext = c("a", "b"),
 
 \item{relative}{Logical value. Defaults to T.}
 
-\item{main}{Character vector with one element containing the plot's title. Defaults to NULL}
+\item{vertLine}{Logical value specifying whether to plot a vertical line at x=0. Defaults to T.}
 
-\item{show.text}{Logical value indicating whether bubbles should be labelled with names(vec). Defaults to T.}
+\item{horizLines}{Logical value specifying whether to plot horizontal lines between each point and the y axis. Defaults to T.}
 
-\item{beak.names}{Logical value indicating whether line breaks should be added after each whitespace. Defaults to F.}
+\item{max}{Numeric value indicating the maximum number of word frequencies to be displayed. Defaults to 40.}
 
-\item{beak.names}{Logical value indicating whether values of vec should be added to vec's names before labelling the bubbles.}
+\item{main}{Character value specifying the plot's title. Defaults to "Comparison of Word Frequencies"}
 
-\item{cex}{Numeric value indicating the text size. Defaults to .8.}
+\item{pch}{Numeric element speccifying the symbol to represent points. Defaults to 16}
 
-\item{a}{Numeric value multiplied with normalizd vec. Defaults to 90.}
-
-\item{b}{Numeric value added to normalized vec*a. Defaults to 10.}
-
-\item{col}{Character vector indicating the bubbles' color. If NULL (default) the rainbow palette is applied to vec's ranks.}
+\item{cex}{Numeric value indicating the text size. Defaults to .7.}
 }
 \description{
-Plots difference between two documents as packed bubble chart.
+Plots difference between two documents as a modified dotchart.
 }
 \details{
-Plots vector as packed bubble chart. Returns coordinates and radius of each bubble
+Plots difference between two documents as a modified dotchart. Returns matrix with relative frequencies and differences between documents a and b.
 }
 \examples{
 compareDocs("This is document 1","this is another document")

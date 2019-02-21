@@ -4,9 +4,10 @@
 \alias{plotXY}
 \title{Function plotXY}
 \usage{
-plotXY(x = NULL, y = NULL, complexity = 1, na.rm = T,
-  color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 0, 1), color3 = rgb(0,
-  0, 1, 0.2), xlab = "x", ylab = "y", main = "Bivariate Relation",
+plotXY(x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
+  attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7),
+  color2 = rgb(0, 0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x",
+  ylab = "y", axes = T, add = F, main = "Bivariate Relation",
   sub = "Shaded area represents 95\%-prediction interval.", pch = 16,
   lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, ...)
 }
@@ -22,6 +23,8 @@ plotXY(x = NULL, y = NULL, complexity = 1, na.rm = T,
 \item{color2}{Color of the regression line. Defaults to rgb(0,0,1).}
 
 \item{color3}{Color of the prediction interval. Defaults to rgb(0,0,1,.2).}
+
+\item{...}{additional parameters passed to the plot function.}
 }
 \description{
 Plots bivariate correlation based on two numeric vectors.

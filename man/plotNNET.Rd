@@ -4,8 +4,8 @@
 \alias{plotNNET}
 \title{Function plotNNET}
 \usage{
-plotNNET(net = NULL, cex = 4, xlim = c(0, 4), xnames = NULL,
-  ynames = NULL)
+plotNNET(net = NULL, cex = 0.8, cex2 = 4, xlim = c(0, 4),
+  xnames = NULL, ynames = NULL, digits = 2)
 }
 \arguments{
 \item{net}{Object of class nnet.}

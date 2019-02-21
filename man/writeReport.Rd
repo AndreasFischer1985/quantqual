@@ -7,10 +7,10 @@
 writeReport(code = list(function() {     library(quantqual)     plotMAT()
       bp()     flowerplot()     spiderplot() }, function() {    
   "Hello world" }),
-  intro = c("# Section 1\\nThis is an exemplary research report demonstrating the default output of some quantqual-functions.",
-  "# Section 2"), options = "fig.height=7, fig.width=7",
-  author = "Mr. X", title = "Research Report",
-  format = "word_document", date = "`r Sys.Date()`")
+  intro = c("# Report\\nThe research report was generated using the \\"quantqual\\" package for GNU R."),
+  options = "fig.height=7, fig.width=7", author = NULL,
+  title = "Research Report", format = "word_document",
+  date = "`r Sys.Date()`")
 }
 \arguments{
 \item{code}{List of functions containing the code to be documented in the document.}

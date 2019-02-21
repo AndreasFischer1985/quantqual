@@ -4,7 +4,7 @@
 \alias{exclusivityLDA}
 \title{Function exclusivityLDA}
 \usage{
-exclusivityLDA(lda, dtm, lambda = 0, num.words = 0)
+exclusivityLDA(lda, dtm, lambda = 0, num.terms = 0)
 }
 \arguments{
 \item{lda}{Object of class LDA.}

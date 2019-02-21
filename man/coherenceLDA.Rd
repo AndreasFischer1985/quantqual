@@ -4,17 +4,16 @@
 \alias{coherenceLDA}
 \title{Function coherenceLDA}
 \usage{
-coherenceLDA(lda, DTM, N = 0)
+coherenceLDA(lda, dtm, n = 0)
 }
 \arguments{
 \item{lda}{Object of class LDA.}
 
-\item{DTM}{document -term matrix.}
+\item{dtm}{document-term matrix.}
+
+\item{n}{Number of terms for determining document-coocurence. If 0 (default) n is set to the number of terms in the dtm.}
 }
 \description{
 Calculates semantic coherence of an LDA.
-}
-\examples{
-
 }
 \keyword{modeling}
