@@ -15,8 +15,8 @@ plotLDA <- function (lda = NULL, labels = NULL, main = "Topic distribution over 
 {
     require(topicmodels)
     if (is.null(labels)) 
-        labels = rownames(posterior(lda)$topics)
-    lda.probs.terms = posterior(lda)$terms
+        labels = rownames(topicmodels::posterior(lda)$topics)
+    lda.probs.terms = topicmodels::posterior(lda)$terms
     rem2 = NULL
     if (!is.null(stopwords)) 
         rem2 = stopwords
@@ -26,17 +26,17 @@ plotLDA <- function (lda = NULL, labels = NULL, main = "Topic distribution over 
         decreasing = T)[1:5]))
     topic.descriptions = apply(lda.top.terms, 2, function(x) paste(x, 
         collapse = ", "))
-    bp = barplot(t(posterior(lda)$topics), names.arg = rep("", 
-        dim(posterior(lda)$topics)[1]), col = rainbow(dim(posterior(lda)$topics)[2]), 
-        xlim = c(0, dim(posterior(lda)$topics)[1] * 1.5), main = main, 
-        border = border, space = space)
-    if (dim(posterior(lda)$topics)[2] < 5) 
-        legend("right", paste0("Topic ", 1:dim(posterior(lda)$topics)[2], 
+    bp = barplot(t(topicmodels::posterior(lda)$topics), names.arg = rep("", 
+        dim(topicmodels::posterior(lda)$topics)[1]), col = rainbow(dim(topicmodels::posterior(lda)$topics)[2]), 
+        xlim = c(0, dim(topicmodels::posterior(lda)$topics)[1] * 
+            1.5), main = main, border = border, space = space)
+    if (dim(topicmodels::posterior(lda)$topics)[2] < 5) 
+        legend("right", paste0("Topic ", 1:dim(topicmodels::posterior(lda)$topics)[2], 
             "\n(", gsub(", ", ",\n", topic.descriptions), ")\n"), 
-            bty = "n", fill = rainbow(dim(posterior(lda)$topics)[2]), 
+            bty = "n", fill = rainbow(dim(topicmodels::posterior(lda)$topics)[2]), 
             cex = cex)
-    else legend("right", paste0("Topic ", 1:dim(posterior(lda)$topics)[2]), 
-        bty = "n", fill = rainbow(dim(posterior(lda)$topics)[2]), 
+    else legend("right", paste0("Topic ", 1:dim(topicmodels::posterior(lda)$topics)[2]), 
+        bty = "n", fill = rainbow(dim(topicmodels::posterior(lda)$topics)[2]), 
         cex = cex)
     if (length(bp) <= 30) 
         text(bp + 0.5, 0, paste(labels, " "), srt = srt, pos = 2, 

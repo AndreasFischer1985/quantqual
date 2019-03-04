@@ -10,12 +10,14 @@
 af.ctm <- function (data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"), 
     k = 3, method = "VEM", seed1 = 0, control = list(nstart = 10, 
         seed = NULL, best = T, burnin = 4000, iter = 2000, thin = 500), 
-    dtm = NULL, attrData = F) 
+    dtm = NULL, attrData = F, lowercase = T) 
 {
     if (is.null(dtm) & is.null(data)) 
         stop("Please provide either a character vector data or Document-Term-Matrix dtm")
     if (trace) 
         message(paste0("Started processing at ", Sys.time()))
+    if (lowercase) 
+        data = tolower(data)
     if (!is.null(data) & !is.null(stopwords)) {
         data = gsub(paste0("(\\b", paste(stopwords, collapse = "\\b|\\b"), 
             "\\b)"), "", data)

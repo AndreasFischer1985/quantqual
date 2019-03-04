@@ -12,8 +12,8 @@ exclusivityLDA <- function (lda, dtm, lambda = 0, num.terms = 0)
 {
     require(topicmodels)
     if (num.terms == 0) 
-        num.terms = dim(posterior(lda)$terms)[2]
-    postt = posterior(lda)$terms
+        num.terms = dim(topicmodels::posterior(lda)$terms)[2]
+    postt = topicmodels::posterior(lda)$terms
     frac <- colSums(dtm)/sum(dtm)
     apply(postt, 1, function(x, num.terms, frac, lambda) {
         x <- lambda * log(x) + (1 - lambda) * log(x/frac)

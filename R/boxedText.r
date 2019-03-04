@@ -19,7 +19,7 @@
 boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL, 
     maxlength = NULL, col = "yellow", border = "black", pos = NULL, 
     font = 1, hspace = 1, vspace = 1.2, cex = 1, decollide = F, 
-    ...) 
+    decollide.repetitions = 10, ...) 
 {
     if (length(x) > 1 | length(y) > 1) {
         if (length(y) > length(x)) 
@@ -49,7 +49,7 @@ boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL,
                 maxlength = maxlength))
         if (decollide) {
             print(paste0("x=", x, "\ny=", y, "\ntext=", text))
-            d = quantqual::decollide(x, y, text)
+            d = quantqual::decollide(x, y, text, repetitions = decollide.repetitions)
             x = d[, "x"]
             y = d[, "y"]
         }
@@ -69,7 +69,7 @@ boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL,
     if (!is.null(maxlength)) 
         text = quantqual::trim(quantqual::textbreaker(text, maxlength = maxlength))
     if (decollide) {
-        d = quantqual::decollide(x, y, text)
+        d = quantqual::decollide(x, y, text, repetitions = decollide.repetitions)
         x = d[, "x"]
         y = d[, "y"]
     }
@@ -81,12 +81,12 @@ boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL,
         if ((y2 <= y + sh/2 & y2 >= y - sh/2 & x2 <= x + sw/2 & 
             x2 >= x - sw/2)) 
             pos = NA
-        else if (abs(y2 - y) > abs(x2 - x)) {
+        else if (abs(y2 - y) - sh/2 > abs(x2 - x) - sw/2) {
             if ((y2 - y) < 0) 
                 pos = 1
             else pos = 3
         }
-        else if (abs(x2 - x) >= abs(y2 - y)) {
+        else if (abs(x2 - x) - sw/2 >= abs(y2 - y) - sh/2) {
             if ((x2 - x) < 0) 
                 pos = 2
             else pos = 4
