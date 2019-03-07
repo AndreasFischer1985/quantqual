@@ -8,10 +8,10 @@
 
 
 af.lda <- function (data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"), 
-    k = 2:10, method = "Gibbs", seed1 = 0, control = list(nstart = 1, 
-        seed = NULL, best = T, burnin = 4000, iter = 1000, thin = 500), 
-    dtm = NULL, stopwords = NULL, attrData = F, plot.kLDA = T, 
-    trace = T, lowercase = T) 
+    k = 2:10, alpha = NULL, method = "Gibbs", seed1 = 0, control = list(nstart = 1, 
+        seed = NULL, alpha = NULL, best = T, burnin = 4000, iter = 1000, 
+        thin = 500), dtm = NULL, stopwords = NULL, attrData = F, 
+    plot.kLDA = T, trace = T, lowercase = T) 
 {
     if (is.null(dtm) & is.null(data)) 
         stop("Please provide either a character vector data or Document-Term-Matrix dtm")
@@ -33,10 +33,17 @@ af.lda <- function (data = c("a b c d e f g h i j k l m n o p", "a b c Hello Wor
     if (!is.null(stopwords)) {
         dtm = dtm[, is.na(match(colnames(dtm), stopwords))]
     }
-    if (!is.null(control)) 
+    if (!is.null(control)) {
         if (is.null(control$seed)) 
             control$seed = as.list(1:control$nstart + ifelse(is.null(seed1), 
-                0, seed1), control$seed)
+                0, seed1))
+        message(paste("seed=", control$seed))
+        if (!is.null(alpha)) 
+            control$alpha = alpha
+        if (is.null(control$alpha)) 
+            control$alpha = min(0.1, ifelse(is.null(k), 0.1, 
+                50/k))
+    }
     data = data.frame(data)
     if (seed1 > 0) 
         set.seed(seed1)
