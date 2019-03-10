@@ -9,15 +9,14 @@
 #' @examples
 #'  
 
-summarizeLDA <- function (lda, data, dtm, topicNo = NULL, main = "Results", stopwords = NULL, 
-    cex = 0.5) 
+summarizeLDA <- function (lda, data, topicNo = 0, main = "Results", stopwords = NULL, 
+    cex = 1, simple = F) 
 {
     rem2 = ""
     if (!is.null(stopwords)) 
         rem2 = stopwords
     if (is.list(data)) 
         data = as.character(data[[1]])
-    d = dtm
     data = as.character(data)
     ldaPost = topicmodels::posterior(lda)
     ldaPost$terms = ldaPost$terms[, is.na(match(colnames(ldaPost$terms), 
@@ -57,9 +56,11 @@ summarizeLDA <- function (lda, data, dtm, topicNo = NULL, main = "Results", stop
             0.1)
         show = dim(ldaPost$topics)[2]
         text(s1, bp, paste0("  ", labels2), srt = 0, cex = cex, 
-            pos = 4, col = "grey", xpd = T)
-        text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
-            pos = 4, xpd = T)
+            pos = 4, col = ifelse(!simple, "grey", "black"), 
+            xpd = T)
+        if (!simple) 
+            text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
+                pos = 4, xpd = T)
         title(sub = paste0(k, " topics; ", dim(ldaPost$topics)[1], 
             " documents; alpha = ", round(slot(lda, "alpha"), 
                 2)), cex.sub = cex + 0.2)
@@ -107,12 +108,13 @@ summarizeLDA <- function (lda, data, dtm, topicNo = NULL, main = "Results", stop
     }
     lda.terms <- labelmatrix
     lda.probs <- topicmodels::posterior(lda)
+    rownames(lda.probs[[2]]) = gsub("\\D", "", rownames(lda.probs[[2]]))
     topicDescriptions = (apply(lda.terms, 1, function(x) paste(x, 
         collapse = ",")))
-    topicTopDocuments = as.character(data[as.numeric(gsub("d", 
-        "", rownames(d)[apply(lda.probs[[2]], 2, function(x) which.max(x))]))])
-    doc = as.numeric(gsub("d", "", rownames(d)[apply(lda.probs[[2]], 
-        2, function(x) which.max(x))]))
+    topicTopDocuments = as.character(data[as.numeric(rownames(lda.probs[[2]])[apply(lda.probs[[2]], 
+        2, function(x) which.max(x))])])
+    doc = as.numeric(rownames(lda.probs[[2]])[apply(lda.probs[[2]], 
+        2, function(x) which.max(x))])
     topicProbability = (colMeans(lda.probs$topics))
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
@@ -127,8 +129,8 @@ summarizeLDA <- function (lda, data, dtm, topicNo = NULL, main = "Results", stop
                 plot(1, 1, type = "n", xlab = "", ylab = "", 
                   axes = F)
                 text(1, 1, paste0("Document ", doc[i], " (", 
-                  round(lda.probs[[2]][paste0("d", doc[i]), i] * 
-                    100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
+                  round(lda.probs[[2]][paste0(doc[i]), i] * 100, 
+                    0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
                     lspace = 0.2, maxlength = 30, size = 1, centered = F), 
                   "\""), cex = cex + 0.2)
                 title(paste0("Topic", i, " (", round(colMeans(lda.probs[[2]])[i] * 

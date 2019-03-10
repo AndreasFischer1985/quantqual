@@ -11,6 +11,10 @@
 scrapeJDDM <- function (plot = T, urls = paste0("https://journals.ub.uni-heidelberg.de/index.php/jddm/issue/view/", 
     c(3269, 2836, 2269, 3694)), url2 = "https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:") 
 {
+    plot = T
+    urls = paste0("https://journals.ub.uni-heidelberg.de/index.php/jddm/issue/view/", 
+        c(3269, 2836, 2269, 3694))
+    url2 = "https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29%2021:39:27;id=jddm:"
     article.ids = character(0)
     all.authors = character(0)
     authors = character(0)
@@ -29,10 +33,9 @@ scrapeJDDM <- function (plot = T, urls = paste0("https://journals.ub.uni-heidelb
         authors[grep("Fischer(.*)Holt(.*)Funke", all.authors)] = "Editoral"
         years = c(years, rep(gsub("(.*[(]|[)])", "", stringr::str_match(html0, 
             "<title>Vol [0-9]* \\([0-9]*\\)"))[, 1], length(links)))
-        article.labels = paste0(authors, " (", years[length(years)], 
-            ")")
-        names(article.labels) = article.ids
     }
+    article.labels = paste0(authors, " (", years, ")")
+    names(article.labels) = article.ids
     html = list()
     for (i in 1:length(article.ids)) {
         html[as.character(article.ids[i])] = paste(readLines(paste0(url2, 

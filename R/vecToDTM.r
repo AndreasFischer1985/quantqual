@@ -19,13 +19,13 @@ vecToDTM <- function (corpus = "hello,  \nworld", stopwords = NULL, lowerCase = 
         m = m[order(rowSums(m)), ]
     m1 = NULL
     if (!is.null(min)) 
-        m1 = m[rowSums(m) >= min, ]
+        m1 = m[, colSums(m) >= min]
     if (is.null(min)) 
-        m1 = m[c(1:10, (dim(m)[1] - 9):dim(m)[1]), ]
+        m1 = m[, c(1:10, (dim(m)[2] - 9):dim(m)[2])]
     if (is.null(dim(m1))) {
-        dim(m1) = c(sum(rowSums(m1) >= min), dim(m)[2])
-        colnames(m1) = colnames(m)
-        rownames(m1) = n[rowSums(m) >= min]
+        dim(m1) = c(dim(m)[1], sum(colSums(m1) >= min))
+        rownames(m1) = rownames(m)
+        colnames(m1) = n[colSums(m) >= min]
     }
     if (plot) 
         bp = bp(t(m1), main = "Word frequencies per document", 

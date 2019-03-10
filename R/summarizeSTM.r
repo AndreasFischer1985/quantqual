@@ -8,8 +8,8 @@
 #' @examples
 #' 
 
-summarizeSTM <- function (stm, data, topicNo = NULL, main = "Results", stopwords = NULL, 
-    cex = 0.5) 
+summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = NULL, 
+    cex = 1, simlpe = F) 
 {
     rem2 = ""
     if (!is.null(stopwords)) 
@@ -65,9 +65,11 @@ summarizeSTM <- function (stm, data, topicNo = NULL, main = "Results", stopwords
             0.1)
         show = dim(stm$theta)[2]
         text(s1, bp, paste0("  ", labels2), srt = 0, cex = cex, 
-            pos = 4, col = "grey", xpd = T)
-        text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
-            pos = 4, xpd = T)
+            pos = 4, col = ifelse(!simple, "grey", "black"), 
+            xpd = T)
+        if (!simple) 
+            text(s1, bp, paste0("  ", labels), srt = 0, cex = cex, 
+                pos = 4, xpd = T)
         title(sub = paste0(dim(stm$theta)[2], " topics; ", dim(stm$theta)[1], 
             " documents"), cex.sub = cex + 0.2)
     }
@@ -118,12 +120,13 @@ summarizeSTM <- function (stm, data, topicNo = NULL, main = "Results", stopwords
     topic.term = as.matrix(exp(stm$beta$logbeta[[1]]))
     colnames(topic.term) = stm$vocab
     stm.probs <- list(terms = topic.term, topics = document.topic)
+    rownames(stm.probs[[2]]) = gsub("\\D", "", rownames(stm.probs[[2]]))
     topicDescriptions = (apply(labelmatrix, 1, function(x) paste(x, 
         collapse = ",")))
-    topicTopDocuments = as.character(data[as.numeric(gsub("d", 
+    topicTopDocuments = as.character(data[as.numeric(gsub("\\D", 
         "", rownames(document.topic)[apply(stm.probs[[2]], 2, 
             function(x) which.max(x))]))])
-    doc = as.numeric(gsub("d", "", rownames(document.topic)[apply(stm.probs[[2]], 
+    doc = as.numeric(gsub("\\D", "", rownames(document.topic)[apply(stm.probs[[2]], 
         2, function(x) which.max(x))]))
     topicProbability = (colMeans(stm.probs$topics))
     names(topicProbability) = 1:length(topicProbability)
@@ -139,8 +142,8 @@ summarizeSTM <- function (stm, data, topicNo = NULL, main = "Results", stopwords
                 plot(1, 1, type = "n", xlab = "", ylab = "", 
                   axes = F)
                 text(1, 1, paste0("Document ", doc[i], " (", 
-                  round(stm.probs[[2]][paste0("d", doc[i]), i] * 
-                    100, 0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
+                  round(stm.probs[[2]][paste0(doc[i]), i] * 100, 
+                    0), "%) :\n\"", textbreaker(text = topicTopDocuments[i], 
                     lspace = 0.2, maxlength = 30, size = 1, centered = F), 
                   "\""), cex = cex + 0.2)
                 title(paste0("Topic", i, " (", round(colMeans(stm.probs[[2]])[i] * 
