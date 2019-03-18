@@ -108,7 +108,7 @@ summarizeLDA <- function (lda, data, topicNo = 0, main = "Results", stopwords = 
     }
     lda.terms <- labelmatrix
     lda.probs <- topicmodels::posterior(lda)
-    rownames(lda.probs[[2]]) = gsub("\\D", "", rownames(lda.probs[[2]]))
+    rownames(lda.probs[[2]]) = 1:dim(lda.probs[[2]])[1]
     topicDescriptions = (apply(lda.terms, 1, function(x) paste(x, 
         collapse = ",")))
     topicTopDocuments = as.character(data[as.numeric(rownames(lda.probs[[2]])[apply(lda.probs[[2]], 

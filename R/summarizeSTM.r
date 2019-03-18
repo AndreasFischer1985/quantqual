@@ -120,14 +120,13 @@ summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = 
     topic.term = as.matrix(exp(stm$beta$logbeta[[1]]))
     colnames(topic.term) = stm$vocab
     stm.probs <- list(terms = topic.term, topics = document.topic)
-    rownames(stm.probs[[2]]) = gsub("\\D", "", rownames(stm.probs[[2]]))
+    rownames(stm.probs[[2]]) = 1:dim(stm.probs[[2]])[1]
     topicDescriptions = (apply(labelmatrix, 1, function(x) paste(x, 
         collapse = ",")))
-    topicTopDocuments = as.character(data[as.numeric(gsub("\\D", 
-        "", rownames(document.topic)[apply(stm.probs[[2]], 2, 
-            function(x) which.max(x))]))])
-    doc = as.numeric(gsub("\\D", "", rownames(document.topic)[apply(stm.probs[[2]], 
-        2, function(x) which.max(x))]))
+    topicTopDocuments = as.character(data[as.numeric(rownames(document.topic)[apply(stm.probs[[2]], 
+        2, function(x) which.max(x))])])
+    doc = as.numeric(rownames(document.topic)[apply(stm.probs[[2]], 
+        2, function(x) which.max(x))])
     topicProbability = (colMeans(stm.probs$topics))
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
