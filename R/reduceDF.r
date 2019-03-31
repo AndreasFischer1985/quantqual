@@ -61,11 +61,11 @@ reduceDF <- function (data, output = NULL, cutoff = 0.1, control = caret::trainC
         x[2]/255, x[3]/255, 0.3))
     optimal.coef2 = optimal.coef2[order(optimal.coef1, decreasing = T)]
     optimal.coef1 = optimal.coef1[order(optimal.coef1, decreasing = T)]
-    bp(optimal.coef1, col = colors2, main = "Linear and quadratic effects\nbased on LASSO-regression", 
+    quantqual::bp(optimal.coef1, col = colors2, main = "Linear and quadratic effects\nbased on LASSO-regression", 
         add.numbers = T)
     title(sub = "Note: linear and quadratic effects separated by a horizontal line", 
         cex.sub = 0.7)
-    bp(optimal.coef2, col = colors, add = T)
+    quantqual::bp(optimal.coef2, col = colors, add = T)
     colors = rainbow(dim(data)[2] - 1)
     colors2 = apply(col2rgb(colors), 2, function(x) rgb(x[1]/255, 
         x[2]/255, x[3]/255, 0.3))

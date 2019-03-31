@@ -5,7 +5,7 @@
 \title{Function bp}
 \usage{
 bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
-  add.numbers = F, ndigits = 2, plot = T, main = NULL,
+  add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL,
   xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
   names.arg = NULL, legend.text = NULL, col = NULL, axes = T,
   add = F, ...)
@@ -24,6 +24,8 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 \item{add.numbers}{Logical value indicating if numbers should be placed above bars. Defaults to F.}
 
 \item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
+
+\item{grid}{Logical value indicating whether to plot a grid. Defaults to T.}
 
 \item{plot}{Logical value indicating whether to plot the barplot. Defaults to T.}
 

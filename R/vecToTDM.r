@@ -63,7 +63,7 @@ vecToTDM <- function (corpus = "hello,  \nworld", stopwords = NULL, lowerCase = 
     if (sum(dim(m)) != sum(dim(m1))) 
         m = m1
     if (plot) 
-        bp = bp(t(m1), main = "Word frequencies per document", 
+        bp = quantqual::bp(t(m1), main = "Word frequencies per document", 
             beside = F)
     return(m1)
 }

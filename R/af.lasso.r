@@ -48,7 +48,7 @@ af.lasso <- function (data, output = NULL, control = caret::trainControl(method 
     par(mfrow = c(1, 2))
     colors = rainbow(dim(data)[2] - 1)[order(optimal.coef0, decreasing = T)]
     optimal.coef0 = optimal.coef0[order(optimal.coef0, decreasing = T)]
-    bp(optimal.coef0, col = colors, main = "Linear effects\nbased on LASSO-regression", 
+    quantqual::bp(optimal.coef0, col = colors, main = "Linear effects\nbased on LASSO-regression", 
         add.numbers = T)
     colors = rainbow(dim(data)[2] - 1)
     plot(fit.glmnet0$finalModel, "lambda", label = TRUE, xlim = c(min(log(glmnet.lambdas)), 

@@ -4,6 +4,11 @@
 #' @param matrix Numeric matrix containing the values to be displayed.
 #' @param main Character value representing the barplot's title. Defaults to "Cumulation over time"
 #' @param xlab Character value representing the x-axis label. Defaults to "time"
+#' @param ylab Character value representing the y-axis label. Defaults to "cumulated sum"
+#' @param lwd Numeric vector specifying line width. Defaults to 2.
+#' @param lty Numeric vector specifying line type. Defaults to 1.
+#' @param pch Numeric vector specifying points type. Defaults to NULL.
+#' @param type Numeric vector specifying plot-type of lines. Defaults to "l".
 #' @param main Character value representing the y-axis label. Defaults to "cumulated sum"
 #' @param xlim Numeric vector with two elements. If NULL (default) xlim is detemined automatically.
 #' @param ylim Numeric vector with two elements. If NULL (default) ylim is detemined automatically.
@@ -12,8 +17,9 @@
 #' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
 #' @param cumsum Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.
 #' @param show.legend Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.
+#' @param add Logical value indicating whether to draw lines to an existing plot. Defaults to F.
 #' @param add.shadow Logical value indicating whether lines should be surrounded ba a black line. Defaults to F.
-#' @param add.grid Logical value indicating whether a grid should be drawn. Defaults to F.
+#' @param grid Logical value indicating whether a grid should be drawn. Defaults to T.
 #' @param col Vector containing each line's color. If NULL (default) colors are generated based on the rainbow-palette.
 #' @param cex Relative size of fonts. Defaults to .7.
 #' @param frame Relative size of invisible frame around fonts. Defaults to 1.
@@ -25,9 +31,10 @@
 #' plotMAT()
 
 plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "", 
-    ylab = "cumulated sum", xlim = NULL, ylim = NULL, xlim.factor = 1.5, 
-    las = 1, srt = 45, cumsum = T, show.legend = F, add.shadow = F, 
-    add.grid = T, col = NULL, cex = 0.7, frame = 1, manual.addon = NULL) 
+    ylab = "cumulated sum", lwd = 2, lty = 1, pch = NULL, type = "l", 
+    xlim = NULL, ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, 
+    cumsum = T, show.legend = F, add = F, add.shadow = F, grid = T, 
+    col = NULL, cex = 0.7, frame = 1, manual.addon = NULL) 
 {
     if (is.null(matrix)) {
         matrix = t(data.frame(`ID 15455/20157` = c(32, 254, 22, 
@@ -102,15 +109,38 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
         ylim = c(min(cs, na.rm = T), max(cs, na.rm = T))
     if (is.null(xlim)) 
         xlim = c(1, dim(cs)[2] * xlim.factor)
-    plot(1:dim(cs)[2], seq(0, max(cs, na.rm = T), length.out = dim(cs)[2]), 
-        type = "n", ylim = ylim, xlim = xlim, xaxt = "n", xlab = xlab, 
-        ylab = ylab, main = main, las = las)
-    if (add.grid) 
-        grid()
+    if (is.null(lwd)) 
+        lwd = 1
+    if (length(lwd) != dim(cs)[1]) 
+        lwd = rep(lwd[1], dim(cs)[1])
+    if (is.null(lty)) 
+        lty = 1
+    if (length(lty) != dim(cs)[1]) 
+        lty = rep(lty[1], dim(cs)[1])
+    if (is.null(pch)) 
+        pch = 15
+    if (length(pch) != dim(cs)[1]) 
+        pch = rep(pch[1], dim(cs)[1])
+    if (is.null(type)) 
+        type = "l"
+    if (length(type) != dim(cs)[1]) 
+        type = rep(type[1], dim(cs)[1])
+    if (!add) 
+        plot(1:dim(cs)[2], seq(0, max(cs, na.rm = T), length.out = dim(cs)[2]), 
+            type = "n", ylim = ylim, xlim = xlim, xaxt = "n", 
+            xlab = xlab, ylab = ylab, main = main, las = las)
+    if (grid) {
+        xaxp <- par("xaxp")
+        yaxp <- par("yaxp")
+        abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
+            col = rgb(0, 0, 0, 0.1))
+    }
     for (i in 1:dim(cs)[1]) {
         if (add.shadow) 
-            lines(1:dim(cs)[2], cs[i, ], col = "black", lwd = 4)
-        lines(1:dim(cs)[2], cs[i, ], col = col[i], lwd = 2)
+            lines(1:dim(cs)[2], cs[i, ], col = "black", lwd = lwd[i] + 
+                2, lty = lty[i], type = type[i], pch = pch[i])
+        lines(1:dim(cs)[2], cs[i, ], col = col[i], lwd = lwd[i], 
+            lty = lty[i], type = type[i], pch = pch[i])
     }
     axis(1, at = 1:dim(cs)[2], labels = rep(NA, dim(cs)[2]), 
         cex.axis = 0.5, las)

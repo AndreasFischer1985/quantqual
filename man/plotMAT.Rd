@@ -5,10 +5,11 @@
 \title{Function plotMAT}
 \usage{
 plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
-  ylab = "cumulated sum", xlim = NULL, ylim = NULL,
-  xlim.factor = 1.5, las = 1, srt = 45, cumsum = T,
-  show.legend = F, add.shadow = F, add.grid = T, col = NULL,
-  cex = 0.7, frame = 1, manual.addon = NULL)
+  ylab = "cumulated sum", lwd = 2, lty = 1, pch = NULL,
+  type = "l", xlim = NULL, ylim = NULL, xlim.factor = 1.5,
+  las = 1, srt = 45, cumsum = T, show.legend = F, add = F,
+  add.shadow = F, grid = T, col = NULL, cex = 0.7, frame = 1,
+  manual.addon = NULL)
 }
 \arguments{
 \item{matrix}{Numeric matrix containing the values to be displayed.}
@@ -16,6 +17,16 @@ plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
 \item{main}{Character value representing the barplot's title. Defaults to "Cumulation over time"}
 
 \item{xlab}{Character value representing the x-axis label. Defaults to "time"}
+
+\item{ylab}{Character value representing the y-axis label. Defaults to "cumulated sum"}
+
+\item{lwd}{Numeric vector specifying line width. Defaults to 2.}
+
+\item{lty}{Numeric vector specifying line type. Defaults to 1.}
+
+\item{pch}{Numeric vector specifying points type. Defaults to NULL.}
+
+\item{type}{Numeric vector specifying plot-type of lines. Defaults to "l".}
 
 \item{xlim}{Numeric vector with two elements. If NULL (default) xlim is detemined automatically.}
 
@@ -31,9 +42,11 @@ plotMAT(matrix = NULL, main = "Cumulation over Time", xlab = "",
 
 \item{show.legend}{Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.}
 
+\item{add}{Logical value indicating whether to draw lines to an existing plot. Defaults to F.}
+
 \item{add.shadow}{Logical value indicating whether lines should be surrounded ba a black line. Defaults to F.}
 
-\item{add.grid}{Logical value indicating whether a grid should be drawn. Defaults to F.}
+\item{grid}{Logical value indicating whether a grid should be drawn. Defaults to T.}
 
 \item{col}{Vector containing each line's color. If NULL (default) colors are generated based on the rainbow-palette.}
 

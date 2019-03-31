@@ -31,7 +31,8 @@ summarizeCodeFrequencies <- function (corpus, plot = T)
         docs = apply(frequencies > 0, 2, sum)
         d = data.frame(min, max, median, mean, sd, freq, docs)
         if (plot) 
-            bp(frequencies, main = "Frequencies", beside = F)
+            quantqual::bp(frequencies, main = "Frequencies", 
+                beside = F)
     }
     return(d)
 }

@@ -8,6 +8,7 @@
 #' @param horiz Logical value indicating if bars should be placed horizontal. Defaults to F.
 #' @param add.numbers Logical value indicating if numbers should be placed above bars. Defaults to F.
 #' @param ndigits Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.
+#' @param grid Logical value indicating whether to plot a grid. Defaults to T.
 #' @param plot Logical value indicating whether to plot the barplot. Defaults to T.
 #' @param main Character vector with one element containing the barplot's title. Defaults to NULL
 #' @param xlim.factor Numeric value for adding extra space to the right of the barplot. Defaults to 1.
@@ -27,9 +28,9 @@
 #' bp(data.frame(group1=c(variable1=1,variable2=2),group2=c(variable1=3,variable2=4)),horiz=T,main="Example")
 
 bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F, 
-    add.numbers = F, ndigits = 2, plot = T, main = NULL, xlim.factor = 1.5, 
-    las = 1, srt = 45, xlim = NULL, names.arg = NULL, legend.text = NULL, 
-    col = NULL, axes = T, add = F, ...) 
+    add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL, 
+    xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, names.arg = NULL, 
+    legend.text = NULL, col = NULL, axes = T, add = F, ...) 
 {
     if (is.null(x)) 
         x = data.frame(test1 = c(1, 2, 3), test2 = c(2, 3, 4))
@@ -127,6 +128,12 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             na.rm = T)) - min(colSums(x0, na.rm = T)))
     }
     if (!horiz) {
+        if (grid != F) {
+            xaxp <- par("xaxp")
+            yaxp <- par("yaxp")
+            abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
+                col = rgb(0, 0, 0, 0.1))
+        }
         if (axes != F) 
             text(colMeans(b2), 0 + x0, paste0(colnames(b2), ""), 
                 srt = srt, pos = 2, xpd = T, cex = cex)
@@ -150,6 +157,12 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             }
     }
     else {
+        if (grid != F) {
+            xaxp <- par("xaxp")
+            yaxp <- par("yaxp")
+            abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
+                col = rgb(0, 0, 0, 0.1))
+        }
         if (axes != F) 
             text(0 + x0, colMeans(b2), paste0(colnames(b2), ""), 
                 srt = srt - 45, pos = 2, xpd = T, cex = cex)

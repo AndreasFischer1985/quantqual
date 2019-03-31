@@ -23,7 +23,7 @@ plotDF <- function (data = NULL, col = NULL, ...)
             col = col[i], ...)
     }
     else {
-        bp(c(table(data[, i])), main = colnames(data)[i], col = col[i], 
-            ...)
+        quantqual::bp(c(table(data[, i])), main = colnames(data)[i], 
+            col = col[i], ...)
     }
 }

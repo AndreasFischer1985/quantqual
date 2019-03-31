@@ -124,8 +124,8 @@ af.fit <- function (data.train, output = NULL, rep.nnet = 5, preProc = c("center
     fits = fits[order(cor(data.frame(data.train[, "output"], 
         lapply(fits, function(x) predict(x, data.train))))[-1, 
         1], decreasing = T)]
-    bp(cor(data.frame(data.train[, "output"], lapply(fits, function(x) predict(x, 
-        data.train))))[-1, 1], ylim = c(0, 1), add.numbers = T, 
-        main = "Model Comparison")
+    quantqual::bp(cor(data.frame(data.train[, "output"], lapply(fits, 
+        function(x) predict(x, data.train))))[-1, 1], ylim = c(0, 
+        1), add.numbers = T, main = "Model Comparison")
     return(fits)
 }

@@ -45,6 +45,6 @@ wordCountCorpus <- function (corpus, lowerCase = T, min = 0, sort = T, plot = T)
         rownames(s1) = names(s)[s >= min]
     }
     if (plot) 
-        bp = bp(c(s1), main = "Word frequencies")
+        bp = quantqual::bp(c(s1), main = "Word frequencies")
     return(s)
 }
