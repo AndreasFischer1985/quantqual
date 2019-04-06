@@ -20,6 +20,7 @@
 #' @param col Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.
 #' @param axes Logical value indicating whether to plot axes. Defaults to T.
 #' @param add Logical value indicating whether to plot the barplot to the current device. Defaults to F.
+#' @param adj Numeric value between 0 and 1, indicating where to plot the title between left (0) and right (1). Defaults to 0.
 #' @param ... Additional graphical parameters for barplot.
 #' @details Plots a bar and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
 #' @keywords plotting
@@ -30,7 +31,8 @@
 bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F, 
     add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL, 
     xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, names.arg = NULL, 
-    legend.text = NULL, col = NULL, axes = T, add = F, ...) 
+    legend.text = NULL, col = NULL, axes = T, add = F, adj = 0, 
+    ...) 
 {
     if (is.null(x)) 
         x = data.frame(test1 = c(1, 2, 3), test2 = c(2, 3, 4))
@@ -56,13 +58,21 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         rownames(x) = 1:dim(x)[1]
     if (is.null(colnames(x))) 
         colnames(x) = 1:dim(x)[2]
-    width = ifelse(length(el[["width"]]) > 0, el["width"], list(1))[[1]]
-    space = ifelse(length(el[["space"]]) > 0, el["space"], ifelse(beside & 
-        dim(x)[2] > 1, list(c(0, 1)), list(0.2)))[[1]]
+    if (!is.null(names.arg)) 
+        if (dim(x)[2] == 1) 
+            rownames(x) = names.arg
+        else colnames(x) = names.arg
+    if (is.matrix(x2)) {
+        rownames(x2) = rownames(x)
+        colnames(x2) = colnames(x)
+    }
+    else names(x2) = rownames(x)
+    width = unlist(ifelse(length(el[["width"]]) > 0, el["width"], 
+        list(1))[[1]])
+    space = unlist(ifelse(length(el[["space"]]) > 0, el["space"], 
+        ifelse(beside & dim(x)[2] > 1, list(c(0, 1)), list(0.2)))[[1]])
     if (dim(x)[2] == 1) 
         beside = T
-    if (!is.null(names.arg)) 
-        colnames(x) = names.arg
     if (is.null(col)) 
         col = rainbow(dim(x)[1])
     if (is.null(legend.text) & dim(x)[2] > 1) 
@@ -94,7 +104,7 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
     b = as.matrix(barplot(x2, names.arg = rep("", dim(x)[2]), 
         beside = beside, horiz = horiz, col = col, xlim = xlim, 
         legend.text = legend.text, main = main, plot = plot, 
-        las = las, axes = axes, add = add, ...))
+        las = las, axes = axes, add = add, adj = adj, ...))
     if (!is.null(sd) & beside) 
         if (!horiz) {
             arrows(b, x2 + sd, b, x2 - sd, angle = 90, code = 3, 
@@ -127,16 +137,28 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         x0 = min(colSums(x0, na.rm = T)) - 0.05 * (max(colSums(x0, 
             na.rm = T)) - min(colSums(x0, na.rm = T)))
     }
+    abline2 = function(xl, xlf, ...) {
+        xaxp <- par("xaxp")
+        yaxp <- par("yaxp")
+        segments(x0 = min(xl), y0 = seq(yaxp[1], yaxp[2], (yaxp[2] - 
+            yaxp[1])/yaxp[3]), x1 = max(xl)/xlf, y1 = seq(yaxp[1], 
+            yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
+    }
+    abline3 = function(xl, xlf, ...) {
+        xaxp <- par("xaxp")
+        yaxp <- par("yaxp")
+        segments(y0 = min(xl), x0 = seq(yaxp[1], yaxp[2], (yaxp[2] - 
+            yaxp[1])/yaxp[3]), y1 = max(xl)/xlf, x1 = seq(yaxp[1], 
+            yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
+    }
     if (!horiz) {
-        if (grid != F) {
-            xaxp <- par("xaxp")
-            yaxp <- par("yaxp")
-            abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
-                col = rgb(0, 0, 0, 0.1))
-        }
+        if (grid != F) 
+            abline2(xlim, ifelse(!is.null(legend.text), xlim.factor, 
+                1), col = rgb(0, 0, 0, 0.1))
         if (axes != F) 
-            text(colMeans(b2), 0 + x0, paste0(colnames(b2), ""), 
-                srt = srt, pos = 2, xpd = T, cex = cex)
+            text(colMeans(b2), 0 + x0, colnames(b2), srt = srt, 
+                pos = ifelse((srt == 0 | srt == 180 | srt == 
+                  360), 1, 2), xpd = T, cex = cex)
         if (add.numbers) 
             if (beside) {
                 text(b, x, paste0(round(x, ndigits)), pos = 3, 
@@ -157,15 +179,13 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             }
     }
     else {
-        if (grid != F) {
-            xaxp <- par("xaxp")
-            yaxp <- par("yaxp")
-            abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
-                col = rgb(0, 0, 0, 0.1))
-        }
+        if (grid != F) 
+            abline3(xlim, ifelse(!is.null(legend.text), xlim.factor, 
+                1), col = rgb(0, 0, 0, 0.1))
         if (axes != F) 
-            text(0 + x0, colMeans(b2), paste0(colnames(b2), ""), 
-                srt = srt - 45, pos = 2, xpd = T, cex = cex)
+            text(0 + x0, colMeans(b2), colnames(b2), srt = srt - 
+                45, pos = ifelse((srt == 0 | srt == 180 | srt == 
+                360), 1, 2), xpd = T, cex = cex)
         if (add.numbers) 
             if (beside) {
                 text(x, b, paste0(round(x, ndigits)), pos = 4, 
@@ -173,7 +193,8 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             }
             else {
                 text(x[1, ], b, ifelse(x[1, ] > 1, paste0(round(x[1, 
-                  ], ndigits)), ""), pos = 2, col = "black", 
+                  ], ndigits)), ""), pos = ifelse((srt == 0 | 
+                  srt == 180 | srt == 360), 1, 2), col = "black", 
                   cex = cex, xpd = T)
                 if (dim(x)[1] > 1) 
                   for (i in 2:dim(x)[1]) {

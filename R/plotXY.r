@@ -17,10 +17,13 @@
 plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10, 
     attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 
         0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x", ylab = "y", 
-    axes = T, add = F, main = "Bivariate Relation", sub = "Shaded area represents 95%-prediction interval.", 
+    axes = T, add = F, main = "Bivariate Relation", sub = NULL, 
     pch = 16, lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, 
     ...) 
 {
+    if (is.null(sub)) 
+        sub = ifelse(complexity == 0, "Shaded area represents 95%-confidence interval.", 
+            "Shaded area represents 95%-prediction interval.")
     if (is.null(x) & is.null(y)) {
         x = rnorm(100)
         y = rnorm(100)
@@ -65,19 +68,23 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
         outer = apply(ou2, 1, max)
     }
     unscale = function(x, m, s) x * s + m
-    in1 = unscale(in1, mean(x, na.rm = T), sd(x, na.rm = T))
-    ou1 = unscale(ou1, mean(y, na.rm = T), sd(y, na.rm = T))
-    inner = unscale(inner, mean(y, na.rm = T), sd(y, na.rm = T))
-    outer = unscale(outer, mean(y, na.rm = T), sd(y, na.rm = T))
+    in1 = unscale(in1, mean(data0[, 1], na.rm = T), sd(data0[, 
+        1], na.rm = T))
+    ou1 = unscale(ou1, mean(data0[, 2], na.rm = T), sd(data0[, 
+        2], na.rm = T))
+    inner = unscale(inner, mean(data0[, 2], na.rm = T), sd(data0[, 
+        2], na.rm = T))
+    outer = unscale(outer, mean(data0[, 2], na.rm = T), sd(data0[, 
+        2], na.rm = T))
     if (add == F) 
-        plot(x, y, xlab = xlab, ylab = ylab, main = main, type = "n", 
-            axes = axes, ...)
+        plot(data0[, 1], data0[, 2], xlab = xlab, ylab = ylab, 
+            main = main, type = "n", axes = axes, ...)
     if (add == F) 
         if (!is.null(sub)) 
             title(sub = sub, cex.sub = cex.sub)
     polygon(c(in1, in1[length(in1):1]), c(inner, outer[length(outer):1]), 
         col = color3[1], border = NA)
-    points(x, y, pch = pch, col = color1[1])
+    points(data0[, 1], data0[, 2], pch = pch, col = color1[1])
     lines(in1, ou1, , col = color2[1], lwd = lwd)
     dat = data.frame(predictor = in1, prediction = ou1, lower.bound = inner, 
         upper.bound = outer)

@@ -21,7 +21,9 @@
 #' @param add.shadow Logical value indicating whether lines should be surrounded ba a black line. Defaults to F.
 #' @param grid Logical value indicating whether a grid should be drawn. Defaults to T.
 #' @param col Vector containing each line's color. If NULL (default) colors are generated based on the rainbow-palette.
-#' @param cex Relative size of fonts. Defaults to .7.
+#' @param cex Relative size of legend font. Defaults to .7.
+#' @param cex.axis1 Relative size of x-axis font. Defaults to .7.
+#' @param cex.axis2 Relative size of y-axis font. Defaults to .7.
 #' @param frame Relative size of invisible frame around fonts. Defaults to 1.
 #' @param manual.addon Numeric vector containing verical adjustments.
 #' @details Plots a numeric matrix as one line per row. By default cumsum of each row is plotted.
@@ -34,7 +36,8 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
     ylab = "cumulated sum", lwd = 2, lty = 1, pch = NULL, type = "l", 
     xlim = NULL, ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, 
     cumsum = T, show.legend = F, add = F, add.shadow = F, grid = T, 
-    col = NULL, cex = 0.7, frame = 1, manual.addon = NULL) 
+    col = NULL, cex = 0.7, cex.axis1 = 0.5, cex.axis2 = 0.7, 
+    frame = 1, manual.addon = NULL) 
 {
     if (is.null(matrix)) {
         matrix = t(data.frame(`ID 15455/20157` = c(32, 254, 22, 
@@ -128,12 +131,17 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
     if (!add) 
         plot(1:dim(cs)[2], seq(0, max(cs, na.rm = T), length.out = dim(cs)[2]), 
             type = "n", ylim = ylim, xlim = xlim, xaxt = "n", 
-            xlab = xlab, ylab = ylab, main = main, las = las)
+            xlab = xlab, ylab = ylab, main = main, las = las, 
+            cex.axis = cex.axis2)
     if (grid) {
-        xaxp <- par("xaxp")
-        yaxp <- par("yaxp")
-        abline(h = seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), 
-            col = rgb(0, 0, 0, 0.1))
+        abline2 = function(cs, ...) {
+            xaxp <- par("xaxp")
+            yaxp <- par("yaxp")
+            segments(x0 = 0, y0 = seq(yaxp[1], yaxp[2], (yaxp[2] - 
+                yaxp[1])/yaxp[3]), x1 = dim(cs)[2], y1 = seq(yaxp[1], 
+                yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
+        }
+        abline2(cs, col = rgb(0, 0, 0, 0.1))
     }
     for (i in 1:dim(cs)[1]) {
         if (add.shadow) 
@@ -143,11 +151,11 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
             lty = lty[i], type = type[i], pch = pch[i])
     }
     axis(1, at = 1:dim(cs)[2], labels = rep(NA, dim(cs)[2]), 
-        cex.axis = 0.5, las)
+        cex.axis = cex.axis1, las)
     x0 = cs
     x0 = min(x0) - 0.08 * (max(x0) - min(x0))
     text((1:dim(cs)[2]) + (0.02 * dim(cs)[2]), x0, colnames(cs), 
-        pos = 2, srt = srt, xpd = T, cex = 0.5)
+        pos = 2, srt = srt, xpd = T, cex = cex.axis1)
     order = order(cs[, dim(cs)[2]], decreasing = T)
     cs = cs[order, ]
     if (!is.null(manual.addon) & !show.legend) {
