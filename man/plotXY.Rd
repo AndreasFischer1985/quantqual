@@ -8,8 +8,8 @@ plotXY(x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
   attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7),
   color2 = rgb(0, 0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x",
   ylab = "y", axes = T, add = F, main = "Bivariate Relation",
-  sub = "Shaded area represents 95\%-prediction interval.", pch = 16,
-  lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, ...)
+  sub = NULL, pch = 16, lwd = 2, cex = 0.7, cex.sub = 0.7,
+  generalize = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector.}

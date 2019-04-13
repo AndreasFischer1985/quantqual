@@ -5,16 +5,24 @@
 \title{Function extractTable}
 \usage{
 extractTable(x, reg.up = NULL, reg.down = NULL, reg.left = "^",
-  reg.right = "$", reg.fix = NULL, convert = F,
-  correctNotation = T)
+  reg.right = "$", reg.fix = NULL, header = F, trim = T,
+  convert = F, correctNotation = F)
 }
 \arguments{
 \item{x}{A character vector containing one text-line per element.}
+
+\item{header}{Logical value that specifies, whether to treat first row and column as row- and column-names. Defaults to F.}
+
+\item{trim}{Logical value that specifies, whether to trim entries. Defaults to T.}
+
+\item{convert}{Logical value that specifies, whether to convert table to numeric (after correcting for notation in case correctNotation is set to T). Please use with care, if table contains non-numeric information. Defaults to T.}
+
+\item{correctNotation}{Logical value that specifies, whether to correct for the fact that entries use commata instead of dots. Erases all dots in all entries and subsequently replaces commata by dots. Defaults to F.}
 }
 \description{
 Extracts table as data.frames from multiple lines of text.
 }
 \details{
-Extracts table as data.frames from multiple lines of text. Columns are assumed to be separated by whitespaces that are placed at the same position in each line. In its current state this function has to be considered experimental. Returns a numeric data.frame. It is highly recommended to check the attribute "raw" that's attached to the data.frame.
+Extracts table as data.frames from multiple lines of text. Columns are assumed to be separated by whitespaces that are placed at the same position in each line. Please make sure that headers don't span multiple columns or rows.
 }
 \keyword{scraping}

@@ -4,8 +4,8 @@
 \alias{summarizeSTM}
 \title{Function summarizeSTM}
 \usage{
-summarizeSTM(stm, data, topicNo = NULL, main = "Results",
-  stopwords = NULL, cex = 0.5)
+summarizeSTM(stm, data, topicNo = 0, main = "Results",
+  stopwords = NULL, cex = 1, simlpe = F)
 }
 \arguments{
 \item{stm}{Object of class stm.}

@@ -7,8 +7,10 @@
 bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
   add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL,
   xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
-  names.arg = NULL, legend.text = NULL, col = NULL, axes = T,
-  add = F, ...)
+  names.arg = NULL, legend.text = NULL, args.legend = list(bg =
+  "white"), density = NULL, angle = 45, col = NULL,
+  grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, adj = 0,
+  default.labels = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector, matrix or data.frame containing the values to be displayed.}
@@ -43,11 +45,23 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{legend.text}{Legend text. Set to NA or to F to supress legend. If NULL (default) rownames of x will be applied as legend.text.}
 
+\item{args.legend}{List with arguments to pass to legend(). Defaults to list(bg = "white").}
+
+\item{density}{Vector giving the density of shading lines, in lines per inch, for the bars or bar components. The default value of NULL means that no shading lines are drawn. Non-positive values of density also inhibit the drawing of shading lines.}
+
+\item{angle}{Slope of shading lines, given as an angle in degrees (counter-clockwise), for the bars or bar components.}
+
 \item{col}{Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.}
+
+\item{grid.col}{Character or rgb value containing the color of grid lines. Defaults to rgb(0,0,0,.1).}
 
 \item{axes}{Logical value indicating whether to plot axes. Defaults to T.}
 
 \item{add}{Logical value indicating whether to plot the barplot to the current device. Defaults to F.}
+
+\item{adj}{Numeric value between 0 and 1, indicating where to plot the title between left (0) and right (1). Defaults to 0.}
+
+\item{default.labels}{Logical value, indicating whether to use traditional barplot-labels (which, e.g., hide in case of overlap) instead of bp-style labels. Defaults to F.}
 
 \item{...}{Additional graphical parameters for barplot.}
 }

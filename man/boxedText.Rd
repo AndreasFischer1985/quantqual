@@ -7,7 +7,7 @@
 boxedText(x, y, text = "Hello \\nWorld", x2 = NULL, y2 = NULL,
   maxlength = NULL, col = "yellow", border = "black", pos = NULL,
   font = 1, hspace = 1, vspace = 1.2, cex = 1, decollide = F,
-  ...)
+  decollide.repetitions = 10, ...)
 }
 \arguments{
 \item{x}{Numeric value specifying the text's position on the x-axis.}

@@ -17,10 +17,15 @@
 #' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
 #' @param names.arg Character vector containing names of bars. If NULL (default) colnames of x will be applied as names.arg.
 #' @param legend.text Legend text. Set to NA or to F to supress legend. If NULL (default) rownames of x will be applied as legend.text.
+#' @param args.legend List with arguments to pass to legend(). Defaults to list(bg = "white").
+#' @param density Vector giving the density of shading lines, in lines per inch, for the bars or bar components. The default value of NULL means that no shading lines are drawn. Non-positive values of density also inhibit the drawing of shading lines.
+#' @param angle Slope of shading lines, given as an angle in degrees (counter-clockwise), for the bars or bar components.
 #' @param col Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.
+#' @param grid.col Character or rgb value containing the color of grid lines. Defaults to rgb(0,0,0,.1).
 #' @param axes Logical value indicating whether to plot axes. Defaults to T.
 #' @param add Logical value indicating whether to plot the barplot to the current device. Defaults to F.
 #' @param adj Numeric value between 0 and 1, indicating where to plot the title between left (0) and right (1). Defaults to 0.
+#' @param default.labels Logical value, indicating whether to use traditional barplot-labels (which, e.g., hide in case of overlap) instead of bp-style labels. Defaults to F.
 #' @param ... Additional graphical parameters for barplot.
 #' @details Plots a bar and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
 #' @keywords plotting
@@ -31,8 +36,9 @@
 bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F, 
     add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL, 
     xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, names.arg = NULL, 
-    legend.text = NULL, col = NULL, axes = T, add = F, adj = 0, 
-    ...) 
+    legend.text = NULL, args.legend = list(bg = "white"), density = NULL, 
+    angle = 45, col = NULL, grid.col = rgb(0, 0, 0, 0.1), axes = T, 
+    add = F, adj = 0, default.labels = F, ...) 
 {
     if (is.null(x)) 
         x = data.frame(test1 = c(1, 2, 3), test2 = c(2, 3, 4))
@@ -58,10 +64,6 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         rownames(x) = 1:dim(x)[1]
     if (is.null(colnames(x))) 
         colnames(x) = 1:dim(x)[2]
-    if (!is.null(names.arg)) 
-        if (dim(x)[2] == 1) 
-            rownames(x) = names.arg
-        else colnames(x) = names.arg
     if (is.matrix(x2)) {
         rownames(x2) = rownames(x)
         colnames(x2) = colnames(x)
@@ -101,10 +103,20 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
     else if (length(legend.text) == 1) 
         if (legend.text[[1]] == F) 
             legend.text = NULL
-    b = as.matrix(barplot(x2, names.arg = rep("", dim(x)[2]), 
-        beside = beside, horiz = horiz, col = col, xlim = xlim, 
-        legend.text = legend.text, main = main, plot = plot, 
-        las = las, axes = axes, add = add, adj = adj, ...))
+    if (!is.null(names.arg)) {
+        if (is.na(names.arg) & length(names.arg) == 1) 
+            names.arg = rep(NA, dim(x)[2])
+        if (dim(x)[2] == 1) 
+            rownames(x) = names.arg
+        else colnames(x) = names.arg
+    }
+    else names.arg = ifelse(dim(x)[2] == 1, list(rownames(x)), 
+        list(colnames(x)))[[1]]
+    b = as.matrix(barplot(x2, names.arg = ifelse(default.labels == 
+        T, list(names.arg), list(rep("", dim(x)[2])))[[1]], beside = beside, 
+        horiz = horiz, density = density, angle = angle, col = col, 
+        xlim = xlim, main = main, plot = plot, las = las, axes = axes, 
+        add = add, adj = adj, ...))
     if (!is.null(sd) & beside) 
         if (!horiz) {
             arrows(b, x2 + sd, b, x2 - sd, angle = 90, code = 3, 
@@ -151,60 +163,72 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             yaxp[1])/yaxp[3]), y1 = max(xl)/xlf, x1 = seq(yaxp[1], 
             yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
     }
-    if (!horiz) {
-        if (grid != F) 
-            abline2(xlim, ifelse(!is.null(legend.text), xlim.factor, 
-                1), col = rgb(0, 0, 0, 0.1))
-        if (axes != F) 
-            text(colMeans(b2), 0 + x0, colnames(b2), srt = srt, 
-                pos = ifelse((srt == 0 | srt == 180 | srt == 
-                  360), 1, 2), xpd = T, cex = cex)
-        if (add.numbers) 
-            if (beside) {
-                text(b, x, paste0(round(x, ndigits)), pos = 3, 
-                  col = "black", cex = cex, xpd = T)
-            }
-            else {
-                text(b, x[1, ], ifelse(x[1, ] > 1, paste0(round(x[1, 
-                  ], ndigits)), ""), pos = 1, col = "black", 
-                  cex = cex, xpd = T)
-                if (dim(x)[1] > 1) 
-                  for (i in 2:dim(x)[1]) {
-                    m = as.matrix(x[c(1:i), ])
-                    dim(m) = c(length(c(1:i)), dim(x)[2])
-                    text(b, colSums(m), labels = paste0(round(x[i, 
-                      ], ndigits)), pos = 1, col = "black", cex = cex, 
-                      xpd = T)
-                  }
-            }
-    }
-    else {
-        if (grid != F) 
-            abline3(xlim, ifelse(!is.null(legend.text), xlim.factor, 
-                1), col = rgb(0, 0, 0, 0.1))
-        if (axes != F) 
-            text(0 + x0, colMeans(b2), colnames(b2), srt = srt - 
-                45, pos = ifelse((srt == 0 | srt == 180 | srt == 
-                360), 1, 2), xpd = T, cex = cex)
-        if (add.numbers) 
-            if (beside) {
-                text(x, b, paste0(round(x, ndigits)), pos = 4, 
-                  col = "black", cex = cex, xpd = T)
-            }
-            else {
-                text(x[1, ], b, ifelse(x[1, ] > 1, paste0(round(x[1, 
-                  ], ndigits)), ""), pos = ifelse((srt == 0 | 
-                  srt == 180 | srt == 360), 1, 2), col = "black", 
-                  cex = cex, xpd = T)
-                if (dim(x)[1] > 1) 
-                  for (i in 2:dim(x)[1]) {
-                    m = as.matrix(x[c(1:i), ])
-                    dim(m) = c(length(c(1:i)), dim(x)[2])
-                    text(colSums(m), b, labels = paste0(round(x[i, 
-                      ], ndigits)), pos = 2, col = "black", cex = cex, 
-                      xpd = T)
-                  }
-            }
-    }
+    if (plot != F) 
+        if (!horiz) {
+            if (grid != F) 
+                abline2(xlim, ifelse(!is.null(legend.text), xlim.factor, 
+                  1), col = grid.col)
+            if (axes != F & default.labels != T) 
+                text(colMeans(b2), 0 + x0, colnames(b2), srt = srt, 
+                  pos = ifelse((srt == 0 | srt == 180 | srt == 
+                    360), 1, 2), xpd = T, cex = cex)
+            if (add.numbers) 
+                if (beside) {
+                  text(b, x, paste0(round(x, ndigits)), pos = 3, 
+                    col = "black", cex = cex, xpd = T)
+                }
+                else {
+                  text(b, x[1, ], ifelse(x[1, ] > 1, paste0(round(x[1, 
+                    ], ndigits)), ""), pos = 1, col = "black", 
+                    cex = cex, xpd = T)
+                  if (dim(x)[1] > 1) 
+                    for (i in 2:dim(x)[1]) {
+                      m = as.matrix(x[c(1:i), ])
+                      dim(m) = c(length(c(1:i)), dim(x)[2])
+                      text(b, colSums(m), labels = paste0(round(x[i, 
+                        ], ndigits)), pos = 1, col = "black", 
+                        cex = cex, xpd = T)
+                    }
+                }
+        }
+        else {
+            if (grid != F) 
+                abline3(par("usr")[3:4], 1, col = grid.col)
+            if (axes != F & default.labels != T) 
+                text(0 + x0, colMeans(b2), colnames(b2), srt = srt - 
+                  45, pos = 2, xpd = T, cex = cex)
+            if (add.numbers) 
+                if (beside) {
+                  text(x, b, paste0(round(x, ndigits)), pos = 4, 
+                    col = "black", cex = cex, xpd = T)
+                }
+                else {
+                  text(x[1, ], b, ifelse(x[1, ] > 1, paste0(round(x[1, 
+                    ], ndigits)), ""), pos = 2, col = "black", 
+                    cex = cex, xpd = T)
+                  if (dim(x)[1] > 1) 
+                    for (i in 2:dim(x)[1]) {
+                      m = as.matrix(x[c(1:i), ])
+                      dim(m) = c(length(c(1:i)), dim(x)[2])
+                      text(colSums(m), b, labels = paste0(round(x[i, 
+                        ], ndigits)), pos = 2, col = "black", 
+                        cex = cex, xpd = T)
+                    }
+                }
+        }
+    xy <- par("usr")
+    if (!is.null(legend.text)) 
+        if (is.null(args.legend)) {
+            legend(xy[2L] - xinch(0.1), xy[4L] - yinch(0.1), 
+                legend = legend.text, angle = angle, density = density, 
+                fill = col, xjust = 1, yjust = 1)
+        }
+        else {
+            args.legend1 <- list(x = xy[2L] - xinch(0.1), y = xy[4L] - 
+                yinch(0.1), legend = legend.text, angle = angle, 
+                density = density, fill = col, xjust = 1, yjust = 1)
+            args.legend1[names(args.legend)] <- args.legend
+            do.call("legend", args.legend1)
+        }
     return(b)
 }

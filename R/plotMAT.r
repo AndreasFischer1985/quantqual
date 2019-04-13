@@ -2,14 +2,14 @@
 #' 
 #' Plots a numeric matrix as one line per row.
 #' @param matrix Numeric matrix containing the values to be displayed.
-#' @param main Character value representing the barplot's title. Defaults to "Cumulation over time"
-#' @param xlab Character value representing the x-axis label. Defaults to "time"
-#' @param ylab Character value representing the y-axis label. Defaults to "cumulated sum"
+#' @param main Character value representing the barplot's title. If NULL (default) it's set to "Cumulation over time"
+#' @param xlab Character value representing the x-axis label. If NULL it's set to "time". Defaults to ""
+#' @param ylab Character value representing the y-axis label. If NULL (default) it's set to "cumulated sum" if cumsum==T, and to "value" otherwise.
 #' @param lwd Numeric vector specifying line width. Defaults to 2.
 #' @param lty Numeric vector specifying line type. Defaults to 1.
 #' @param pch Numeric vector specifying points type. Defaults to NULL.
 #' @param type Numeric vector specifying plot-type of lines. Defaults to "l".
-#' @param main Character value representing the y-axis label. Defaults to "cumulated sum"
+#' @param main Character value representing the title. If NULL (default) it's set to "Cumulation over Time" if cumsum==T, and to "Development over Time" otherwise.
 #' @param xlim Numeric vector with two elements. If NULL (default) xlim is detemined automatically.
 #' @param ylim Numeric vector with two elements. If NULL (default) ylim is detemined automatically.
 #' @param xlim.factor Numeric value for adding extra space to the right of the plot. Defaults to 1.
@@ -32,12 +32,11 @@
 #' @examples
 #' plotMAT()
 
-plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "", 
-    ylab = "cumulated sum", lwd = 2, lty = 1, pch = NULL, type = "l", 
-    xlim = NULL, ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, 
-    cumsum = T, show.legend = F, add = F, add.shadow = F, grid = T, 
-    col = NULL, cex = 0.7, cex.axis1 = 0.5, cex.axis2 = 0.7, 
-    frame = 1, manual.addon = NULL) 
+plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL, 
+    lwd = 2, lty = 1, pch = NULL, type = "l", xlim = NULL, ylim = NULL, 
+    xlim.factor = 1.5, las = 1, srt = 45, cumsum = T, show.legend = F, 
+    add = F, add.shadow = F, grid = T, col = NULL, cex = 0.7, 
+    cex.axis1 = 0.5, cex.axis2 = 0.7, frame = 1, manual.addon = NULL) 
 {
     if (is.null(matrix)) {
         matrix = t(data.frame(`ID 15455/20157` = c(32, 254, 22, 
@@ -88,6 +87,12 @@ plotMAT <- function (matrix = NULL, main = "Cumulation over Time", xlab = "",
                 "May 2018", "Jun 2018", "Jul 2018", "Aug 2018", 
                 "Sep 2018", "Oct 2018", "Nov 2018", "Dec 2018")))
     }
+    if (is.null(xlab)) 
+        xlab = "time"
+    if (is.null(ylab)) 
+        ylab = ifelse(cumsum, "cumulated sum", "value")
+    if (is.null(ylab)) 
+        ylab = ifelse(cumsum, "Cumulation over Time", "Development over Time")
     if (!is.null(manual.addon)) 
         if (length(manual.addon) != dim(matrix)[1]/2) 
             manual.addon = rep(0, dim(matrix)[1]/2)

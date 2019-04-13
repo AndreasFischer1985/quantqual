@@ -6,7 +6,7 @@
 \usage{
 plotSTM(stm = NULL, labels = NULL,
   main = "Topic distribution over documents", border = NA, space = 0,
-  stopwords = NULL, cex = 0.7, srt = 45)
+  stopwords = NULL, cex = 0.7, srt = 45, plot = T)
 }
 \arguments{
 \item{stm}{Object of class stm.}

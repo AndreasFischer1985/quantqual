@@ -5,7 +5,7 @@
 \title{Function vecToTDM}
 \usage{
 vecToTDM(corpus = "hello,  \\nworld", stopwords = NULL,
-  lowerCase = T, min = 0, sort = F, plot = F)
+  lowerCase = T, min = 0, minDocs = 0, sort = F, plot = F)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

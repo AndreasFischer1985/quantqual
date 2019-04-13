@@ -1,10 +1,10 @@
 #' Function cols
 #' 
 #' Returns a vector of colors of a certain length.
-#' @param num Number of colors to return.
+#' @param num Number of colors to return or a numeric vector containing indices of colors. Defaults to 1.
 #' @param col2 Character vector specifying the darker color of the specturm to be returned.
 #' @param col1 Character vector specifying the lighter color of the specturm to be returned.
-#' @details Returns a vector of colors of a certain length. If col1 and col2 are NULL (default) a rainbow palette is returned. If col2 is specified, col1 is set to "white". If col1 is specified, col2 is set to "black". In addition to regular color labels, the cols-function accepts some pre-defined color-labels (such as "jddm" or "jddmLight" for the Logo-colors of the Journal of Dynamic Decision Making)
+#' @details Returns a vector of colors of a certain length. If col1 and col2 are NULL (default) a rainbow palette is returned. If col2 is specified, col1 is set to "white". If col1 is specified, col2 is set to "black". In addition to regular color labels, the cols-function accepts some pre-defined color-labels (such as "jddm" or "jddmLight" for the Logo-colors of the Journal of Dynamic Decision Making). If num is a numeric vector, the color palette will have max(num) colors, the number of colors returned equals length(num), and num itself is applied as a vector of indices for the color palette returned. 
 #' @keywords plotting
 #' @export
 #' @examples
@@ -13,7 +13,11 @@
 cols <- function (num = 1, col2 = NULL, col1 = NULL) 
 {
     if (is.null(col1) & is.null(col2)) 
-        return(rainbow(num))
+        if (length(num) > 1) {
+            num[num < 1] = 1
+            return(rainbow(max(num))[num])
+        }
+        else return(rainbow(num))
     if (is.null(col1)) 
         col1 = "white"
     if (is.null(col2)) 
@@ -54,6 +58,10 @@ cols <- function (num = 1, col2 = NULL, col1 = NULL)
         col1 = y
     if (col2 == x) 
         col2 = y
+    if (length(num) > 1) {
+        num[num < 1] = 1
+        return(colorRampPalette(c(col1, col2))(max(num))[num])
+    }
     if (num == 1) 
         return(col2)
     return(colorRampPalette(c(col1, col2))(num))

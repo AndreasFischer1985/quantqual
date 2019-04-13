@@ -7,7 +7,7 @@
 cols(num = 1, col2 = NULL, col1 = NULL)
 }
 \arguments{
-\item{num}{Number of colors to return.}
+\item{num}{Number of colors to return or a numeric vector containing indices of colors. Defaults to 1.}
 
 \item{col2}{Character vector specifying the darker color of the specturm to be returned.}
 
@@ -17,7 +17,7 @@ cols(num = 1, col2 = NULL, col1 = NULL)
 Returns a vector of colors of a certain length.
 }
 \details{
-Returns a vector of colors of a certain length. If col1 and col2 are NULL (default) a rainbow palette is returned. If col2 is specified, col1 is set to "white". If col1 is specified, col2 is set to "black". In addition to regular color labels, the cols-function accepts some pre-defined color-labels (such as "jddm" or "jddmLight" for the Logo-colors of the Journal of Dynamic Decision Making)
+Returns a vector of colors of a certain length. If col1 and col2 are NULL (default) a rainbow palette is returned. If col2 is specified, col1 is set to "white". If col1 is specified, col2 is set to "black". In addition to regular color labels, the cols-function accepts some pre-defined color-labels (such as "jddm" or "jddmLight" for the Logo-colors of the Journal of Dynamic Decision Making). If num is a numeric vector, the color palette will have max(num) colors, the number of colors returned equals length(num), and num itself is applied as a vector of indices for the color palette returned.
 }
 \examples{
 bp(1:10,col=cols(10,"jddm"))

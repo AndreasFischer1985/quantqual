@@ -6,7 +6,7 @@
 \usage{
 
   getFile(url = "http://www.bamf.de/SharedDocs/Anlagen/DE/Publikationen/Flyer/flyer-schluesselzahlen-asyl-halbjahr-2018.pdf?__blob=publicationFile",
-  filename = NULL, mode = "wb", format = "pdf")
+  filename = NULL, mode = "wb", format = "pdf", ...)
 }
 \arguments{
 \item{url}{A valid URL.}

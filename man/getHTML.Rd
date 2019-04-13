@@ -6,7 +6,8 @@
 \usage{
 
   getHTML(url = "https://scholar.google.de/citations?user=-TjY7oEAAAAJ&hl=de&oi=sra",
-  encoding = "UTF-8", save = T, prefix = Sys.Date())
+  encoding = "UTF-8", save = F, prefix = Sys.Date(), closeCon = T,
+  method = "libcurl", silent = T)
 }
 \arguments{
 \item{url}{A valid URL.}

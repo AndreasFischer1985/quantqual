@@ -4,7 +4,10 @@
 \alias{scrapeJDDM}
 \title{Function scrapeJDDM}
 \usage{
-scrapeJDDM(plot = T)
+scrapeJDDM(plot = T,
+  urls = paste0("https://journals.ub.uni-heidelberg.de/index.php/jddm/issue/view/",
+  c(3269, 2836, 2269, 3694)),
+  url2 = "https://journals.ub.uni-heidelberg.de/cgi-bin/oastats.cgi?repo=ojs;from_date=2015-09-29\%2021:39:27;id=jddm:")
 }
 \arguments{
 \item{plot}{Logical vakue specifying wether to plot data on reads and downloads.}
