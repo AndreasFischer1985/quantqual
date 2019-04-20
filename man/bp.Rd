@@ -5,7 +5,8 @@
 \title{Function bp}
 \usage{
 bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
-  add.numbers = F, ndigits = 2, grid = T, plot = T, main = NULL,
+  add.numbers = F, ndigits = 2, ncex = NA, nsrt = 0, npos = NA,
+  ncol = "black", grid = T, plot = T, main = NULL,
   xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
   names.arg = NULL, legend.text = NULL, args.legend = list(bg =
   "white"), density = NULL, angle = 45, col = NULL,
@@ -17,7 +18,7 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{sd}{Numeric vector, matrix or data.frame of same format as x containing standard deviations.}
 
-\item{cex}{Size of fonts. Defaults to .7.}
+\item{cex}{Size of axis fonts. Defaults to .7.}
 
 \item{beside}{Logical value indicating if bars should be placed next to each other. Defaults to T.}
 
@@ -26,6 +27,14 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 \item{add.numbers}{Logical value indicating if numbers should be placed above bars. Defaults to F.}
 
 \item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
+
+\item{ncex}{Size of fonts. If NA (default) is set to cex.}
+
+\item{nsrt}{Numeric value specifying the rotation of the numbers (between 0 and 360 degrees). Defaults to 0.}
+
+\item{npos}{Numeric value specifying the position of numbers. If NA (default) it is determined automatically.}
+
+\item{ncol}{Vector containing the color of bars. Defaults to "black".}
 
 \item{grid}{Logical value indicating whether to plot a grid. Defaults to T.}
 
