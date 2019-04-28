@@ -22,11 +22,11 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
     parmar = par()$mar
     par(mar = parmar - min(parmar))
     if (is.null(vec)) {
-        vec = c(`Güß\net. al.\n2015` = 12, `Fischer\n&\nNeubert\n2105` = 12, 
-            `Kretzschmar\n&\nSüß\n2015` = 16, `Editorial\n2015` = 9, 
+        vec = c(`Guess\net. al.\n2015` = 12, `Fischer\n&\nNeubert\n2105` = 12, 
+            `Kretzschmar\n&\nSuess\n2015` = 16, `Editorial\n2015` = 9, 
             `Hundertmark\net al.\n2015` = 9, `Dutt\n2015` = 7, 
             `Engelhart\net al.\n2017` = 6, `Wendt\n2017` = 5, 
-            `Gonzalez\net al.\n2016` = 4, `Vangsnes\net al.\n2017` = 3, 
+            `Gonzalez\net al.\n2016` = 4, `Vangsness\net al.\n2017` = 3, 
             `Editorial\net al.\n2016` = 3, `Frank &\nKluge\n2017` = 2, 
             `Sharma\net al.\n2017` = 2, `Rohe\nwt al.\n2016` = 2)
         if (is.null(main)) 

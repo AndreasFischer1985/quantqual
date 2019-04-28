@@ -2,13 +2,18 @@
 #' 
 #' Extracts table as data.frames from multiple lines of text.
 #' @param x A character vector containing one text-line per element.
-#' @details Extracts table as data.frames from multiple lines of text. Columns are assumed to be separated by whitespaces that are placed at the same position in each line. In its current state this function has to be considered experimental. Returns a numeric data.frame. It is highly recommended to check the attribute "raw" that's attached to the data.frame.
+#' @param header Logical value that specifies, whether to treat first row and column as row- and column-names. Defaults to F.
+#' @param trim Logical value that specifies, whether to trim entries. Defaults to T.
+#' @param convert Logical value that specifies, whether to convert table to numeric (after correcting for notation in case correctNotation is set to T). Please use with care, if table contains non-numeric information. Defaults to T.
+#' @param correctNotation Logical value that specifies, whether to correct for the fact that entries use commata instead of dots. Erases all dots in all entries and subsequently replaces commata by dots. Defaults to F.
+#' @details Extracts table as data.frames from multiple lines of text. Columns are assumed to be separated by whitespaces that are placed at the same position in each line. Please make sure that headers don't span multiple columns or rows.
 #' @keywords scraping
 #' @export
 
 
 extractTable <- function (x, reg.up = NULL, reg.down = NULL, reg.left = "^", 
-    reg.right = "$", reg.fix = NULL, convert = F, correctNotation = T) 
+    reg.right = "$", reg.fix = NULL, header = F, trim = T, convert = F, 
+    correctNotation = F) 
 {
     trim = function(x) gsub("(^[ ]+|[ ]+$)", "", x)
     if (!is.null(reg.up)) {
@@ -34,9 +39,15 @@ extractTable <- function (x, reg.up = NULL, reg.down = NULL, reg.left = "^",
     erg = data.frame(e[[1]])
     for (i in 2:length(w)) erg = apply(data.frame(erg, e[[i]]), 
         2, as.character)
-    colnames(erg) = trim(as.character(erg[1, ]))
-    rownames(erg) = trim(as.character(erg[, 1]))
-    erg = erg[-1, -1]
+    if (header) {
+        colnames(erg) = trim(as.character(erg[1, ]))
+        rownames(erg) = trim(as.character(erg[, 1]))
+        erg = erg[-1, -1]
+    }
+    else {
+        colnames(erg) = 1:dim(erg)[2]
+        rownames(erg) = 1:dim(erg)[1]
+    }
     erg = erg[, !colSums(erg == "  ") == max(colSums(erg == "  "))]
     rn = rownames(erg)
     if (correctNotation) 
@@ -49,5 +60,7 @@ extractTable <- function (x, reg.up = NULL, reg.down = NULL, reg.left = "^",
         erg = apply(erg, 2, as.numeric)
         rownames(erg) = rn
     }
-    erg
+    if (trim) 
+        return(quantqual::trim(erg))
+    else return(erg)
 }

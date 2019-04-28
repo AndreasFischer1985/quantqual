@@ -91,8 +91,8 @@ plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL,
         xlab = "time"
     if (is.null(ylab)) 
         ylab = ifelse(cumsum, "cumulated sum", "value")
-    if (is.null(ylab)) 
-        ylab = ifelse(cumsum, "Cumulation over Time", "Development over Time")
+    if (is.null(main)) 
+        main = ifelse(cumsum, "Cumulation over Time", "Development over Time")
     if (!is.null(manual.addon)) 
         if (length(manual.addon) != dim(matrix)[1]/2) 
             manual.addon = rep(0, dim(matrix)[1]/2)
