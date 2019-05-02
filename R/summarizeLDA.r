@@ -24,8 +24,18 @@ summarizeLDA <- function (lda, data, topicNo = 0, main = "Results", stopwords = 
     color = rgb(0/255, 84/255, 122/255)
     files = 1:dim(ldaPost$topics)[1]
     k = dim(ldaPost$topics)[2]
-    if (is.null(topicNo)) 
-        par(mfrow = c(3, 2))
+    bed = F
+    if (!is.null(topicNo)) {
+        bed = T
+        if (min(topicNo, na.rm = T) < 1 | max(topicNo, na.rm = T) > 
+            k) {
+            topicNo = NULL
+            bed = F
+        }
+    }
+    if (!is.null(topicNo)) 
+        if (length(topicNo) > 1) 
+            par(mfrow = c(3, 2))
     topicProbability = (colMeans(ldaPost$topics))
     labels = character(0)
     labels2 = character(0)
@@ -47,10 +57,7 @@ summarizeLDA <- function (lda, data, topicNo = 0, main = "Results", stopwords = 
     s1 = sort(topicProbability, decreasing = F)
     labels = labels[as.numeric(names(s1))]
     labels2 = labels2[as.numeric(names(s1))]
-    bed = F
-    if (!is.null(topicNo)) 
-        bed = T
-    if (is.null(topicNo) | bed == T) {
+    if (is.null(topicNo)) {
         bp = barplot(s1, horiz = T, main = main, xlim = c(0, 
             1), col = color, cex.names = cex, cex.main = cex + 
             0.1)
@@ -119,12 +126,8 @@ summarizeLDA <- function (lda, data, topicNo = 0, main = "Results", stopwords = 
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
         10))]
-    if (is.null(topicNo)) {
-        topicNo = as.numeric(topics)
-        topicNo = topicNo[topicNo <= 5]
-    }
-    if (!bed) 
-        for (i in topicNo) {
+    if (bed) 
+        for (i in topicNo[1:min(length(topicNo), 6, na.rm = T)]) {
             if (!is.na(topicTopDocuments[i])) {
                 plot(1, 1, type = "n", xlab = "", ylab = "", 
                   axes = F)

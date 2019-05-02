@@ -5,10 +5,11 @@
 \title{Function af.lda}
 \usage{
 af.lda(data = c("a b c d e f g h i j k l m n o p", "a b c Hello World"),
-  k = 2:10, alpha = NULL, method = "Gibbs", seed1 = 0,
-  control = list(nstart = 1, seed = NULL, alpha = NULL, best = T, burnin
-  = 4000, iter = 1000, thin = 500), dtm = NULL, stopwords = NULL,
-  attrData = F, plot.kLDA = T, trace = T, lowercase = T)
+  k = 2:10, alpha = NULL, delta = NULL, method = "Gibbs",
+  seed1 = 0, control = list(nstart = 1, seed = NULL, alpha = NULL,
+  delta = NULL, best = T, burnin = 4000, iter = 1000, thin = 500),
+  dtm = NULL, stopwords = NULL, attrData = F, plot.kLDA = T,
+  trace = T, lowercase = T)
 }
 \arguments{
 \item{data}{Character vector containing data.}

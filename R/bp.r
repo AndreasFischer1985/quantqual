@@ -45,7 +45,9 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
     col = NULL, grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, 
     adj = 0, default.labels = F, ...) 
 {
-    if (is.na(ncex) | is.null(ncex)) 
+    if (is.null(ncex)) 
+        ncex = cex
+    else if (is.na(ncex)) 
         ncex = cex
     if (!is.null(npos)) 
         if (is.na(npos)) 
@@ -116,8 +118,9 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         if (legend.text[[1]] == F) 
             legend.text = NULL
     if (!is.null(names.arg)) {
-        if (is.na(names.arg) & length(names.arg) == 1) 
-            names.arg = rep(NA, dim(x)[2])
+        if (length(names.arg) == 1) 
+            if (is.na(names.arg)) 
+                names.arg = rep(NA, dim(x)[2])
         if (dim(x)[2] == 1) 
             rownames(x) = names.arg
         else colnames(x) = names.arg

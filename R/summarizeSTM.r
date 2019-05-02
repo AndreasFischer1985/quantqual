@@ -28,8 +28,18 @@ summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = 
     k = length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(k, 
         5))]
-    if (is.null(topicNo)) 
-        par(mfrow = c(3, 2))
+    bed = F
+    if (!is.null(topicNo)) {
+        bed = T
+        if (min(topicNo, na.rm = T) < 1 | max(topicNo, na.rm = T) > 
+            k) {
+            topicNo = NULL
+            bed = F
+        }
+    }
+    if (!is.null(topicNo)) 
+        if (length(topicNo) > 1) 
+            par(mfrow = c(3, 2))
     color = rgb(0/255, 84/255, 122/255)
     k = dim(stm.probs.topics)[2]
     files = 1:dim(stm.probs.topics)[1]
@@ -55,11 +65,7 @@ summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = 
     labels2 = labels2[as.numeric(names(s1))]
     if (nchar(main) > 200) 
         title = paste(substr(main, 1, 200), "(...)")
-    bed = F
-    if (!is.null(topicNo)) 
-        if (topicNo == 0) 
-            bed = T
-    if (is.null(topicNo) | bed == T) {
+    if (is.null(topicNo)) {
         bp = barplot(s1, horiz = T, main = main, xlim = c(0, 
             1), col = color, cex.names = cex, cex.main = cex + 
             0.1)
@@ -116,7 +122,7 @@ summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = 
     }
     document.topic = as.matrix(stm$theta)
     colnames(document.topic) = 1:dim(document.topic)[2]
-    rownames(document.topic) = paste0("d", 1:dim(document.topic)[1])
+    rownames(document.topic) = 1:dim(document.topic)[1]
     topic.term = as.matrix(exp(stm$beta$logbeta[[1]]))
     colnames(topic.term) = stm$vocab
     stm.probs <- list(terms = topic.term, topics = document.topic)
@@ -131,12 +137,8 @@ summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = 
     names(topicProbability) = 1:length(topicProbability)
     topics = names(sort(topicProbability, decreasing = T))[1:min(c(length(topicProbability), 
         10))]
-    if (is.null(topicNo)) {
-        topicNo = as.numeric(topics)
-        topicNo = topicNo[topicNo <= 5]
-    }
-    if (!bed) 
-        for (i in topicNo) {
+    if (bed) 
+        for (i in topicNo[1:min(length(topicNo), 6, na.rm = T)]) {
             if (!is.na(topicTopDocuments[i])) {
                 plot(1, 1, type = "n", xlab = "", ylab = "", 
                   axes = F)
