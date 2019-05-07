@@ -4,7 +4,7 @@
 
 
 gridSearchLDA <- function (dtm, k = NULL, alpha = NULL, delta = NULL, grid = NULL, 
-    fun = BIC, best = T, plot = T, ...) 
+    fun = function(x) -1 * AIC(x), best = T, plot = T, ...) 
 {
     grid.ldas = NULL
     if (is.null(k) & is.null(alpha) & is.null(delta) & is.null(grid)) 

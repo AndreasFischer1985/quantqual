@@ -6,7 +6,8 @@
 #' @param n Number of terms for determining document-coocurence. If 0 (default) n is set to the number of terms in the dtm.
 #' @keywords modeling
 #' @export
-#' 
+#' @examples
+#' coherenceLDA(lda,dtm)
 
 coherenceLDA <- function (lda, dtm, n = 0) 
 {

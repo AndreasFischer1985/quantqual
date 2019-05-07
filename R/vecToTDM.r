@@ -62,6 +62,8 @@ vecToTDM <- function (corpus = "hello,  \nworld", stopwords = NULL, lowerCase = 
     }
     if (sum(dim(m)) != sum(dim(m1))) 
         m = m1
+    if (paste(dim(m), collapse = "") != paste(dim(m1), collapse = "")) 
+        warning("Dimensions of document-term-matrix reduced")
     if (plot) 
         bp = quantqual::bp(t(m1), main = "Word frequencies per document", 
             beside = F)

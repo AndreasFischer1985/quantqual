@@ -4,20 +4,20 @@
 #' @param lda Object of class LDA.
 #' @param dtm document-term matrix.
 #' @param n Number of top-terms to search for in the documents. Defaults to 5.
-#' @param type Determines how the results are aggregated. If type==0 (default) the function returns the number of each document's top-topic's n top-terms that are actually present in the document as a vector e; type==1 returns mean(e>0); type==2 returns mean(e==n); type==3 returns mean(e);  type==4 returns median(e>0); type==5 returns median(e==n); type==6 returns median(e);  type==7 returns min(e>0); type==8 returns min(e==n); type==9 returns min(e); 
+#' @param type Determines how the results are aggregated. Defaults to 1. If type==0 the function returns the number of each document's top-topic's n top-terms that are actually present in the document as a vector e; type==1 returns mean(e>0); type==2 returns mean(e==n); type==3 returns mean(e);  type==4 returns median(e>0); type==5 returns median(e==n); type==6 returns median(e);  type==7 returns min(e>0); type==8 returns min(e==n); type==9 returns min(e); 
 #' @keywords modeling
 #' @export
 #' 
 
-accuracyLDA <- function (lda, dtm, n = 5, type = 0) 
+accuracyLDA <- function (lda, dtm, n = 5, type = 1) 
 {
     vgrepl <- function(...) {
         f = Vectorize(grepl, vectorize.args = "pattern")
         f(...)
     }
-    docsTopTerms = rbind(terms(lda, n))[, topics(lda)]
+    docsTopTerms = rbind(topicmodels::terms(lda, n))[, topicmodels::topics(lda)]
     if (n == 1) 
-        dim(docsTopTerms) = c(1, length(docTopTerms))
+        dim(docsTopTerms) = c(1, length(docsTopTerms))
     e = sapply(1:dim(docsTopTerms)[2], function(i) sum(vgrepl(docsTopTerms[, 
         i], paste(colnames(dtm)[dtm[i, ] > 0], collapse = " ")))/n)
     if (type == 1) 
