@@ -3,7 +3,7 @@
 #' Custom barplot with labeled bars.
 #' @param x Numeric vector, matrix or data.frame containing the values to be displayed.
 #' @param sd Numeric vector, matrix or data.frame of same format as x containing standard deviations.
-#' @param cex Size of axis fonts. Defaults to .7.
+#' @param cex Size of axis fonts. Defaults to 1.
 #' @param beside Logical value indicating if bars should be placed next to each other. Defaults to T.
 #' @param horiz Logical value indicating if bars should be placed horizontal. Defaults to F.
 #' @param add.numbers Logical value indicating if numbers should be placed above bars. Defaults to F.
@@ -15,6 +15,7 @@
 #' @param grid Logical value indicating whether to plot a grid. Defaults to T.
 #' @param plot Logical value indicating whether to plot the barplot. Defaults to T.
 #' @param main Character vector with one element containing the barplot's title. Defaults to NULL
+#' @param sub Character vector with one element containing the barplot's subtitle. Defaults to NULL
 #' @param xlim.factor Numeric value for adding extra space to the right of the barplot. Defaults to 1.
 #' @param xlim Numeric vector containing xlim.
 #' @param las Numeric value specifying the rotation of the y-axis (0 for 90 percent rotation, 1 for 0 percent rotation). Defaults to 1.
@@ -28,8 +29,12 @@
 #' @param grid.col Character or rgb value containing the color of grid lines. Defaults to rgb(0,0,0,.1).
 #' @param axes Logical value indicating whether to plot axes. Defaults to T.
 #' @param add Logical value indicating whether to plot the barplot to the current device. Defaults to F.
-#' @param adj Numeric value between 0 and 1, indicating where to plot the title between left (0) and right (1). Defaults to 0.
+#' @param adj Numeric value between 0 and 1, indicating where to plot main title and axis labels - if any - between left (0) and right (1). Defaults to 0.5
 #' @param default.labels Logical value, indicating whether to use traditional barplot-labels (which, e.g., hide in case of overlap) instead of bp-style labels. Defaults to F.
+#' @param xlab Character value representing the label to be drawn next to the x-axis. Defaults to NA.
+#' @param ylab Character value representing the label to be drawn next to the y-axis. Defaults to NA.
+#' @param border Color of the bars' border. Defaults to NA.
+#' @param grid.mode Numeric value specifying when to plot the grid. 0 for grid in the background, 1 for grid in the foreground. Defaults to 0.
 #' @param ... Additional graphical parameters for barplot.
 #' @details Plots a bar and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
 #' @keywords plotting
@@ -37,13 +42,18 @@
 #' @examples
 #' bp(data.frame(group1=c(variable1=1,variable2=2),group2=c(variable1=3,variable2=4)),horiz=T,main="Example")
 
-bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F, 
+bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F, 
     add.numbers = F, ndigits = 2, ncex = NA, nsrt = 0, npos = NA, 
-    ncol = "black", grid = T, plot = T, main = NULL, xlim.factor = 1.5, 
-    las = 1, srt = 45, xlim = NULL, names.arg = NULL, legend.text = NULL, 
-    args.legend = list(bg = "white"), density = NULL, angle = 45, 
-    col = NULL, grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, 
-    adj = 0, default.labels = F, ...) 
+    ncol = "black", grid = T, plot = T, main = NULL, sub = NULL, 
+    xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, names.arg = NULL, 
+    legend.text = NULL, args.legend = list(bg = "white"), density = NULL, 
+    angle = 45, col = NULL, grid.col = rgb(0, 0, 0, 0.1), axes = T, 
+    add = F, adj = 0.5, default.labels = F, xlab = NA, ylab = NA, 
+    border = NA, grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL, 
+    adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black", 
+    col.main2 = "black", col.main3 = "black", cex.main1 = 1.2, 
+    cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2, 
+    font.main3 = 4, ...) 
 {
     if (is.null(ncex)) 
         ncex = cex
@@ -127,11 +137,54 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
     }
     else names.arg = ifelse(dim(x)[2] == 1, list(rownames(x)), 
         list(colnames(x)))[[1]]
-    b = as.matrix(barplot(x2, names.arg = ifelse(default.labels == 
-        T, list(names.arg), list(rep("", dim(x)[2])))[[1]], beside = beside, 
-        horiz = horiz, density = density, angle = angle, col = col, 
-        xlim = xlim, main = main, plot = plot, las = las, axes = axes, 
-        add = add, adj = adj, ...))
+    b = NULL
+    if (grid.mode == 0) {
+        b = as.matrix(barplot(x2, beside = beside, horiz = horiz, 
+            density = density, angle = angle, xlim = xlim, plot = plot, 
+            las = las, add = add, adj = adj, main = NA, sub = NA, 
+            col = NA, xlab = NA, ylab = NA, border = NA, axes = F, 
+            names.arg = rep("", dim(x)[2]), ...))
+    }
+    else {
+        b = as.matrix(barplot(x2, border = border, xlab = xlab, 
+            ylab = ylab, names.arg = ifelse(default.labels == 
+                T, list(names.arg), list(rep("", dim(x)[2])))[[1]], 
+            beside = beside, horiz = horiz, density = density, 
+            angle = angle, col = col, xlim = xlim, main = main, 
+            sub = sub, plot = plot, las = las, axes = axes, add = add, 
+            adj = adj, ...))
+    }
+    abline2 = function(xl, xlf, ...) {
+        xaxp <- par("xaxp")
+        yaxp <- par("yaxp")
+        segments(x0 = min(xl), y0 = seq(yaxp[1], yaxp[2], (yaxp[2] - 
+            yaxp[1])/yaxp[3]), x1 = max(xl)/xlf, y1 = seq(yaxp[1], 
+            yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
+    }
+    abline3 = function(xl, xlf, ...) {
+        xaxp <- par("xaxp")
+        yaxp <- par("yaxp")
+        segments(y0 = min(xl), x0 = seq(xaxp[1], xaxp[2], (xaxp[2] - 
+            xaxp[1])/xaxp[3]), y1 = max(xl)/xlf, x1 = seq(xaxp[1], 
+            xaxp[2], (xaxp[2] - xaxp[1])/xaxp[3]), ...)
+    }
+    if (!horiz) {
+        if (grid != F) 
+            abline2(xlim, ifelse(!is.null(legend.text), xlim.factor, 
+                1), col = grid.col)
+    }
+    else {
+        if (grid != F) 
+            abline3(par("usr")[1:2], 1, col = grid.col)
+    }
+    if (grid.mode == 0 & plot != F) 
+        b = as.matrix(barplot(x2, border = border, xlab = xlab, 
+            ylab = ylab, names.arg = ifelse(default.labels == 
+                T, list(names.arg), list(rep("", dim(x)[2])))[[1]], 
+            beside = beside, horiz = horiz, density = density, 
+            angle = angle, col = col, xlim = xlim, main = main, 
+            sub = sub, plot = plot, las = las, axes = axes, add = T, 
+            adj = adj, ...))
     if (!is.null(sd) & beside) 
         if (!horiz) {
             arrows(b, x2 + sd, b, x2 - sd, angle = 90, code = 3, 
@@ -164,25 +217,8 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
         x0 = min(colSums(x0, na.rm = T)) - 0.05 * (max(colSums(x0, 
             na.rm = T)) - min(colSums(x0, na.rm = T)))
     }
-    abline2 = function(xl, xlf, ...) {
-        xaxp <- par("xaxp")
-        yaxp <- par("yaxp")
-        segments(x0 = min(xl), y0 = seq(yaxp[1], yaxp[2], (yaxp[2] - 
-            yaxp[1])/yaxp[3]), x1 = max(xl)/xlf, y1 = seq(yaxp[1], 
-            yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3]), ...)
-    }
-    abline3 = function(xl, xlf, ...) {
-        xaxp <- par("xaxp")
-        yaxp <- par("yaxp")
-        segments(y0 = min(xl), x0 = seq(xaxp[1], xaxp[2], (xaxp[2] - 
-            xaxp[1])/xaxp[3]), y1 = max(xl)/xlf, x1 = seq(xaxp[1], 
-            xaxp[2], (xaxp[2] - xaxp[1])/xaxp[3]), ...)
-    }
     if (plot != F) 
         if (!horiz) {
-            if (grid != F) 
-                abline2(xlim, ifelse(!is.null(legend.text), xlim.factor, 
-                  1), col = grid.col)
             if (axes != F & default.labels != T) 
                 text(colMeans(b2), 0 + x0, colnames(b2), srt = srt, 
                   pos = ifelse((srt == 0 | srt == 180 | srt == 
@@ -208,8 +244,6 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
                 }
         }
         else {
-            if (grid != F) 
-                abline3(par("usr")[1:2], 1, col = grid.col)
             if (axes != F & default.labels != T) 
                 text(0 + x0, colMeans(b2), colnames(b2), srt = srt - 
                   45, pos = 2, xpd = T, cex = cex)
@@ -247,5 +281,14 @@ bp <- function (x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
             args.legend1[names(args.legend)] <- args.legend
             do.call("legend", args.legend1)
         }
+    if (!is.null(main1)) 
+        title(main1, line = 1, adj = adj.main1, cex.main = cex.main1, 
+            col = col.main1, font.main = font.main1)
+    if (!is.null(main2)) 
+        title(main2, line = 2, adj = adj.main2, cex.main = cex.main2, 
+            col = col.main2, font.main = font.main2)
+    if (!is.null(main3)) 
+        title(main3, line = 3, adj = adj.main3, cex.main = cex.main3, 
+            col = col.main3, font.main = font.main3)
     return(b)
 }

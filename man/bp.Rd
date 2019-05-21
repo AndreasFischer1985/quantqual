@@ -4,21 +4,26 @@
 \alias{bp}
 \title{Function bp}
 \usage{
-bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
+bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
   add.numbers = F, ndigits = 2, ncex = NA, nsrt = 0, npos = NA,
-  ncol = "black", grid = T, plot = T, main = NULL,
+  ncol = "black", grid = T, plot = T, main = NULL, sub = NULL,
   xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
   names.arg = NULL, legend.text = NULL, args.legend = list(bg =
   "white"), density = NULL, angle = 45, col = NULL,
-  grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, adj = 0,
-  default.labels = F, ...)
+  grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, adj = 0.5,
+  default.labels = F, xlab = NA, ylab = NA, border = NA,
+  grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL,
+  adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black",
+  col.main2 = "black", col.main3 = "black", cex.main1 = 1.2,
+  cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2,
+  font.main3 = 4, ...)
 }
 \arguments{
 \item{x}{Numeric vector, matrix or data.frame containing the values to be displayed.}
 
 \item{sd}{Numeric vector, matrix or data.frame of same format as x containing standard deviations.}
 
-\item{cex}{Size of axis fonts. Defaults to .7.}
+\item{cex}{Size of axis fonts. Defaults to 1.}
 
 \item{beside}{Logical value indicating if bars should be placed next to each other. Defaults to T.}
 
@@ -41,6 +46,8 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 \item{plot}{Logical value indicating whether to plot the barplot. Defaults to T.}
 
 \item{main}{Character vector with one element containing the barplot's title. Defaults to NULL}
+
+\item{sub}{Character vector with one element containing the barplot's subtitle. Defaults to NULL}
 
 \item{xlim.factor}{Numeric value for adding extra space to the right of the barplot. Defaults to 1.}
 
@@ -68,9 +75,17 @@ bp(x = NULL, sd = NULL, cex = 0.7, beside = T, horiz = F,
 
 \item{add}{Logical value indicating whether to plot the barplot to the current device. Defaults to F.}
 
-\item{adj}{Numeric value between 0 and 1, indicating where to plot the title between left (0) and right (1). Defaults to 0.}
+\item{adj}{Numeric value between 0 and 1, indicating where to plot main title and axis labels - if any - between left (0) and right (1). Defaults to 0.5}
 
 \item{default.labels}{Logical value, indicating whether to use traditional barplot-labels (which, e.g., hide in case of overlap) instead of bp-style labels. Defaults to F.}
+
+\item{xlab}{Character value representing the label to be drawn next to the x-axis. Defaults to NA.}
+
+\item{ylab}{Character value representing the label to be drawn next to the y-axis. Defaults to NA.}
+
+\item{border}{Color of the bars' border. Defaults to NA.}
+
+\item{grid.mode}{Numeric value specifying when to plot the grid. 0 for grid in the background, 1 for grid in the foreground. Defaults to 0.}
 
 \item{...}{Additional graphical parameters for barplot.}
 }
