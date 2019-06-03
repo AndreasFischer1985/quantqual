@@ -1,6 +1,6 @@
 Package: quantqual
 Title: Software package for analyzing quantitative and qualitative data.
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Andreas", "Fischer", email = "andreasfischer1985@web.de", role = c("aut", "cre"))
 Description: Software package for analyzing quantitative and qualitative data.
 Depends: R (>= 3.6.0)

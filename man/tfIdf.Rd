@@ -4,12 +4,12 @@
 \alias{tfIdf}
 \title{Function tfIdf}
 \usage{
-tfIdf(dtm, doc)
+tfIdf(dtm, docs = NA, relative = T, bool = F)
 }
 \arguments{
 \item{dtm}{Document Term Matrix.}
 
-\item{doc}{Numeric element specifying a document in the dtm.}
+\item{docs}{Numeric element specifying a document in the dtm. If NA (default tfIdf is calculated for each document)}
 }
 \description{
 Term-Frequency-Inverse-Term-Frequency.
