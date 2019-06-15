@@ -12,7 +12,7 @@
 #' @examples
 #' scrapeHTML(getHTML())
 
-scrapeHTML <- function (html, short = F, show = T, save = T, prefix = Sys.Date()) 
+scrapeHTML <- function (html, short = F, show = T, save = F, prefix = Sys.Date()) 
 {
     strings = gsub("(\n|\t)+", " ", gsub("[ ]+", " ", paste0("<", 
         strsplit(html, "<")[[1]])))
@@ -28,8 +28,10 @@ scrapeHTML <- function (html, short = F, show = T, save = T, prefix = Sys.Date()
             nchar(as.character(result[, 3])) > 0, ]
     if (show) 
         result = edit(result)
-    if (save) 
+    if (save) {
         write.csv2(data.frame(result), paste0(prefix, "_", round(10000 * 
             rnorm(1)), "_result.csv"))
+        message("Saved data to working directory.")
+    }
     return(result)
 }

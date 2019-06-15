@@ -13,7 +13,7 @@
 #' saveDevs();
 
 saveDevs <- function (dev = png, prefix = NA, width = NA, height = NA, units = "in", 
-    res = 300, ...) 
+    res = 300, mess = T, ...) 
 {
     n = deparse(substitute(dev))
     for (d in dev.list()) {
@@ -32,4 +32,6 @@ saveDevs <- function (dev = png, prefix = NA, width = NA, height = NA, units = "
                 height = height, ...)
         dev.off()
     }
+    if (mess) 
+        message(paste0("devices saved to\n", getwd()))
 }

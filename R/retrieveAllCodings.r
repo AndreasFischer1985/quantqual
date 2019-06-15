@@ -10,12 +10,11 @@
 
 retrieveAllCodings <- function (corpus, context = F) 
 {
-    library(stringr)
     coding = paste0("<[A-Za-z0-9]+>(.*?)</[A-Za-z0-9]+>")
     if (context) 
         coding = paste0("[^.;?!]*<[A-Za-z0-9]+>(.*?)</[A-Za-z0-9]+>([.;?!]+|$)")
-    l = str_locate_all(corpus, coding)
-    m = str_match_all(corpus, coding)
+    l = stringr::str_locate_all(corpus, coding)
+    m = stringr::str_match_all(corpus, coding)
     m1 = character(0)
     l1 = numeric(0)
     l2 = numeric(0)

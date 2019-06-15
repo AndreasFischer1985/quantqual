@@ -52,5 +52,6 @@ writeReport <- function (code = list(function() {
     title = paste0(gsub("\\W", "", title))
     write(c, file = paste0(title, ".Rmd"))
     rmarkdown::render(paste0(title, ".Rmd"))
+    message(paste("Report written to\n", getwd(), title))
     return(c)
 }

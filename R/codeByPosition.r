@@ -8,7 +8,7 @@
 #' @examples
 #' codeByPosition("hello world hello world hello world hello world",data.frame(c(1,1,5)),"code1")
 
-codeByPosition <- function (corpus, position, coding, mess = T, assign = T) 
+codeByPosition <- function (corpus, position, coding, mess = T, assign = F) 
 {
     position = data.frame(position)
     if (length(coding) == 1) 

@@ -10,9 +10,8 @@
 
 retrieveAllCodes <- function (corpus) 
 {
-    library(stringr)
     coding = paste0("<[A-Za-z0-9]+>")
-    m = str_match_all(corpus, coding)
+    m = stringr::str_match_all(corpus, coding)
     m1 = character(0)
     for (i in 1:length(corpus)) {
         m1 = c(m1, m[[i]][, 1])

@@ -6,10 +6,9 @@
 
 retrieveCodingPosition <- function (corpus, coding) 
 {
-    library(stringr)
     coding = paste0("<", coding, ">(.*?)</", coding, ">")
-    l = str_locate_all(corpus, coding)
-    m = str_match_all(corpus, coding)
+    l = stringr::str_locate_all(corpus, coding)
+    m = stringr::str_match_all(corpus, coding)
     m1 = character(0)
     l1 = numeric(0)
     l2 = numeric(0)

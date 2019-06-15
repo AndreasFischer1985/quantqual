@@ -14,7 +14,7 @@
 #' subsetHTML(getHTML("https://jobs.meinestadt.de/nuernberg/suche?words=Wissenschaftlicher%20Mitarbeiter"))
 
 subsetHTML <- function (html, pattern = "class=\"m-resultListEntries__content\"", 
-    start = "<div", end = "</div>", save = T, prefix = Sys.Date()) 
+    start = "<div", end = "</div>", save = F, prefix = Sys.Date()) 
 {
     strings = gsub("[ ]+", " ", paste0("<", strsplit(html, "<")[[1]]))
     loc.pat = grep(pattern, strings)
@@ -36,8 +36,10 @@ subsetHTML <- function (html, pattern = "class=\"m-resultListEntries__content\""
             "\n", gsub("<.*?>", "", string)))
         result = c(result, text)
     }
-    if (save) 
+    if (save) {
         write.csv2(data.frame(result), paste0(prefix, "_", round(10000 * 
             rnorm(1)), "_result.csv"))
+        message("Saved data to working directory.")
+    }
     return(result)
 }

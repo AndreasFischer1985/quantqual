@@ -26,7 +26,7 @@
 #' @param density Vector giving the density of shading lines, in lines per inch, for the bars or bar components. The default value of NULL means that no shading lines are drawn. Non-positive values of density also inhibit the drawing of shading lines.
 #' @param angle Slope of shading lines, given as an angle in degrees (counter-clockwise), for the bars or bar components.
 #' @param col Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.
-#' @param grid.col Character or rgb value containing the color of grid lines. Defaults to rgb(0,0,0,.1).
+#' @param grid.col Character or rgb value containing the color of grid lines. Defaults to "grey".
 #' @param axes Logical value indicating whether to plot axes. Defaults to T.
 #' @param add Logical value indicating whether to plot the barplot to the current device. Defaults to F.
 #' @param adj Numeric value between 0 and 1, indicating where to plot main title and axis labels - if any - between left (0) and right (1). Defaults to 0.5
@@ -47,14 +47,18 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     ncol = "black", grid = T, plot = T, main = NULL, sub = NULL, 
     xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, names.arg = NULL, 
     legend.text = NULL, args.legend = list(bg = "white"), density = NULL, 
-    angle = 45, col = NULL, grid.col = rgb(0, 0, 0, 0.1), axes = T, 
-    add = F, adj = 0.5, default.labels = F, xlab = NA, ylab = NA, 
-    border = NA, grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL, 
+    angle = 45, col = NULL, grid.col = "grey", axes = T, add = F, 
+    adj = 0.5, default.labels = F, xlab = NA, ylab = NA, border = NA, 
+    grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL, 
     adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black", 
     col.main2 = "black", col.main3 = "black", cex.main1 = 1.2, 
     cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2, 
     font.main3 = 4, ...) 
 {
+    addChars = ifelse(is.character(add.numbers), add.numbers, 
+        "")
+    if (is.character(add.numbers)) 
+        add.numbers = T
     if (is.null(ncex)) 
         ncex = cex
     else if (is.na(ncex)) 
@@ -225,21 +229,22 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                     360), 1, 2), xpd = T, cex = cex)
             if (add.numbers) 
                 if (beside) {
-                  text(b, x, paste0(round(x, ndigits)), pos = npos, 
-                    col = ncol, cex = ncex, srt = nsrt, xpd = T)
+                  text(b, x, paste0(round(x, ndigits), addChars), 
+                    pos = npos, col = ncol, cex = ncex, srt = nsrt, 
+                    xpd = T)
                 }
                 else {
-                  text(b, x[1, ]/2, paste0(round(x[1, ], ndigits)), 
-                    col = ncol, xpd = T, cex = ncex, srt = nsrt, 
-                    pos = npos)
+                  text(b, x[1, ]/2, paste0(round(x[1, ], ndigits), 
+                    addChars), col = ncol, xpd = T, cex = ncex, 
+                    srt = nsrt, pos = npos)
                   if (dim(x)[1] > 1) 
                     for (i in 2:dim(x)[1]) {
                       m = as.matrix(x[c(1:i), ])
                       dim(m) = c(length(c(1:i)), dim(x)[2])
                       text(b, (colSums(rbind(m[1:i, ])) + colSums(rbind(m[1:(i - 
                         1), ])))/2, labels = paste0(round(x[i, 
-                        ], ndigits)), col = ncol, xpd = T, cex = ncex, 
-                        srt = nsrt, pos = npos)
+                        ], ndigits), addChars), col = ncol, xpd = T, 
+                        cex = ncex, srt = nsrt, pos = npos)
                     }
                 }
         }
@@ -249,21 +254,22 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                   45, pos = 2, xpd = T, cex = cex)
             if (add.numbers) 
                 if (beside) {
-                  text(x, b, paste0(round(x, ndigits)), pos = npos, 
-                    col = ncol, cex = ncex, srt = nsrt, xpd = T)
+                  text(x, b, paste0(round(x, ndigits), addChars), 
+                    pos = npos, col = ncol, cex = ncex, srt = nsrt, 
+                    xpd = T)
                 }
                 else {
-                  text(x[1, ]/2, b, paste0(round(x[1, ], ndigits)), 
-                    col = ncol, xpd = T, cex = ncex, srt = nsrt, 
-                    pos = npos)
+                  text(x[1, ]/2, b, paste0(round(x[1, ], ndigits), 
+                    addChars), col = ncol, xpd = T, cex = ncex, 
+                    srt = nsrt, pos = npos)
                   if (dim(x)[1] > 1) 
                     for (i in 2:dim(x)[1]) {
                       m = as.matrix(x[c(1:i), ])
                       dim(m) = c(length(c(1:i)), dim(x)[2])
                       text((colSums(rbind(m[1:i, ])) + colSums(rbind(m[1:(i - 
                         1), ])))/2, b, labels = paste0(round(x[i, 
-                        ], ndigits)), col = ncol, xpd = T, cex = ncex, 
-                        srt = nsrt, pos = npos)
+                        ], ndigits), addChars), col = ncol, xpd = T, 
+                        cex = ncex, srt = nsrt, pos = npos)
                     }
                 }
         }

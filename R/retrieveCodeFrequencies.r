@@ -10,9 +10,8 @@
 
 retrieveCodeFrequencies <- function (corpus, byString = T, binary = F, plot = T) 
 {
-    library(stringr)
     coding = paste0("<[A-Za-z0-9]+>")
-    m = str_match_all(corpus, coding)
+    m = stringr::str_match_all(corpus, coding)
     m1 = character(0)
     c1 = numeric(0)
     for (i in 1:length(corpus)) {

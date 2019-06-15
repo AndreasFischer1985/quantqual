@@ -18,7 +18,7 @@ af.hclust <- function (data, dist.function = function(x) as.dist(1 - cor(x)),
     clusters = cutree(hclustering, k = 1)
     if (!is.null(k)) 
         if (k > 0) 
-            clusters = cutree(hclustering, k = 2)
+            clusters = cutree(hclustering, k = k)
     hclustering[["clusters"]] = clusters
     return(hclustering)
 }

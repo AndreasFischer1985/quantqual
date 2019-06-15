@@ -6,11 +6,10 @@
 
 retrievePassage <- function (corpus, passage, context = F) 
 {
-    library(stringr)
     if (context) 
         passage = paste0("[^.;?!]*", passage, "(.*?)([.;?!]+|$)")
-    l = str_locate_all(corpus, passage)
-    m = str_match_all(corpus, passage)
+    l = stringr::str_locate_all(corpus, passage)
+    m = stringr::str_match_all(corpus, passage)
     m1 = character(0)
     l1 = numeric(0)
     l2 = numeric(0)
