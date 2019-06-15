@@ -16,4 +16,7 @@ coherenceLDA(lda, dtm, n = 0)
 \description{
 Calculates semantic coherence of an LDA.
 }
+\examples{
+coherenceLDA(lda,dtm)
+}
 \keyword{modeling}

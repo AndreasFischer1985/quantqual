@@ -10,7 +10,7 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
   xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
   names.arg = NULL, legend.text = NULL, args.legend = list(bg =
   "white"), density = NULL, angle = 45, col = NULL,
-  grid.col = rgb(0, 0, 0, 0.1), axes = T, add = F, adj = 0.5,
+  grid.col = "grey", axes = T, add = F, adj = 0.5,
   default.labels = F, xlab = NA, ylab = NA, border = NA,
   grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL,
   adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black",
@@ -69,7 +69,7 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
 
 \item{col}{Vector containing the color of bars. If NULL (default) colors are generated based on the rainbow-palette.}
 
-\item{grid.col}{Character or rgb value containing the color of grid lines. Defaults to rgb(0,0,0,.1).}
+\item{grid.col}{Character or rgb value containing the color of grid lines. Defaults to "grey".}
 
 \item{axes}{Logical value indicating whether to plot axes. Defaults to T.}
 

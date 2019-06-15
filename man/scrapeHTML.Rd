@@ -4,7 +4,7 @@
 \alias{scrapeHTML}
 \title{Function scrapeHTML}
 \usage{
-scrapeHTML(html, short = F, show = T, save = T,
+scrapeHTML(html, short = F, show = T, save = F,
   prefix = Sys.Date())
 }
 \arguments{

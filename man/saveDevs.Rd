@@ -5,7 +5,7 @@
 \title{Function saveDevs}
 \usage{
 saveDevs(dev = png, prefix = NA, width = NA, height = NA,
-  units = "in", res = 300, ...)
+  units = "in", res = 300, mess = T, ...)
 }
 \arguments{
 \item{dev}{Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).}

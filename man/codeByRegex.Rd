@@ -4,20 +4,36 @@
 \alias{codeByRegex}
 \title{Function codeByRegex}
 \usage{
-codeByRegex(corpus, passage, coding, context = 0, mess = T,
-  assign = T, subcorpus = NULL)
+codeByRegex(corpus, passage, coding = "code", context = 0, mess = T,
+  assign = F, subcorpus = NULL, partial = F, prepare = T)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}
+
+\item{passage}{Character element containing a regular expression that describes the passages that are to be coded.}
+
+\item{coding}{Character element containing the label of the code tag. Defaults to "code".}
+
+\item{context}{Numeric element specifying the context that is to be coded: 0 for coding only words, 2 for coding sentences, 3 for coding whole documents. Defaults to 0}
+
+\item{mess}{Logical element. If T (default) there will be a message containing the coded corpus.}
+
+\item{assign}{Logical element. If T the corpus will be saved in the global environment. Defaults to F.}
+
+\item{subcorpus}{Numeric vector specifying which documents of the corpus to code. If NULL (default) the whole corpus will be coded.}
+
+\item{partial}{Logical element specifying whether words that contain the passage (without being identical to it) should also be coded. Defaults to F.}
+
+\item{prepare}{Logical element specifying whether to exclude "\n" or "\r" from the corpus before coding. Defaults to T.}
 }
 \description{
-Adds code tags to certain regex-passages of a character vector.
+Adds code tags to certain passages of a character vector.
 }
 \details{
-Adds code tags to certain regex-passages of a character vector.
+Adds code tags to certain passages of a character vector.
 }
 \examples{
-codeByRegex("hello world hello world hello world hello world","hello","code1")
+codeByPassage("hello world hello world hello world hello world","hello","code1")
 }
 \keyword{mining}
 \keyword{text}

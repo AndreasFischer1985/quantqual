@@ -4,7 +4,7 @@
 \alias{codeByPosition}
 \title{Function codeByPosition}
 \usage{
-codeByPosition(corpus, position, coding, mess = T, assign = T)
+codeByPosition(corpus, position, coding, mess = T, assign = F)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

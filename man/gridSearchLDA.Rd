@@ -5,7 +5,8 @@
 \title{Function gridSearchLDA}
 \usage{
 gridSearchLDA(dtm, k = NULL, alpha = NULL, delta = NULL,
-  grid = NULL, fun = BIC, best = T, plot = T, ...)
+  grid = NULL, fun = function(x) -1 * AIC(x), best = T, plot = T,
+  ...)
 }
 \description{
 Function gridSearchLDA

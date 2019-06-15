@@ -5,7 +5,7 @@
 \title{Function subsetHTML}
 \usage{
 subsetHTML(html, pattern = "class=\\"m-resultListEntries__content\\"",
-  start = "<div", end = "</div>", save = T, prefix = Sys.Date())
+  start = "<div", end = "</div>", save = F, prefix = Sys.Date())
 }
 \arguments{
 \item{html}{A character element containing HTML-code.}

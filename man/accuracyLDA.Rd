@@ -4,7 +4,7 @@
 \alias{accuracyLDA}
 \title{Function accuracyLDA}
 \usage{
-accuracyLDA(lda, dtm, n = 5, type = 0)
+accuracyLDA(lda, dtm, n = 5, type = 1)
 }
 \arguments{
 \item{lda}{Object of class LDA.}
@@ -13,7 +13,7 @@ accuracyLDA(lda, dtm, n = 5, type = 0)
 
 \item{n}{Number of top-terms to search for in the documents. Defaults to 5.}
 
-\item{type}{Determines how the results are aggregated. If type==0 (default) the function returns the number of each document's top-topic's n top-terms that are actually present in the document as a vector e; type==1 returns mean(e>0); type==2 returns mean(e==n); type==3 returns mean(e);  type==4 returns median(e>0); type==5 returns median(e==n); type==6 returns median(e);  type==7 returns min(e>0); type==8 returns min(e==n); type==9 returns min(e);}
+\item{type}{Determines how the results are aggregated. Defaults to 1. If type==0 the function returns the number of each document's top-topic's n top-terms that are actually present in the document as a vector e; type==1 returns mean(e>0); type==2 returns mean(e==n); type==3 returns mean(e);  type==4 returns median(e>0); type==5 returns median(e==n); type==6 returns median(e);  type==7 returns min(e>0); type==8 returns min(e==n); type==9 returns min(e);}
 }
 \description{
 For each document in a document-term matrix this function determines the top-terms of the document's top-topic and counts the number of top-terms that are actually present in the document.
