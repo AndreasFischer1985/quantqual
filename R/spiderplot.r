@@ -29,9 +29,13 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     names = NULL, main = NULL, max = 1, min = 0, xylim = 1.5, 
     add.scale = T, col = "#00547A", col2 = "#FFA500E6", border = NA, 
     mode = 0, arrows.lwd = 3, arrows.length = 0.01, add.numbers = F, 
-    numbers = 2, add.grid = T, add.labels = T) 
+    numbers = 2, add.grid = T, add.labels = T, line.type = "o", 
+    grid.detail = 1, grid.points = NULL) 
 {
     dimensions = x
+    if (!is.null(grid.points)) 
+        if (is.null(names(grid.points))) 
+            names(grid.points) = grid.points
     if (!is.null(upper) & !is.null(dimensions)) {
         if (max < max(c(lower, upper, dimensions))) 
             max = max(c(lower, upper, dimensions))
@@ -108,36 +112,49 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
         }
     }
     if (add.grid) {
-        lines(weights2 * 0.5 * cos(theta), weights2 * 0.5 * sin(theta), 
-            lty = 2, col = rgb(0, 0, 0, 0.2))
+        if (is.null(grid.points)) {
+            sapply(1:grid.detail, function(x) lines(weights2 * 
+                x/(grid.detail + 1) * cos(theta), weights2 * 
+                x/(grid.detail + 1) * sin(theta), lty = 2, col = rgb(0, 
+                0, 0, 0.2)))
+        }
+        else {
+            sapply(grid.points, function(x) lines(weights2 * 
+                no(x) * cos(theta), weights2 * no(x) * sin(theta), 
+                lty = 2, col = rgb(0, 0, 0, 0.2)))
+        }
         segments(0, 0, weights2 * cos(theta), weights2 * sin(theta), 
             lty = 1, col = rgb(0, 0, 0, 0.2))
     }
     if (!is.null(dimensions) & mode >= 0) 
         lines(weights2 * no(c(dimensions, dimensions[1])) * cos(theta), 
             weights2 * no(c(dimensions, dimensions[1])) * sin(theta), 
-            col = col, lwd = 2)
-    if (add.grid & numbers > 0) 
-        if (!is.null(upper) & !is.null(lower)) {
-            text(c(1 * weights2[1], 0.5 * weights2[1]), c(0, 
-                0) + 0.05, c(round(max, numbers), round(((max + 
-                min)/2), numbers)), cex = 0.6, pos = 2, col = "darkgrey")
+            col = col, lwd = 2, type = line.type, pch = 16)
+    if (add.grid & numbers > 0) {
+        if (is.null(grid.points)) {
+            text(1 * weights2[1], 0.05, round(max, numbers), 
+                cex = 0.6, pos = 2, col = "darkgrey")
+            sapply(1:grid.detail, function(x) text(x/(grid.detail + 
+                1) * weights2[1], 0.05, round(((max + min) * 
+                x/(grid.detail + 1)), numbers), cex = 0.6, pos = 2, 
+                col = "darkgrey"))
             if (length(dimensions)/2 == round(length(dimensions)/2)) 
-                text(c(-1 * weights2[round(length(weights2)/2)], 
-                  -0.5 * weights2[round(length(weights2)/2)]), 
-                  c(0, 0) + 0.05, c(round(max, numbers), round(((max + 
-                    min)/2), numbers)), cex = 0.6, pos = 4, col = "darkgrey")
+                sapply(1:grid.detail, function(x) text(-x/(grid.detail + 
+                  1) * weights2[round(length(weights2)/2)], 0.05, 
+                  round(((max + min) * x/(grid.detail + 1)), 
+                    numbers), cex = 0.6, pos = 4, col = "darkgrey"))
         }
         else {
-            text(c(1 * weights2[1], 0.5 * weights2[1]), c(0, 
-                0) + 0.05, c(round(max, numbers), round(((max + 
-                min)/2), numbers)), cex = 0.6, pos = 2, col = "darkgrey")
+            for (x in 1:length(grid.points)) text(no(grid.points[x]) * 
+                weights2[1], 0.05, names(grid.points)[x], cex = 0.6, 
+                pos = 2, col = "darkgrey")
             if (length(dimensions)/2 == round(length(dimensions)/2)) 
-                text(c(-1 * weights2[round(length(weights2)/2)], 
-                  -0.5 * weights2[round(length(weights2)/2)]), 
-                  c(0, 0) + 0.05, c(round(max, numbers), round(((max + 
-                    min)/2), numbers)), cex = 0.6, pos = 4, col = "darkgrey")
+                for (x in 1:length(grid.points)) text(-no(grid.points[x]) * 
+                  weights2[round(length(weights2)/2)], 0.05, 
+                  names(grid.points)[x], cex = 0.6, pos = 4, 
+                  col = "darkgrey")
         }
+    }
     if (add.labels) 
         if (add.numbers) {
             text(weights * cos(theta)[-(length(dimensions) + 

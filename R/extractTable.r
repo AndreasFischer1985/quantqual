@@ -15,7 +15,7 @@ extractTable <- function (x, reg.up = NULL, reg.down = NULL, reg.left = "^",
     reg.right = "$", reg.fix = NULL, header = F, trim = T, convert = F, 
     correctNotation = F) 
 {
-    trim = function(x) gsub("(^[ ]+|[ ]+$)", "", x)
+    trimIt = function(x) gsub("(^[ ]+|[ ]+$)", "", x)
     if (!is.null(reg.up)) {
         lines = (grep(reg.up, x)[1]):(grep(reg.down, x)[1] - 
             1)
@@ -61,6 +61,6 @@ extractTable <- function (x, reg.up = NULL, reg.down = NULL, reg.left = "^",
         rownames(erg) = rn
     }
     if (trim) 
-        return(quantqual::trim(erg))
+        return(trimIt(erg))
     else return(erg)
 }
