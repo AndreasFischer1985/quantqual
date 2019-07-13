@@ -4,17 +4,23 @@
 \alias{saveDevs}
 \title{Function saveDevs}
 \usage{
-saveDevs(dev = png, prefix = NA, width = NA, height = NA,
-  units = "in", res = 300, mess = T, ...)
+saveDevs(prefix = NA, width = NA, height = NA, dev = png,
+  units = "in", res = 300, mess = T, close = F, ...)
 }
 \arguments{
-\item{dev}{Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).}
+\item{prefix}{Character Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).}
 
 \item{width}{width of the devices. If NA (default), width of the devices is left unchanged.}
+
+\item{dev}{Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).}
 
 \item{units}{Parameter passed to dev.copy. Defaults to "in". Is ignored if dev==pdf.}
 
 \item{res}{Resolution (dots per inch) of the devices. Defaults to 300. Is ignored if dev==pdf.}
+
+\item{mess}{Logical value specifying if a message should be printed after saving the devices. Defaults to T.}
+
+\item{close}{Logical value specifying whether to close devices after saving them.}
 
 \item{width}{height of the devices. If NA (default), height of the devices is left unchanged.}
 }

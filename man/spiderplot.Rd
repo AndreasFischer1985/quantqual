@@ -8,7 +8,8 @@ spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
   names = NULL, main = NULL, max = 1, min = 0, xylim = 1.5,
   add.scale = T, col = "#00547A", col2 = "#FFA500E6", border = NA,
   mode = 0, arrows.lwd = 3, arrows.length = 0.01, add.numbers = F,
-  numbers = 2, add.grid = T, add.labels = T)
+  numbers = 2, add.grid = T, add.labels = T, line.type = "o",
+  grid.detail = 1, grid.points = NULL)
 }
 \arguments{
 \item{x}{Numeric vector containing the values to be displayed. Values should be between 0 and 1.}
