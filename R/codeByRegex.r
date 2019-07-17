@@ -9,7 +9,7 @@
 #' @param assign Logical element. If T the corpus will be saved in the global environment. Defaults to F.
 #' @param subcorpus Numeric vector specifying which documents of the corpus to code. If NULL (default) the whole corpus will be coded.
 #' @param partial Logical element specifying whether words that contain the passage (without being identical to it) should also be coded. Defaults to F.
-#' @param prepare Logical element specifying whether to exclude "\n" or "\r" from the corpus before coding. Defaults to T.
+#' @param prepare Logical element specifying whether to exclude newline-characters from the corpus before coding. Defaults to T.
 #' @details Adds code tags to certain passages of a character vector.
 #' @keywords text mining
 #' @export

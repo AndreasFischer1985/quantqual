@@ -1,7 +1,7 @@
 #' Function saveDevs
 #' 
 #' Saves each element of dev.list() to a graphical device such as pdf, png or similar.
-#' @param prefix Character Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).
+#' @param prefix Character vector specifying a sequence of characters to begin the files' names with.
 #' @param width width of the devices. If NA (default), width of the devices is left unchanged.
 #' @param width height of the devices. If NA (default), height of the devices is left unchanged.
 #' @param dev Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).
