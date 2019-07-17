@@ -24,7 +24,7 @@ codeByRegex(corpus, passage, coding = "code", context = 0, mess = T,
 
 \item{partial}{Logical element specifying whether words that contain the passage (without being identical to it) should also be coded. Defaults to F.}
 
-\item{prepare}{Logical element specifying whether to exclude "\n" or "\r" from the corpus before coding. Defaults to T.}
+\item{prepare}{Logical element specifying whether to exclude newline-characters from the corpus before coding. Defaults to T.}
 }
 \description{
 Adds code tags to certain passages of a character vector.
