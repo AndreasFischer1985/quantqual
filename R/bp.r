@@ -53,10 +53,15 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black", 
     col.main2 = "black", col.main3 = "black", cex.main1 = 1.2, 
     cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2, 
-    font.main3 = 4, ...) 
+    font.main3 = 4, omitZeros = T, mar = NA, ...) 
 {
     addChars = ifelse(is.character(add.numbers), add.numbers, 
         "")
+    mar0 = NULL
+    if (is.numeric(mar)) {
+        mar0 = par("mar")
+        par(mar = mar)
+    }
     if (is.character(add.numbers)) 
         add.numbers = T
     if (is.null(ncex)) 
@@ -83,6 +88,8 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     }
     el = list(...)
     x = as.matrix(x)
+    if (is.character(x)) 
+        stop("Please provide numeric data!")
     x2 = ifelse(dim(x)[2] == 1, list(x[, 1]), list(x))[[1]]
     if (!is.null(sd)) {
         sd = ifelse(dim(x)[2] == 1, list(as.matrix(sd)[, 1]), 
@@ -179,7 +186,7 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     }
     else {
         if (grid != F) 
-            abline3(par("usr")[1:2], 1, col = grid.col)
+            abline3(par("usr")[3:4], 1, col = grid.col)
     }
     if (grid.mode == 0 & plot != F) 
         b = as.matrix(barplot(x2, border = border, xlab = xlab, 
@@ -221,7 +228,15 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
         x0 = min(colSums(x0, na.rm = T)) - 0.05 * (max(colSums(x0, 
             na.rm = T)) - min(colSums(x0, na.rm = T)))
     }
-    if (plot != F) 
+    if (plot != F) {
+        round2 = function(x, ...) {
+            x2 = as.character(round(x, ...))
+            x2[is.na(x)] = ""
+            if (omitZeros == T) 
+                x2[x2 == 0] = ""
+            message(x2)
+            return(x2)
+        }
         if (!horiz) {
             if (axes != F & default.labels != T) 
                 text(colMeans(b2), 0 + x0, colnames(b2), srt = srt, 
@@ -229,12 +244,12 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                     360), 1, 2), xpd = T, cex = cex)
             if (add.numbers) 
                 if (beside) {
-                  text(b, x, paste0(round(x, ndigits), addChars), 
+                  text(b, x, paste0(round2(x, ndigits), addChars), 
                     pos = npos, col = ncol, cex = ncex, srt = nsrt, 
                     xpd = T)
                 }
                 else {
-                  text(b, x[1, ]/2, paste0(round(x[1, ], ndigits), 
+                  text(b, x[1, ]/2, paste0(round2(x[1, ], ndigits), 
                     addChars), col = ncol, xpd = T, cex = ncex, 
                     srt = nsrt, pos = npos)
                   if (dim(x)[1] > 1) 
@@ -242,7 +257,7 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                       m = as.matrix(x[c(1:i), ])
                       dim(m) = c(length(c(1:i)), dim(x)[2])
                       text(b, (colSums(rbind(m[1:i, ])) + colSums(rbind(m[1:(i - 
-                        1), ])))/2, labels = paste0(round(x[i, 
+                        1), ])))/2, labels = paste0(round2(x[i, 
                         ], ndigits), addChars), col = ncol, xpd = T, 
                         cex = ncex, srt = nsrt, pos = npos)
                     }
@@ -254,12 +269,12 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                   45, pos = 2, xpd = T, cex = cex)
             if (add.numbers) 
                 if (beside) {
-                  text(x, b, paste0(round(x, ndigits), addChars), 
+                  text(x, b, paste0(round2(x, ndigits), addChars), 
                     pos = npos, col = ncol, cex = ncex, srt = nsrt, 
                     xpd = T)
                 }
                 else {
-                  text(x[1, ]/2, b, paste0(round(x[1, ], ndigits), 
+                  text(x[1, ]/2, b, paste0(round2(x[1, ], ndigits), 
                     addChars), col = ncol, xpd = T, cex = ncex, 
                     srt = nsrt, pos = npos)
                   if (dim(x)[1] > 1) 
@@ -267,12 +282,15 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                       m = as.matrix(x[c(1:i), ])
                       dim(m) = c(length(c(1:i)), dim(x)[2])
                       text((colSums(rbind(m[1:i, ])) + colSums(rbind(m[1:(i - 
-                        1), ])))/2, b, labels = paste0(round(x[i, 
+                        1), ])))/2, b, labels = paste0(round2(x[i, 
                         ], ndigits), addChars), col = ncol, xpd = T, 
                         cex = ncex, srt = nsrt, pos = npos)
                     }
                 }
         }
+    }
+    if (is.numeric(mar)) 
+        par(mar = mar0)
     xy <- par("usr")
     if (!is.null(legend.text)) 
         if (is.null(args.legend)) {
