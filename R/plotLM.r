@@ -19,5 +19,5 @@ plotLM <- function (lm = NULL, ...)
         3], names = names(coef(lm)), ...)
     title(sub = paste0(expression(R^2), " = ", round(summary(lm)$r.squared, 
         2)))
-    return(summary(lm))
+    invisible(summary(lm))
 }

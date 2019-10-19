@@ -7,9 +7,9 @@
 spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
   names = NULL, main = NULL, max = 1, min = 0, xylim = 1.5,
   add.scale = T, col = "#00547A", col2 = "#FFA500E6", border = NA,
-  mode = 0, arrows.lwd = 3, arrows.length = 0.01, add.numbers = F,
-  numbers = 2, add.grid = T, add.labels = T, line.type = "o",
-  grid.detail = 1, grid.points = NULL)
+  mode = 0, arrows.lwd = 3, arrows.length = 0.01, add = F,
+  add.numbers = F, numbers = 2, add.grid = T, add.labels = T,
+  line.type = "o", grid.detail = 1, grid.points = NULL)
 }
 \arguments{
 \item{x}{Numeric vector containing the values to be displayed. Values should be between 0 and 1.}
@@ -23,8 +23,6 @@ spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
 \item{main}{Character vector with one element containing the barplot's title. Defaults to NULL}
 
 \item{max}{Numeric value determining the largest possible value of the data to be displayed. Defaults to 1.}
-
-\item{min}{Numeric value determining the smalles possible value of the data to be displayed. Defaults to 0.}
 
 \item{xylim}{Numeric value determining both upper and lower limits on both x and y axis (xlim & ylim). Defaults to 1.5.}
 
@@ -40,13 +38,13 @@ spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
 
 \item{arrows.length}{Numeric value specifying lwd for arrows (if any). Defaults to .01.}
 
+\item{add}{Logical value specifying whether to add graph to the current device. Defaults to F.}
+
 \item{add.numbers}{Logical value specifying whether to add numbers to labels. Defaults to F.}
 
 \item{add.grid}{Logical value specifying whether to add numbers to add grid lines. Defaults to T.}
 
 \item{add.labels}{Logical value specifying whether to add labels to the plot. Defaults to T.}
-
-\item{grid.numbers}{Numeric value specifying the number of decimal values shown at the grid. Defaults to 2.}
 }
 \description{
 Plots a radar chart based on a numeric vector.

@@ -186,4 +186,5 @@ plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL,
     }
     if (show.legend) 
         legend("right", rownames(cs), fill = col[order], cex = cex)
+    invisible()
 }

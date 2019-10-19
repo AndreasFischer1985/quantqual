@@ -4,15 +4,15 @@
 \alias{saveDevs}
 \title{Function saveDevs}
 \usage{
-saveDevs(prefix = NA, width = NA, height = NA, dev = png,
+saveDevs(filename = NA, width = NA, height = NA, dev = png,
   units = "in", res = 300, mess = T, close = F, ...)
 }
 \arguments{
-\item{prefix}{Character vector specifying a sequence of characters to begin the files' names with.}
+\item{filename}{Character vector containing file names.}
 
 \item{width}{width of the devices. If NA (default), width of the devices is left unchanged.}
 
-\item{dev}{Graphical device (currently, pdf, png, bmp, jpg and tiff are supported).}
+\item{dev}{Graphical device (currently, pdf, win.metafile, png, bmp, jpg and tiff are supported).}
 
 \item{units}{Parameter passed to dev.copy. Defaults to "in". Is ignored if dev==pdf.}
 

@@ -123,4 +123,5 @@ boxedText <- function (x, y, text = "Hello \nWorld", x2 = NULL, y2 = NULL,
                 col = col, border = border)
     }
     text(x, y, text, cex = cex, font = font, ...)
+    invisible()
 }

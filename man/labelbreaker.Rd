@@ -4,7 +4,7 @@
 \alias{labelbreaker}
 \title{Function textbreaker}
 \usage{
-labelbreaker(x, length = 30)
+labelbreaker(x, length = 30, separator = "\\n     ", trim = F, ...)
 }
 \description{
 Adds linebreaks to each element of a character vector.

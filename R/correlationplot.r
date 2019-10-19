@@ -25,5 +25,5 @@ correlationplot <- function (x = NULL, stars = T, numbers = T, cex = 0.6, show.l
         data = data.frame(x = rnorm(100), y = rnorm(100), z = rnorm(100))
     psych::cor.plot(data, stars = stars, numbers = numbers, cex = cex, 
         show.legend = show.legend, ...)
-    return(psych::corr.test(data))
+    invisible(psych::corr.test(data))
 }

@@ -44,5 +44,5 @@ plotSTM <- function (stm = NULL, labels = NULL, main = "Topic distribution over 
             text(bp + 0.5, 0, paste(labels, " "), srt = srt, 
                 pos = 2, xpd = T, cex = 0.8)
     }
-    return(topic.descriptions)
+    invisible(topic.descriptions)
 }

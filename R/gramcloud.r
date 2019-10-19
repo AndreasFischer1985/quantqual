@@ -66,5 +66,5 @@ gramcloud <- function (x = NULL, ngram = 1, max.num = 100, min.freq = 1, equal.s
         ordered.colors = ordered.colors, colors = colorRampPalette(c(color, 
             "lightgrey"))(length(freq)), ...)
     title(main)
-    return(freq)
+    invisible(freq)
 }

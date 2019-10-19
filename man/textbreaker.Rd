@@ -6,8 +6,8 @@
 \usage{
 
   textbreaker(text = "Let's write some text with many different words and plot it in a nice little device.",
-  maxlength = 30, lspace = 1, size = 1, centered = F,
-  separator = "\\n     ", plot = F)
+  maxlength = 30, maxlines = 10, lspace = 1, size = 1,
+  centered = F, separator = "\\n", plot = F, trim = T)
 }
 \arguments{
 \item{text}{Character value containing the text to be split into multiple lines.}

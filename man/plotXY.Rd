@@ -4,7 +4,7 @@
 \alias{plotXY}
 \title{Function plotXY}
 \usage{
-plotXY(x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
+plotXY(x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
   attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7),
   color2 = rgb(0, 0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x",
   ylab = "y", axes = T, add = F, main = "Bivariate Relation",
@@ -15,6 +15,8 @@ plotXY(x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
 \item{x}{Numeric vector.}
 
 \item{y}{Numeric vector of the same length as x.}
+
+\item{complexity}{Numeric value specifying the amount of nonlinearity modelled. Defaults to 0 (i.e., a linear model).}
 
 \item{na.rm}{Logical value indicating whether missing values should be skipped. Defaults to T.}
 

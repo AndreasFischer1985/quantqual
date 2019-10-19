@@ -10,14 +10,15 @@
 #' textbreaker("hello world hello world hello world hello world")
 
 textbreaker <- function (text = "Let's write some text with many different words and plot it in a nice little device.", 
-    maxlength = 30, lspace = 1, size = 1, centered = F, separator = "\n     ", 
-    plot = F) 
+    maxlength = 30, maxlines = 10, lspace = 1, size = 1, centered = F, 
+    separator = "\n", plot = F, trim = T) 
 {
-    count = 1
+    text[is.na(text)] = " "
+    count = 0
     text = gsub("<br>", " ", text)
     while (nchar(text[length(text)]) > maxlength) {
         count = count + 1
-        if (count > 10) 
+        if (count >= maxlines) 
             break
         spacePos = as.vector(gregexpr("( |\n|/)", text[length(text)])[[1]])
         spacePos = spacePos[spacePos < maxlength]
@@ -44,10 +45,12 @@ textbreaker <- function (text = "Let's write some text with many different words
         x = 0.5
     y = (length(text):1)/length(text) * fac + (1 - fac) - (1/dev.size()[2]^2)
     lines = length(text)
-    text = paste0(text, collapse = separator)
+    if (trim == T) 
+        text = paste0(gsub("(^[ ]+|[ ]+$)", "", text), collapse = separator)
+    else text = paste0(text, collapse = separator)
     y = 0.5
     if (plot) {
-        plot(0, 0, type = "n", axes = F)
+        plot(0, 0, type = "n", axes = F, xlab = "", ylab = "")
         text(0, 0, text)
     }
     par(mai = p1)

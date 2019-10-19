@@ -9,4 +9,4 @@
 #' trim(getHTML(" Hi  "
 
 trim <- function (x) 
-gsub("(^[ ]+|[ ]+$)", "", x)
+gsub("(^[ \n\r]+|[ \n\r]+$)", "", x)

@@ -4,25 +4,27 @@
 \alias{dotplot}
 \title{Function dotplot}
 \usage{
-dotplot(x = NULL, relative = T, vertLine = T, horizLines = T,
-  max = 40, main = NULL, pch = 16, cex = 0.7, ...)
+dotplot(x = NULL, labels = NULL, groups = NULL, gdata = NULL,
+  cex = par("cex"), pt.cex = cex, pch = 16, gpch = 21,
+  bg = par("bg"), color = par("fg"), gcolor = par("fg"),
+  lcolor = "gray", xlim = range(x[is.finite(x)]), main = NULL,
+  xlab = NULL, ylab = NULL, deviations = NA, x2 = NA,
+  vertLine = 0, horizLines = T, max = 40, sort = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector.}
 
-\item{relative}{Logical value. Defaults to T.}
+\item{cex}{Numeric value indicating the text size. Defaults to .7.}
+
+\item{pch}{Numeric element speccifying the symbol to represent points. Defaults to 16}
+
+\item{main}{Character value specifying the plot's title. Defaults to "Comparison of Word Frequencies"}
 
 \item{vertLine}{Logical value specifying whether to plot a vertical line at x=0. Defaults to T.}
 
 \item{horizLines}{Logical value specifying whether to plot horizontal lines between each point and the y axis. Defaults to T.}
 
 \item{max}{Numeric value indicating the maximum number of frequencies to be displayed. Defaults to 40.}
-
-\item{main}{Character value specifying the plot's title. Defaults to "Comparison of Word Frequencies"}
-
-\item{pch}{Numeric element speccifying the symbol to represent points. Defaults to 16}
-
-\item{cex}{Numeric value indicating the text size. Defaults to .7.}
 }
 \description{
 Plots a modified dotchart.

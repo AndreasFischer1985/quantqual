@@ -82,5 +82,5 @@ plotNNET <- function (net = NULL, cex = 0.8, cex2 = 4, xlim = c(0, 4), xnames = 
         text(1 - 0.2, y1[-1], xnames, pos = 2)
     if (out == length(ynames)) 
         text(3 + 0.2, y3, ynames, pos = 4)
-    return(wts)
+    invisible(wts)
 }

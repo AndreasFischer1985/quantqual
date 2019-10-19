@@ -3,6 +3,7 @@
 #' Plots bivariate correlation based on two numeric vectors.
 #' @param x Numeric vector.
 #' @param y Numeric vector of the same length as x.
+#' @param complexity Numeric value specifying the amount of nonlinearity modelled. Defaults to 0 (i.e., a linear model).
 #' @param na.rm Logical value indicating whether missing values should be skipped. Defaults to T.
 #' @param color1 Color of points in the scattergram. Defaults to rgb(0,0,0,.7).
 #' @param color2 Color of the regression line. Defaults to rgb(0,0,1).
@@ -14,7 +15,7 @@
 #' @examples
 #' plotXY()
 
-plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10, 
+plotXY <- function (x = NULL, y = NULL, complexity = 0, rep.nnet = 10, 
     attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 
         0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x", ylab = "y", 
     axes = T, add = F, main = "Bivariate Relation", sub = NULL, 
@@ -36,16 +37,22 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
     colnames(data) = colnames(data0)
     nnet = NULL
     lm = NULL
+    if (complexity > 0) 
+        if (length(grep("^quantqual$", (installed.packages()[, 
+            "Package"]))) == 0) {
+            complexity = 0
+            warning("complexity set to 0 because quantqual-package is not installed.\nYou may install it via devtools::install_github(\"AndreasFischer1985/quantqual\")")
+        }
     if (complexity > 0) {
         if (!generalize) 
-            nnet = nnets(data, "y", size = complexity, linout = T, 
-                rep.nnet = rep.nnet)[[1]]
-        else nnet = af.nnet(data, "y", size = complexity, decay = NULL, 
-            linout = T, rep.nnet = rep.nnet)
+            nnet = quantqual::nnets(data, "y", size = complexity, 
+                linout = T, rep.nnet = rep.nnet)[[1]]
+        else nnet = quantqual::af.nnet(data, "y", size = complexity, 
+            decay = NULL, linout = T, rep.nnet = rep.nnet)
         xTrain = data[colnames(data) != "y"]
         yTrain = data["y"]
-        p = predintNNET(nnet, xTrain, yTrain, main = main, sub = sub, 
-            color1 = color1, color2 = color2, color3 = color3, 
+        p = quantqual::predintNNET(nnet, xTrain, yTrain, main = main, 
+            sub = sub, color1 = color1, color2 = color2, color3 = color3, 
             xlab = xlab, ylab = ylab, axes = axes, plot = F)
         p = p[order(data[, 1]), ]
         len = dim(p)[1]
@@ -92,5 +99,5 @@ plotXY <- function (x = NULL, y = NULL, complexity = 1, rep.nnet = 10,
         if (!is.null(nnet)) 
             attr(dat, "model") = nnet
         else attr(dat, "model") = lm
-    return(dat)
+    invisible(dat)
 }

@@ -16,7 +16,7 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
   adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black",
   col.main2 = "black", col.main3 = "black", cex.main1 = 1.2,
   cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2,
-  font.main3 = 4, ...)
+  font.main3 = 4, omitZeros = T, mar = NA, ...)
 }
 \arguments{
 \item{x}{Numeric vector, matrix or data.frame containing the values to be displayed.}

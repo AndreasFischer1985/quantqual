@@ -265,7 +265,7 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
         }
         else {
             if (axes != F & default.labels != T) 
-                text(0 + x0, colMeans(b2), colnames(b2), srt = srt - 
+                text(0, colMeans(b2), colnames(b2), srt = srt - 
                   45, pos = 2, xpd = T, cex = cex)
             if (add.numbers) 
                 if (beside) {
@@ -314,5 +314,5 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     if (!is.null(main3)) 
         title(main3, line = 3, adj = adj.main3, cex.main = cex.main3, 
             col = col.main3, font.main = font.main3)
-    return(b)
+    invisible(b)
 }
