@@ -3,8 +3,11 @@
 #' Variant of grepl that takes a vector of patterns.
 
 
-vgrepl <- function (...) 
+vgrepl <- function (pattern, x, sumFun = NULL, ...) 
 {
     f = Vectorize(grepl, vectorize.arg = "pattern")
-    f(...)
+    erg = f(pattern = pattern, x = x, ...)
+    if (!is.null(sumFun)) 
+        erg = sumFun(erg)
+    erg
 }

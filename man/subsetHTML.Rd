@@ -4,17 +4,17 @@
 \alias{subsetHTML}
 \title{Function subsetHTML}
 \usage{
-subsetHTML(html, pattern = "class=\\"m-resultListEntries__content\\"",
-  start = "<div", end = "</div>", save = F, prefix = Sys.Date())
+subsetHTML(html, tag = "div", pattern = NULL, edit = F, save = F,
+  plot = F, prefix = Sys.Date(), trim = T)
 }
 \arguments{
 \item{html}{A character element containing HTML-code.}
 
-\item{pattern}{Regular expression specifying the tag to be used for subsetting.}
+\item{tag}{Character element specifying the the subsets of interest. Defaults to "div".}
 
-\item{start}{Regular expression. Defaults to "<div".}
+\item{pattern}{Regular expression further specifying subsets of interest. If NULL (default) equals tag.}
 
-\item{end}{Regular expression. Defaults to "</div>".}
+\item{edit}{Logical value specifying whether the data.frame should be plotted/edited.}
 
 \item{save}{Logical value specifying whether the HTML-code should be saved to a csv-file.}
 
@@ -27,6 +27,6 @@ Extracts a coherent subset of code from HTML-code.
 Extracts a coherent subset of code from HTML-code.
 }
 \examples{
-subsetHTML(getHTML("https://jobs.meinestadt.de/nuernberg/suche?words=Wissenschaftlicher\%20Mitarbeiter"))
+subsetHTML(getHTML("https://jobs.meinestadt.de/nuernberg/suche?words=Wissenschaftlicher\%20Mitarbeiter",tag="div",pattern="class=\\"m-resultListEntries__content\\""))
 }
 \keyword{scraping}

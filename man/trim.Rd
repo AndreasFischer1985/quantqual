@@ -16,6 +16,6 @@ Trims elements of a character vector.
 Trims elements of a character vector.
 }
 \examples{
-trim(getHTML(" Hi  "
+trim(" Hi  ")
 }
 \keyword{preprocessing}

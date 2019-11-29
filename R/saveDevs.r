@@ -21,8 +21,10 @@ saveDevs <- function (filename = NA, width = NA, height = NA, dev = png,
     n = deparse(substitute(dev))
     n[n == "win.metafile"] = "emf"
     l = dev.list()
-    if (length(l) == 0) 
-        stop("No device open.")
+    if (length(l) == 0) {
+        warning("No device open.")
+        return(invisible())
+    }
     if (length(filename) != length(l)) 
         filename = rep(filename[1], length(l))
     if (length(width) != length(l)) 

@@ -7,9 +7,9 @@
 bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
   add.numbers = F, ndigits = 2, ncex = NA, nsrt = 0, npos = NA,
   ncol = "black", grid = T, plot = T, main = NULL, sub = NULL,
-  xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL,
-  names.arg = NULL, legend.text = NULL, args.legend = list(bg =
-  "white"), density = NULL, angle = 45, col = NULL,
+  xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, ylim = NULL,
+  names.arg = NULL, legend.text = NULL, optimize.legend = T,
+  args.legend = NULL, density = NULL, angle = 45, col = NULL,
   grid.col = "grey", axes = T, add = F, adj = 0.5,
   default.labels = F, xlab = NA, ylab = NA, border = NA,
   grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL,
@@ -60,6 +60,8 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
 \item{names.arg}{Character vector containing names of bars. If NULL (default) colnames of x will be applied as names.arg.}
 
 \item{legend.text}{Legend text. Set to NA or to F to supress legend. If NULL (default) rownames of x will be applied as legend.text.}
+
+\item{optimize.legend}{Logical or character value. If T (Default), the legend is shifted to the right if overlapping with bars (as long as no args.legend are provided). If a position is provided instead ("bottom", "bottomleft", "left","topleft","top","topright","right","bottomright") the legend will be placed and shifted accordingly. Adding a "1" at the end of a position (e.g., "top1") results in the legend being drawn horizontally instead of vertically.}
 
 \item{args.legend}{List with arguments to pass to legend(). Defaults to list(bg = "white").}
 

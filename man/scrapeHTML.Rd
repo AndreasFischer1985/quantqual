@@ -4,7 +4,7 @@
 \alias{scrapeHTML}
 \title{Function scrapeHTML}
 \usage{
-scrapeHTML(html, short = F, show = T, save = F,
+scrapeHTML(html, short = F, edit = T, save = F, plot = F,
   prefix = Sys.Date())
 }
 \arguments{
@@ -12,7 +12,7 @@ scrapeHTML(html, short = F, show = T, save = F,
 
 \item{short}{Logical value specifying whether only lines with verbal information or link should be returned. Defaults to F.}
 
-\item{show}{Logical value specifying whether the data.frame should be plotted/edited.}
+\item{edit}{Logical value specifying whether the data.frame should be plotted/edited.}
 
 \item{save}{Logical value specifying whether the HTML-code should be saved to a csv-file.}
 

@@ -6,7 +6,7 @@
 #' @keywords preprocessing
 #' @export
 #' @examples
-#' trim(getHTML(" Hi  "
+#' trim(" Hi  ")
 
 trim <- function (x) 
 gsub("(^[ \n\r]+|[ \n\r]+$)", "", x)

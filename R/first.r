@@ -9,4 +9,6 @@
 #' first(c(1,2,3))
 
 first <- function (x, s = 0) 
-ifelse(length(x) > 0, x[[1 + s]], NA)
+if (is.data.frame(x) | is.matrix(x)) return(ifelse(dim(x)[1] > 
+    0, list(x[, 1 + s]), list(NA))[[1]]) else return(ifelse(length(x) > 
+    0, x[[1 + s]], NA))

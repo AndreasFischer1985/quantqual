@@ -10,8 +10,8 @@
 #' textbreaker("hello world hello world hello world hello world")
 
 textbreaker <- function (text = "Let's write some text with many different words and plot it in a nice little device.", 
-    maxlength = 30, maxlines = 10, lspace = 1, size = 1, centered = F, 
-    separator = "\n", plot = F, trim = T) 
+    maxlength = 30, maxlines = 10, centered = F, separator = "\n", 
+    trim = T, plot = F, ...) 
 {
     text[is.na(text)] = " "
     count = 0
@@ -20,7 +20,7 @@ textbreaker <- function (text = "Let's write some text with many different words
         count = count + 1
         if (count >= maxlines) 
             break
-        spacePos = as.vector(gregexpr("( |\n|/)", text[length(text)])[[1]])
+        spacePos = as.vector(gregexpr("( |\n|\r|/)", text[length(text)])[[1]])
         spacePos = spacePos[spacePos < maxlength]
         spacePos = spacePos[length(spacePos)]
         if (length(spacePos) == 0) {
@@ -32,27 +32,39 @@ textbreaker <- function (text = "Let's write some text with many different words
             1, spacePos), substr(text[length(text)], spacePos + 
             1, nchar(text[length(text)])))
     }
-    p1 = par("mai")
-    p2 = p1 * 0
-    par(mai = p2)
-    th = par()$ps * 1/72
-    fac = (th * lspace * 1/dev.size()[2] * 6 * size * length(text))
+    devsize = ifelse((length(dev.list()) > 0 | plot == T), list(dev.size()), 
+        list(c(7, 6.989583)))[[1]]
+    ps = ifelse((length(dev.list()) > 0 | plot == T), list(par()$ps), 
+        list(12))[[1]]
+    p1 = ifelse((length(dev.list()) > 0 | plot == T), list(par("mai")), 
+        list(c(1.02, 0.82, 0.82, 0.42)))[[1]]
+    p2 = rep(0, 4)
+    if (length(dev.list()) > 0 | plot == T) 
+        par(mai = p2)
+    th = ps * 1/72
+    lspace = 0.52
+    size = 1
+    fac = (th * lspace * 1/devsize[2] * 6 * size * length(text))
     pos = NULL
     if (!centered) 
         pos = 4
-    x = 0.05
+    x = -1 + 0.05
     if (centered) 
-        x = 0.5
-    y = (length(text):1)/length(text) * fac + (1 - fac) - (1/dev.size()[2]^2)
+        x = 0
+    y = mean((length(text):1)/length(text) * fac + (1 - fac) - 
+        (1/devsize[2]^2))
+    if (centered) 
+        y = 0
     lines = length(text)
     if (trim == T) 
-        text = paste0(gsub("(^[ ]+|[ ]+$)", "", text), collapse = separator)
+        text = paste0(gsub("(^[ \n\r]+|[ \n\r]+$)", "", text), 
+            collapse = separator)
     else text = paste0(text, collapse = separator)
-    y = 0.5
     if (plot) {
         plot(0, 0, type = "n", axes = F, xlab = "", ylab = "")
-        text(0, 0, text)
+        text(x, y, text, pos = pos, ...)
     }
-    par(mai = p1)
+    if (length(dev.list()) > 0 | plot == T) 
+        par(mai = p1)
     return(text)
 }

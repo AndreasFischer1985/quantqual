@@ -4,7 +4,7 @@
 \alias{vgrepl}
 \title{Function vgrepl}
 \usage{
-vgrepl(...)
+vgrepl(pattern, x, sumFun = NULL, ...)
 }
 \description{
 Variant of grepl that takes a vector of patterns.

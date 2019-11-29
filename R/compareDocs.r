@@ -28,7 +28,7 @@ compareDocs <- function (a = NULL, b = NULL, relative = T, vertLine = T, horizLi
         stop("Please provide two character elements a and b")
     a = paste(a, collapse = " ")
     b = paste(b, collapse = " ")
-    common.terms = vecToTDM(c(a, b))
+    common.terms = quantqual::vecToTDM(c(a, b))
     if (relative) 
         common.terms = apply(common.terms, 2, function(x) x/sum(x))
     common.terms = common.terms/colSums(common.terms)
@@ -48,5 +48,5 @@ compareDocs <- function (a = NULL, b = NULL, relative = T, vertLine = T, horizLi
             3], 2), y1 = 1:dim(com)[1])
     if (vertLine) 
         abline(v = 0)
-    return(common.terms)
+    invisible(common.terms)
 }

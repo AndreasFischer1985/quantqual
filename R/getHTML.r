@@ -32,7 +32,5 @@ getHTML <- function (url = "https://scholar.google.de/citations?user=-TjY7oEAAAA
         co = as.numeric(rownames(showConnections(all = T)))
         for (i in co[co > 2]) close(getConnection(i))
     }
-    if (!silent) 
-        message("Succeeded.")
-    return(html)
+    return(invisible(html))
 }

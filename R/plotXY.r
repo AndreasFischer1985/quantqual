@@ -18,9 +18,12 @@
 plotXY <- function (x = NULL, y = NULL, complexity = 0, rep.nnet = 10, 
     attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7), color2 = rgb(0, 
         0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x", ylab = "y", 
-    axes = T, add = F, main = "Bivariate Relation", sub = NULL, 
-    pch = 16, lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F, 
-    ...) 
+    axes = T, add = F, main = NA, sub = NA, pch = 16, lwd = 2, 
+    cex = 0.7, cex.sub = 0.7, generalize = F, main1 = NULL, main2 = NULL, 
+    main3 = NULL, mar = NA, adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, 
+    col.main1 = "black", col.main2 = "black", col.main3 = "black", 
+    cex.main1 = 1.2, cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, 
+    font.main2 = 2, font.main3 = 4, ...) 
 {
     if (is.null(sub)) 
         sub = ifelse(complexity == 0, "Shaded area represents 95%-confidence interval.", 
@@ -28,6 +31,11 @@ plotXY <- function (x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
     if (is.null(x) & is.null(y)) {
         x = rnorm(100)
         y = rnorm(100)
+    }
+    mar0 = NULL
+    if (is.numeric(mar)) {
+        mar0 = par("mar")
+        par(mar = mar)
     }
     data = data.frame(x, y)
     if (na.rm == T) 
@@ -99,5 +107,16 @@ plotXY <- function (x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
         if (!is.null(nnet)) 
             attr(dat, "model") = nnet
         else attr(dat, "model") = lm
-    invisible(dat)
+    if (!is.null(main1)) 
+        title(main1, line = 1, adj = adj.main1, cex.main = cex.main1, 
+            col = col.main1, font.main = font.main1)
+    if (!is.null(main2)) 
+        title(main2, line = 2, adj = adj.main2, cex.main = cex.main2, 
+            col = col.main2, font.main = font.main2)
+    if (!is.null(main3)) 
+        title(main3, line = 3, adj = adj.main3, cex.main = cex.main3, 
+            col = col.main3, font.main = font.main3)
+    if (is.numeric(mar)) 
+        par(mar = mar0)
+    return(invisible(dat))
 }
