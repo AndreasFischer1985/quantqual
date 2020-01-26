@@ -37,7 +37,7 @@
 #' @param border Color of the bars' border. Defaults to NA.
 #' @param grid.mode Numeric value specifying when to plot the grid. 0 for grid in the background, 1 for grid in the foreground. Defaults to 0.
 #' @param ... Additional graphical parameters for barplot.
-#' @details Plots a bar and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
+#' @details Plots a barplot and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
 #' @keywords plotting
 #' @export
 #' @examples
@@ -55,15 +55,11 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     adj.main3 = 0, col.main1 = "black", col.main2 = "black", 
     col.main3 = "black", cex.main1 = 1.2, cex.main2 = 1.2, cex.main3 = 1.2, 
     font.main1 = 1, font.main2 = 2, font.main3 = 4, omitZeros = T, 
-    mar = NA, ...) 
+    mar = NA, automar = F, ...) 
 {
     addChars = ifelse(is.character(add.numbers), add.numbers, 
         "")
     mar0 = NULL
-    if (is.numeric(mar)) {
-        mar0 = par("mar")
-        par(mar = mar)
-    }
     if (is.character(add.numbers)) 
         add.numbers = T
     if (is.null(ncex)) 
@@ -166,21 +162,30 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
     }
     else names.arg = ifelse(dim(x)[2] == 1, list(rownames(x)), 
         list(colnames(x)))[[1]]
+    if (automar) 
+        mar = ifelse(horiz, list(quantqual::mar(labels2 = names.arg)), 
+            list(quantqual::mar(labels1 = names.arg)))[[1]]
+    if (is.numeric(mar)) {
+        mar0 = par("mar")
+        par(mar = mar)
+    }
     b = NULL
     if (grid.mode == 0) {
         b = as.matrix(barplot(x2, beside = beside, horiz = horiz, 
             density = density, angle = angle, xlim = xlim, ylim = ylim, 
             plot = plot, las = las, add = add, adj = adj, main = main, 
             sub = sub, col = NA, xlab = xlab, ylab = ylab, border = NA, 
-            axes = F, names.arg = rep("", dim(x)[2]), ...))
+            axes = F, names.arg = ifelse(default.labels == T, 
+                list(names.arg), list(rep(NA, dim(x)[2])))[[1]], 
+            ...))
     }
     else {
         b = as.matrix(barplot(x2, border = border, xlab = xlab, 
             ylab = ylab, names.arg = ifelse(default.labels == 
-                T, list(names.arg), list(rep("", dim(x)[2])))[[1]], 
+                T, list(names.arg), list(rep(NA, dim(x)[2])))[[1]], 
             beside = beside, horiz = horiz, density = density, 
             angle = angle, col = col, xlim = xlim, ylim = ylim, 
-            main = main, sub = sub, plot = plot, las = las, axes = axes, 
+            main = main, sub = sub, plot = plot, las = las, axes = F, 
             add = add, adj = adj, ...))
     }
     abline2 = function(xl, xlf, ...) {
@@ -215,12 +220,11 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
         }
     if (grid.mode == 0 & plot != F) 
         b = as.matrix(barplot(x2, border = border, xlab = NA, 
-            ylab = NA, names.arg = ifelse(default.labels == T, 
-                list(names.arg), list(rep("", dim(x)[2])))[[1]], 
-            beside = beside, horiz = horiz, density = density, 
-            angle = angle, col = col, xlim = xlim, ylim = ylim, 
-            main = NA, sub = NA, plot = plot, las = las, axes = axes, 
-            add = T, adj = adj, ...))
+            ylab = NA, names.arg = rep(NA, dim(x)[2]), beside = beside, 
+            horiz = horiz, density = density, angle = angle, 
+            col = col, xlim = xlim, ylim = ylim, main = NA, sub = NA, 
+            plot = plot, las = las, axes = F, add = T, adj = adj, 
+            ...))
     if (plot != F) 
         if (!is.null(sd) & beside) 
             if (!horiz) {
@@ -250,7 +254,15 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
             return(x2)
         }
         if (!horiz) {
-            if (axes != F & default.labels != T) 
+            if (axes != F) {
+                xaxp <- ifelse((length(dev.list()) > 0 | plot == 
+                  T), list(par("xaxp")), list(c(0, 1, 5)))[[1]]
+                yaxp <- ifelse((length(dev.list()) > 0 | plot == 
+                  T), list(par("yaxp")), list(c(0, 1, 5)))[[1]]
+                s <- seq(yaxp[1], yaxp[2], (yaxp[2] - yaxp[1])/yaxp[3])
+                axis(2, s, paste0(s, addChars))
+            }
+            if (default.labels != T) 
                 text(colMeans(b2), y0, colnames(b2), srt = srt, 
                   pos = ifelse((srt == 0 | srt == 180 | srt == 
                     360), 1, 2), xpd = T, cex = cex)
@@ -276,7 +288,15 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
                 }
         }
         else {
-            if (axes != F & default.labels != T) 
+            if (axes != F) {
+                xaxp <- ifelse((length(dev.list()) > 0 | plot == 
+                  T), list(par("xaxp")), list(c(0, 1, 5)))[[1]]
+                yaxp <- ifelse((length(dev.list()) > 0 | plot == 
+                  T), list(par("yaxp")), list(c(0, 1, 5)))[[1]]
+                s <- seq(xaxp[1], xaxp[2], (xaxp[2] - xaxp[1])/xaxp[3])
+                axis(1, s, paste0(s, addChars))
+            }
+            if (default.labels != T) 
                 text(x0, colMeans(b2), colnames(b2), srt = srt - 
                   45, pos = 2, xpd = T, cex = cex)
             if (add.numbers) 

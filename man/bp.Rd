@@ -16,7 +16,7 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
   adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black",
   col.main2 = "black", col.main3 = "black", cex.main1 = 1.2,
   cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2,
-  font.main3 = 4, omitZeros = T, mar = NA, ...)
+  font.main3 = 4, omitZeros = T, mar = NA, automar = F, ...)
 }
 \arguments{
 \item{x}{Numeric vector, matrix or data.frame containing the values to be displayed.}
@@ -95,7 +95,7 @@ bp(x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
 Custom barplot with labeled bars.
 }
 \details{
-Plots a bar and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
+Plots a barplot and adds labels and numbers to bars. Optionally allows for plotting standard deviations around each bar.
 }
 \examples{
 bp(data.frame(group1=c(variable1=1,variable2=2),group2=c(variable1=3,variable2=4)),horiz=T,main="Example")
