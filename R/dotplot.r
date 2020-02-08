@@ -25,6 +25,19 @@ dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL,
     par(cex = cex, yaxs = "i")
     if (!is.numeric(x)) 
         stop("'x' must be a numeric vector or matrix")
+    if (is.null(x)) {
+        x = rnorm(100)
+        names(x) = paste0("Var", 1:100)
+    }
+    if (length(x) > max) {
+        if (!is.na(deviations[1])) 
+            deviations = deviations[c(1:floor(max/2), (length(x) - 
+                floor(max/2)):length(x))]
+        if (!is.na(x2[1])) 
+            x2 = x2[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
+        x = x[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
+        warning(paste("Only", max, "values are displayed"))
+    }
     n <- length(x)
     if (sort == T) {
         if (!is.na(deviations[1])) 
@@ -58,19 +71,6 @@ dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL,
             warning("'x' is neither a vector nor a matrix: using as.numeric(x)")
             x <- as.numeric(x)
         }
-    }
-    if (is.null(x)) {
-        x = rnorm(100)
-        names(x) = paste0("Var", 1:100)
-    }
-    if (length(x) > max) {
-        if (!is.na(deviations[1])) 
-            deviations = deviations[c(1:floor(max/2), (length(x) - 
-                floor(max/2)):length(x))]
-        if (!is.na(x2[1])) 
-            x2 = x2[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
-        x = x[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
-        warning(paste("Only", max, "values are displayed"))
     }
     plot.new()
     linch <- if (!is.null(labels)) 

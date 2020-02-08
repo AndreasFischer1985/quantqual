@@ -12,6 +12,18 @@ af.cor <- function (dat, wei = NULL, use = "pairwise.complete.obs")
 {
     if (is.null(dim(dat))) 
         stop("Please provide a matrix or data.frame as dat")
+    if (is.matrix(dat)) 
+        if (!is.numeric(dat)) {
+            warning("Non-numeric matrix detected. Type-casting applied.")
+            dat = apply(dat, 2, as.numeric)
+        }
+    if (is.data.frame(dat)) 
+        if (sum(sapply(dat, is.numeric), na.rm = T) < dim(dat)[2]) {
+            warning("Non-numeric matrix detected. Type-casting applied.")
+            nam = names(dat[, sapply(dat, is.numeric)])
+            dat = as.data.frame(dat[, sapply(dat, is.numeric)])
+            names(dat) = nam
+        }
     if (is.null(wei)) 
         wei = rep(1, dim(dat)[1])
     if (use == "complete.obs") {

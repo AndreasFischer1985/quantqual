@@ -87,6 +87,20 @@ plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL,
                 "May 2018", "Jun 2018", "Jul 2018", "Aug 2018", 
                 "Sep 2018", "Oct 2018", "Nov 2018", "Dec 2018")))
     }
+    if (is.matrix(matrix)) 
+        if (!is.numeric(matrix)) {
+            warning("Non-numeric matrix detected. Type-casting is applied.")
+            matrix = apply(matrix, 2, as.numeric)
+        }
+    if (is.data.frame(dat)) 
+        if (sum(sapply(dat, is.numeric), na.rm = T) < dim(dat)[2]) {
+            warning("Non-numeric matrix detected. Type-casting applied.")
+            nam = names(dat[, sapply(dat, is.numeric)])
+            dat = as.data.frame(dat[, sapply(dat, is.numeric)])
+            names(dat) = nam
+            dat = as.matrix(dat)
+            colnames(dat) = nam
+        }
     if (is.null(xlab)) 
         xlab = "time"
     if (is.null(ylab)) 
