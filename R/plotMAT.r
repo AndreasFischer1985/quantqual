@@ -92,14 +92,14 @@ plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL,
             warning("Non-numeric matrix detected. Type-casting is applied.")
             matrix = apply(matrix, 2, as.numeric)
         }
-    if (is.data.frame(dat)) 
-        if (sum(sapply(dat, is.numeric), na.rm = T) < dim(dat)[2]) {
+    if (is.data.frame(matrix)) 
+        if (sum(sapply(matrix, is.numeric), na.rm = T) < dim(matrix)[2]) {
             warning("Non-numeric matrix detected. Type-casting applied.")
-            nam = names(dat[, sapply(dat, is.numeric)])
-            dat = as.data.frame(dat[, sapply(dat, is.numeric)])
-            names(dat) = nam
-            dat = as.matrix(dat)
-            colnames(dat) = nam
+            nam = names(matrix[, sapply(matrix, is.numeric)])
+            matrix = as.data.frame(matrix[, sapply(matrix, is.numeric)])
+            names(matrix) = nam
+            matrix = as.matrix(matrix)
+            colnames(matrix) = nam
         }
     if (is.null(xlab)) 
         xlab = "time"
