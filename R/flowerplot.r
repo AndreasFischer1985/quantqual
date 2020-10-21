@@ -8,6 +8,7 @@
 #' @param main Character value, containing the title to be displayed. Defaults to NULL.
 #' @param color Character vector, containing the colors of petals. If NULL (default) rainbow palette is applied.
 #' @param color2 Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".
+#' @param add.numbers Logical value specifying whether to draw numbers next to each petal. Defaults to F.
 #' @details Plots data.frame as a field of flowers. Each column is represented as a separate flower, each row as a flower's petal.
 #' @keywords plotting
 #' @export
@@ -15,7 +16,8 @@
 #' flowerplot()
 
 flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NULL, 
-    main = NULL, color = NULL, color2 = "lightgrey") 
+    main = NULL, color = NULL, color2 = "lightgrey", add.numbers = F, 
+    ncex = 0.8, ndigits = 1, ncol = "black") 
 {
     if (!is.null(x)) 
         data = data.frame(x)
@@ -53,7 +55,7 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
             1)
     else farben = color
     petal = function(a = 0.5, b = 1, l = 1, max.l = 7, fl = 1, 
-        he = 0, col = farben[l], border = NULL) {
+        he = 0, col = farben[l], border = NULL, text = NA) {
         theta <- seq(0, 2 * pi, length = 100)
         x0 = b * sin(seq(0, 2 * pi, length.out = max.l))[l]
         y0 = b * cos(seq(0, 2 * pi, length.out = max.l))[l]
@@ -63,6 +65,20 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
         xr = dist * (fl - 1) + x0 + x * cos(r) + y * sin(r)
         yr = he + y0 - x * sin(r) + y * cos(r)
         polygon(xr, yr, col = col, border = border)
+        if (add.numbers == T) 
+            if (!is.na(text)) {
+                c = b + 0.2
+                x0 = c * sin(seq(0, 2 * pi, length.out = max.l))[l]
+                y0 = c * cos(seq(0, 2 * pi, length.out = max.l))[l]
+                x = a * c * cos(theta)
+                y = c * sin(theta)
+                xr = dist * (fl - 1) + x0 + x * cos(r) + y * 
+                  sin(r)
+                yr = he + y0 - x * sin(r) + y * cos(r)
+                text(xr[20], yr[20], ifelse(text == 1, "1.0", 
+                  ifelse(text == 0, "0.0", round(text, ndigits))), 
+                  cex = ncex, col = ncol)
+            }
     }
     plot(x, x, type = "n", xlab = "", ylab = "", axes = FALSE, 
         xlim = c(-2 - dist/2, dist * 3/4 + dist * (dim(data)[2])) + 
@@ -73,9 +89,9 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
             height, col = "darkgreen", lwd = 3)
         for (petal1 in 1:dim(data)[1]) {
             petal(0.3, 1, petal1, dim(data)[1] + 1, flower1, 
-                height, col = color2[1], border = NA)
+                height, col = color2[1], border = NA, text = NA)
             petal(0.3, data[petal1, flower1], petal1, dim(data)[1] + 
-                1, flower1, height)
+                1, flower1, height, text = data[petal1, flower1])
         }
         polygon(dist * (flower1 - 1) + 0.5 * sin(seq(0, 2 * pi, 
             length.out = dim(data)[1] + 1)), height + 0.5 * cos(seq(0, 

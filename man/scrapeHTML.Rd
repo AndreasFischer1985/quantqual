@@ -5,7 +5,7 @@
 \title{Function scrapeHTML}
 \usage{
 scrapeHTML(html, short = F, edit = T, save = F, plot = F,
-  prefix = Sys.Date())
+  prefix = NULL)
 }
 \arguments{
 \item{html}{A character element containing HTML-code.}
@@ -16,7 +16,7 @@ scrapeHTML(html, short = F, edit = T, save = F, plot = F,
 
 \item{save}{Logical value specifying whether the HTML-code should be saved to a csv-file.}
 
-\item{prefix}{Character value specifying the beginning of the filename (in case of saving). Defaults to Sys.Date().}
+\item{prefix}{Character value specifying the beginning of the filename (in case of saving). If NULL (default) as.numeric(Sys.time()) is applied.}
 }
 \description{
 Extracts Information from HTML.

@@ -12,7 +12,26 @@
 
 cols <- function (num = 1, col2 = NULL, col1 = NULL) 
 {
-    if (is.null(col1) & is.null(col2)) 
+    if (is.null(num)) 
+        num = 1
+    if (length(num) > 1) {
+        num = num[1]
+        warning("Please provide a single number for num (or set col1 and col2 to NULL). Only first element is used.")
+    }
+    if (length(col1) > 1) {
+        col1 = col1[1]
+        warning("Please provide a single color name for col1. Only first element is used.")
+    }
+    if (length(col2) > 1) {
+        col2 = col2[1]
+        warning("Please provide a single color name for col2. Only first element is used.")
+    }
+    if (!is.numeric(num) & is.null(col1) & is.null(col2)) {
+        col1 = num
+        col2 = num
+        num = 1
+    }
+    if (is.numeric(num) & is.null(col1) & is.null(col2)) 
         if (length(num) > 1) {
             num[num < 1] = 1
             return(rainbow(max(num))[num])

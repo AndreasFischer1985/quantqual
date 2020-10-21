@@ -2,8 +2,8 @@
 #' 
 #' Saves each element of dev.list() to a graphical device such as pdf, png or similar.
 #' @param filename Character vector containing file names.
-#' @param width width of the devices. If NA (default), width of the devices is left unchanged.
-#' @param width height of the devices. If NA (default), height of the devices is left unchanged.
+#' @param width Width of the devices. If NA (default), width of the devices is left unchanged.
+#' @param height Height of the devices. If NA (default), height of the devices is left unchanged.
 #' @param dev Graphical device (currently, pdf, win.metafile, png, bmp, jpg and tiff are supported).
 #' @param units Parameter passed to dev.copy. Defaults to "in". Is ignored if dev==pdf.
 #' @param res Resolution (dots per inch) of the devices. Defaults to 300. Is ignored if dev==pdf.

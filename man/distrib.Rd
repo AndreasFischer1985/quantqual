@@ -14,6 +14,18 @@ distrib(dat, wei = NULL, kat = NULL, plot = T, plot.o = F,
 \item{wei}{Numeric vector representing of the same length as dat. Represents the weight that is attributed to each element of dat.}
 
 \item{kat}{Factor of the same length as dat. Specifies subgroups of dat to summarize.}
+
+\item{plot}{Logical value specifying whether to plot the weighted data. Defaults to T.}
+
+\item{plot.o}{Logical value specifying whether to plot the original data. Defaults to F.}
+
+\item{simplify}{Logical value specifying whether to return simplified data. Defaults to T.}
+
+\item{mar}{Numeric vector specifying margins. Defaults to NULL.}
+
+\item{width}{Numeric value specifying the width of the plot. Defaults to NULL.}
+
+\item{height}{Numeric value specifying the width of the plot. Defaults to NULL.}
 }
 \description{
 Returns and plots a vetor's unweighted/weighted distribution.

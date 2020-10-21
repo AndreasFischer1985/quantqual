@@ -4,7 +4,7 @@
 \alias{first}
 \title{Function first}
 \usage{
-first(x, s = 0)
+first(x, s = 0, factorsAsStrings = T)
 }
 \arguments{
 \item{x}{A vector or list.}

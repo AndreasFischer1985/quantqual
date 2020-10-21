@@ -12,7 +12,7 @@ prepareDF(data, output = NULL, scale = T, out.omit = T,
 
 \item{output}{index or name of criterion in data.}
 
-\item{out.omit}{logical value, specifying whether outlier (scale(data)>3) shoud be set to NA.}
+\item{out.omit}{logical value, specifying whether outliers (scale(data)>3) shoud be set to NA.}
 
 \item{na.omit}{logical value, specifying whether NA shoud be omitted.}
 }

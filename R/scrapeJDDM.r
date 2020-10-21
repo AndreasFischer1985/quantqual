@@ -1,7 +1,7 @@
 #' Function scrapeJDDM
 #' 
 #' Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
-#' @param plot Logical vakue specifying wether to plot data on reads and downloads.
+#' @param plot Logical value specifying wether to plot data on reads and downloads.
 #' @details Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.
 #' @keywords scraping
 #' @export
@@ -49,7 +49,7 @@ scrapeJDDM <- function (plot = T, urls = paste0("https://journals.ub.uni-heidelb
             "Dec"), "<"), collapse = "|")
         df = data.frame(c("Intro", matchAll(html[i], months)[[1]]), 
             strsplit(as.character(html[i]), months))
-        df[, 2] = gsub("<table class=\\\"stats\\\"><tr><th>201[0-9]</th>", 
+        df[, 2] = gsub("<table class=\\\"stats\\\"><tr><th>20[0-9][0-9]</th>", 
             "", df[, 2])
         numbers = sapply(matchAll(df[, 2], ">[0-9]+<"), function(x) as.numeric(gsub("[<>]", 
             "", c(x[1:2]))))[, -1]
@@ -116,14 +116,15 @@ scrapeJDDM <- function (plot = T, urls = paste0("https://journals.ub.uni-heidelb
         downloads2 = downloads2[order(rowSums(downloads2, na.rm = T), 
             decreasing = T)[1:min(dim(downloads2)[1], 25)], ]
         dev.new(width = 10, height = 7)
-        plotMAT(downloads2, main = "Cumulation of Downloads")
+        plotMAT(downloads2, main = "Cumulation of Downloads", 
+            cumsum = T)
         frontdoor2 = frontdoor[, colnames(frontdoor) != as.character(current.year - 
             1) & colnames(frontdoor) != as.character(current.year)]
         rownames(frontdoor2) = article.labels
         frontdoor2 = frontdoor2[order(rowSums(frontdoor2, na.rm = T), 
             decreasing = T)[1:min(dim(frontdoor2)[1], 25)], ]
         dev.new(width = 10, height = 7)
-        plotMAT(frontdoor2, main = "Cumulation of Reads")
+        plotMAT(frontdoor2, main = "Cumulation of Reads", cumsum = T)
     }
     return(df)
 }

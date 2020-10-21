@@ -4,6 +4,12 @@
 #' @param dat Numeric vector.
 #' @param wei Numeric vector representing of the same length as dat. Represents the weight that is attributed to each element of dat.
 #' @param kat Factor of the same length as dat. Specifies subgroups of dat to summarize.
+#' @param plot Logical value specifying whether to plot the weighted data. Defaults to T.
+#' @param plot.o Logical value specifying whether to plot the original data. Defaults to F.
+#' @param simplify Logical value specifying whether to return simplified data. Defaults to T.
+#' @param mar Numeric vector specifying margins. Defaults to NULL.
+#' @param width Numeric value specifying the width of the plot. Defaults to NULL.
+#' @param height Numeric value specifying the width of the plot. Defaults to NULL.
 #' @details Returns and plots a vetor's unweighted/weighted distribution. 
 #' @keywords modeling
 #' @export

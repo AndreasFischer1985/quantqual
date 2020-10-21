@@ -6,7 +6,7 @@
 \usage{
 plotMAT(matrix = NULL, main = NULL, xlab = "", ylab = NULL,
   lwd = 2, lty = 1, pch = NULL, type = "l", xlim = NULL,
-  ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, cumsum = T,
+  ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, cumsum = F,
   show.legend = F, add = F, add.shadow = F, grid = T, col = NULL,
   cex = 0.7, cex.axis1 = 0.5, cex.axis2 = 0.7, frame = 1,
   manual.addon = NULL)
@@ -38,7 +38,7 @@ plotMAT(matrix = NULL, main = NULL, xlab = "", ylab = NULL,
 
 \item{srt}{Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.}
 
-\item{cumsum}{Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.}
+\item{cumsum}{Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to F.}
 
 \item{show.legend}{Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.}
 
@@ -60,7 +60,7 @@ plotMAT(matrix = NULL, main = NULL, xlab = "", ylab = NULL,
 
 \item{manual.addon}{Numeric vector containing verical adjustments.}
 
-\item{main}{Character value representing the title. If NULL (default) it's set to "Cumulation over Time" if cumsum==T, and to "Development over Time" otherwise.}
+\item{main}{Character value representing the title. Defaults to NULL.}
 }
 \description{
 Plots a numeric matrix as one line per row.

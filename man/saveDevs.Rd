@@ -10,7 +10,9 @@ saveDevs(filename = NA, width = NA, height = NA, dev = png,
 \arguments{
 \item{filename}{Character vector containing file names.}
 
-\item{width}{width of the devices. If NA (default), width of the devices is left unchanged.}
+\item{width}{Width of the devices. If NA (default), width of the devices is left unchanged.}
+
+\item{height}{Height of the devices. If NA (default), height of the devices is left unchanged.}
 
 \item{dev}{Graphical device (currently, pdf, win.metafile, png, bmp, jpg and tiff are supported).}
 
@@ -21,8 +23,6 @@ saveDevs(filename = NA, width = NA, height = NA, dev = png,
 \item{mess}{Logical value specifying if a message should be printed after saving the devices. Defaults to T.}
 
 \item{close}{Logical value specifying whether to close devices after saving them.}
-
-\item{width}{height of the devices. If NA (default), height of the devices is left unchanged.}
 }
 \description{
 Saves each element of dev.list() to a graphical device such as pdf, png or similar.

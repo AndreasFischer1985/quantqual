@@ -4,7 +4,7 @@
 \alias{af.cor}
 \title{Function af.cor}
 \usage{
-af.cor(dat, wei = NULL, use = "pairwise.complete.obs")
+af.cor(dat, wei = NULL, use = "pairwise.complete.obs", simplify = F)
 }
 \arguments{
 \item{data}{Numeric data.frame.}
@@ -13,7 +13,7 @@ af.cor(dat, wei = NULL, use = "pairwise.complete.obs")
 Provides (unweighted or weighted) correlation matrix between variables.
 }
 \details{
-Provides (unweighted or weighted) correlation matrix between variables.
+Provides (unweighted or weighted) correlation matrix between variables. Additionally, p-values and confidence intervals are provided for each pairwise correlation, based on the (potentially weighted) coefficients of correlation and the unweighted sample size.
 }
 \examples{
 af.cor(dat=sapply(1:10,function(x)rnorm(100)));

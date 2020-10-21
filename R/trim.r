@@ -9,4 +9,4 @@
 #' trim(" Hi  ")
 
 trim <- function (x) 
-gsub("(^[ \n\r]+|[ \n\r]+$)", "", x)
+gsub("(^[ \n\r\t]+|[ \n\r\t]+$)", "", x)

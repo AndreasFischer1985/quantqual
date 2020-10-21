@@ -5,7 +5,7 @@
 \title{Function subsetHTML}
 \usage{
 subsetHTML(html, tag = "div", pattern = NULL, edit = F, save = F,
-  plot = F, prefix = Sys.Date(), trim = T)
+  plot = F, prefix = NULL, trim = T)
 }
 \arguments{
 \item{html}{A character element containing HTML-code.}
@@ -18,7 +18,9 @@ subsetHTML(html, tag = "div", pattern = NULL, edit = F, save = F,
 
 \item{save}{Logical value specifying whether the HTML-code should be saved to a csv-file.}
 
-\item{prefix}{Character value specifying the beginning of the filename (in case of saving). Defaults to Sys.Date().}
+\item{prefix}{Character value specifying the beginning of the filename (in case of saving). If NULL (default) as.numeric(Sys.time()) is applied.}
+
+\item{trim}{Logical value specifying whether to trim text. Defaults to T.}
 }
 \description{
 Extracts a coherent subset of code from HTML-code.

@@ -24,6 +24,35 @@ deltas <- function (model, x = NULL, y = NULL, fun = mean, plot = T, main = "Fis
     xlab = "Predictor", ylab = expression(R^2), col = NULL, ...) 
 {
     el = list(...)
+    if (is.null(x) | is.null(y)) {
+        if (!is.na(match("lm", class(model)))) {
+            if (is.null(y)) 
+                y = l$model[, 1]
+            if (is.null(x)) 
+                x = l$model[, -1]
+        }
+        else if (!is.na(match("nnet", class(model)))) {
+            mc = as.list(model$call)
+            if (!is.null(mc$x) & !is.null(mc$x)) {
+                if (is.null(y)) 
+                  y = eval(mc$y)
+                if (is.null(x)) 
+                  x = eval(mc$x)
+            }
+            else if (!is.null(mc$formula) & !is.null(mc$data)) {
+                if (is.null(y)) 
+                  y = eval(mc$data)[, as.character(mc$formula)[2]]
+                if (is.null(x)) 
+                  x = eval(mc$data)[, names(model$xlevels)]
+            }
+        }
+        if (verbose == T) {
+            message("x:")
+            print(x)
+            message("y:")
+            print(y)
+        }
+    }
     if (is.null(x) | is.null(y)) 
         stop("Please specify predictor x and criterion y!")
     if (sd(predict(model), na.rm = T) == 0) 
@@ -39,7 +68,9 @@ deltas <- function (model, x = NULL, y = NULL, fun = mean, plot = T, main = "Fis
         d = data.frame(x)
         for (i in 1:dim(d)[2]) {
             if (i == j) 
-                d[, i] = fun(d[, i], na.rm = T)
+                d[, i] = ifelse(!is.factor(d[, i]), list(fun(d[, 
+                  i], na.rm = T)), list(names(sort(table(d[, 
+                  i]), decreasing = T)[1])))
         }
         l[[j]] = predict(model, newdata = d)
     }

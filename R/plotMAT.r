@@ -9,13 +9,13 @@
 #' @param lty Numeric vector specifying line type. Defaults to 1.
 #' @param pch Numeric vector specifying points type. Defaults to NULL.
 #' @param type Numeric vector specifying plot-type of lines. Defaults to "l".
-#' @param main Character value representing the title. If NULL (default) it's set to "Cumulation over Time" if cumsum==T, and to "Development over Time" otherwise.
+#' @param main Character value representing the title. Defaults to NULL.
 #' @param xlim Numeric vector with two elements. If NULL (default) xlim is detemined automatically.
 #' @param ylim Numeric vector with two elements. If NULL (default) ylim is detemined automatically.
 #' @param xlim.factor Numeric value for adding extra space to the right of the plot. Defaults to 1.
 #' @param las Numeric value specifying the rotation of the y-axis (0 for 90 percent rotation, 1 for 0 percent rotation). Defaults to 1.
 #' @param srt Numeric value specifying the rotation of the x-axis (between 0 and 360 degrees). Defaults to 45.
-#' @param cumsum Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to T.
+#' @param cumsum Logical value indicating whether the cumsum of each row in the matrix of each row should be plotted. Defaults to F.
 #' @param show.legend Logical value indicating whether a legend should be drawn instead of texts. Defaults to T.
 #' @param add Logical value indicating whether to draw lines to an existing plot. Defaults to F.
 #' @param add.shadow Logical value indicating whether lines should be surrounded ba a black line. Defaults to F.
@@ -34,11 +34,12 @@
 
 plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL, 
     lwd = 2, lty = 1, pch = NULL, type = "l", xlim = NULL, ylim = NULL, 
-    xlim.factor = 1.5, las = 1, srt = 45, cumsum = T, show.legend = F, 
+    xlim.factor = 1.5, las = 1, srt = 45, cumsum = F, show.legend = F, 
     add = F, add.shadow = F, grid = T, col = NULL, cex = 0.7, 
     cex.axis1 = 0.5, cex.axis2 = 0.7, frame = 1, manual.addon = NULL) 
 {
     if (is.null(matrix)) {
+        cumsum = T
         matrix = t(data.frame(`ID 15455/20157` = c(32, 254, 22, 
             54, 35, 30, 46, 245, 10, 6, 17, 24, 16, 14, 16, 22, 
             36, 192, 89, 133, 14, 5, 11, 13, 18, 5), `ID 34608/32684` = c(NA, 
@@ -105,8 +106,6 @@ plotMAT <- function (matrix = NULL, main = NULL, xlab = "", ylab = NULL,
         xlab = "time"
     if (is.null(ylab)) 
         ylab = ifelse(cumsum, "cumulated sum", "value")
-    if (is.null(main)) 
-        main = ifelse(cumsum, "Cumulation over Time", "Development over Time")
     if (!is.null(manual.addon)) 
         if (length(manual.addon) != dim(matrix)[1]/2) 
             manual.addon = rep(0, dim(matrix)[1]/2)

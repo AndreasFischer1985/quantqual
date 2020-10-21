@@ -4,7 +4,7 @@
 \alias{last}
 \title{Function last}
 \usage{
-last(x, s = 0)
+last(x, s = 0, factorsAsStrings = T)
 }
 \arguments{
 \item{x}{A vector or list.}

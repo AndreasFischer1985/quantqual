@@ -5,7 +5,8 @@
 \title{Function flowerplot}
 \usage{
 flowerplot(x = NULL, maximum = NULL, rownames = NULL,
-  colnames = NULL, main = NULL, color = NULL, color2 = "lightgrey")
+  colnames = NULL, main = NULL, color = NULL, color2 = "lightgrey",
+  add.numbers = F, ncex = 0.8, ndigits = 1, ncol = "black")
 }
 \arguments{
 \item{x}{Numeric data.frame or matrix containing the values to be displayed.}
@@ -21,6 +22,8 @@ flowerplot(x = NULL, maximum = NULL, rownames = NULL,
 \item{color}{Character vector, containing the colors of petals. If NULL (default) rainbow palette is applied.}
 
 \item{color2}{Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".}
+
+\item{add.numbers}{Logical value specifying whether to draw numbers next to each petal. Defaults to F.}
 }
 \description{
 Plots data.frame as a field of flowers.

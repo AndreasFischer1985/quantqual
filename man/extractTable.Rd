@@ -9,7 +9,17 @@ extractTable(x, reg.up = NULL, reg.down = NULL, reg.left = "^",
   convert = F, correctNotation = F)
 }
 \arguments{
-\item{x}{A character vector containing one text-line per element.}
+\item{x}{A character element containing all the text textract the table from (or a character vector containing one text-line per element).}
+
+\item{reg.up}{Regular expression spefifying the top of the table. Defaults to NULL.}
+
+\item{reg.down}{Regular expression spefifying the bottom of the table. Defaults to NULL.}
+
+\item{reg.left}{Regular expression spefifying the bottom of the table. Defaults to "^".}
+
+\item{reg.right}{Regular expression spefifying the bottom of the table. Defaults to "$"}
+
+\item{reg.fix}{Regular expression spefifying the bottom of the table. Defaults to NULL.}
 
 \item{header}{Logical value that specifies, whether to treat first row and column as row- and column-names. Defaults to F.}
 

@@ -8,8 +8,8 @@
 #' @param main Character vector with one element containing the barplot's title. Defaults to NULL
 #' @param max Numeric value determining the largest possible value of the data to be displayed. Defaults to 1.
 #' @param xylim Numeric value determining both upper and lower limits on both x and y axis (xlim & ylim). Defaults to 1.5.
-#' @param col Character or rgb value specifying the line's color. Defaults to rgb(0,0,1).
-#' @param col2 Character or rgb value specifying the color of the area between upper and lower bound. Defaults to rgb(0,0,1,.5).
+#' @param col Character or rgb value specifying the line's color. If NULL (default) col is set to "#00547A".
+#' @param col2 Character or rgb value specifying the color of the area between upper and lower bound. If NULL (default) col2 is set to quantqual::cols2(col).
 #' @param border Character or rgb value specifying the color of the polygon border. Defaults to NA.
 #' @param mode Numeric value specifying whether to draw a polygon (mode=1) or arrows (mode!=1), and whether to draw a polygon for x (mode>=0) or not (mode<0). Defaults to 0.
 #' @param arrows.lwd Numeric value specifying lwd for arrows (if any). Defaults to 2.
@@ -26,15 +26,19 @@
 
 spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL, 
     names = NULL, main = NULL, max = 1, min = 0, xylim = 1.5, 
-    add.scale = T, col = "#00547A", col2 = "#FFA500E6", border = NA, 
-    mode = 0, arrows.lwd = 3, arrows.length = 0.01, add = F, 
-    add.numbers = F, numbers = 2, add.grid = T, add.labels = T, 
-    line.type = "o", grid.detail = 1, grid.points = NULL) 
+    add.scale = T, col = NULL, col2 = NULL, border = NA, mode = 0, 
+    arrows.lwd = 3, arrows.length = 0.01, add = F, add.numbers = F, 
+    numbers = 2, add.grid = T, add.labels = T, line.type = "o", 
+    grid.detail = 1, grid.points = NULL) 
 {
     dimensions = x
     if (!is.null(grid.points)) 
         if (is.null(names(grid.points))) 
             names(grid.points) = grid.points
+    if (is.null(col)) 
+        col = "#00547A"
+    if (is.null(col2)) 
+        col2 = quantqual::cols2(col)
     if (!is.null(upper) & !is.null(dimensions)) {
         if (max < max(c(lower, upper, dimensions))) 
             max = max(c(lower, upper, dimensions))

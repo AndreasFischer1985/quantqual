@@ -5,7 +5,7 @@
 \title{Function af.sensitivity}
 \usage{
 af.sensitivity(model, x = NULL, y = NULL, steps = 100,
-  splitseq = seq(0, 1, by = 0.25), plot = T, ...)
+  splitseq = seq(0, 1, by = 0.25), plot = T, verbose = T, ...)
 }
 \arguments{
 \item{model}{Any object that works as input for function predict.}
