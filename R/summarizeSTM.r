@@ -9,7 +9,7 @@
 #' 
 
 summarizeSTM <- function (stm, data, topicNo = 0, main = "Results", stopwords = NULL, 
-    cex = 1, simlpe = F) 
+    cex = 1, simple = F) 
 {
     rem2 = ""
     if (!is.null(stopwords)) 
