@@ -29,7 +29,7 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     add.scale = T, col = NULL, col2 = NULL, border = NA, mode = 0, 
     arrows.lwd = 3, arrows.length = 0.01, add = F, add.numbers = F, 
     numbers = 2, add.grid = T, add.labels = T, line.type = "o", 
-    grid.detail = 1, grid.points = NULL) 
+    grid.detail = 1, grid.points = NULL, shift = 0) 
 {
     dimensions = x
     if (!is.null(grid.points)) 
@@ -100,18 +100,21 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     }
     if (!is.null(upper) & !is.null(lower)) {
         if (mode == 1) {
-            polygon(weights2 * no(c(upper, upper[1])) * cos(theta), 
-                weights2 * no(c(upper, upper[1])) * sin(theta), 
-                col = col2, border = border, lty = 1)
-            polygon(weights2 * no(c(lower, lower[1])) * cos(theta), 
-                weights2 * no(c(lower, lower[1])) * sin(theta), 
-                col = rgb(1, 1, 1), border = border, lty = 1)
+            polygon(weights2 * no(c(upper, upper[1])) * cos(theta + 
+                shift), weights2 * no(c(upper, upper[1])) * sin(theta + 
+                shift), col = col2, border = border, lty = 1)
+            polygon(weights2 * no(c(lower, lower[1])) * cos(theta + 
+                shift), weights2 * no(c(lower, lower[1])) * sin(theta + 
+                shift), col = rgb(1, 1, 1), border = border, 
+                lty = 1)
         }
         else {
-            arrows((weights2 * no(c(lower, lower[1])) * cos(theta))[-length(weights2)], 
-                (weights2 * no(c(lower, lower[1])) * sin(theta))[-length(weights2)], 
-                (weights2 * no(c(upper, upper[1])) * cos(theta))[-length(weights2)], 
-                (weights2 * no(c(upper, upper[1])) * sin(theta))[-length(weights2)], 
+            arrows((weights2 * no(c(lower, lower[1])) * cos(theta + 
+                shift))[-length(weights2)], (weights2 * no(c(lower, 
+                lower[1])) * sin(theta + shift))[-length(weights2)], 
+                (weights2 * no(c(upper, upper[1])) * cos(theta + 
+                  shift))[-length(weights2)], (weights2 * no(c(upper, 
+                  upper[1])) * sin(theta + shift))[-length(weights2)], 
                 col = col2, angle = 90, length = arrows.length, 
                 code = 3, lwd = arrows.lwd)
         }
@@ -133,9 +136,10 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
                 sin(theta), lty = 1, col = rgb(0, 0, 0, 0.2))
         }
     if (!is.null(dimensions) & mode >= 0) 
-        lines(weights2 * no(c(dimensions, dimensions[1])) * cos(theta), 
-            weights2 * no(c(dimensions, dimensions[1])) * sin(theta), 
-            col = col, lwd = 2, type = line.type, pch = 16)
+        lines(weights2 * no(c(dimensions, dimensions[1])) * cos(theta + 
+            shift), weights2 * no(c(dimensions, dimensions[1])) * 
+            sin(theta + shift), col = col, lwd = 2, type = line.type, 
+            pch = 16)
     if (add == F) 
         if (add.grid & numbers > 0) {
             if (is.null(grid.points)) {

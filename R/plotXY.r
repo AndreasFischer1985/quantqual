@@ -4,6 +4,8 @@
 #' @param x Numeric vector.
 #' @param y Numeric vector of the same length as x.
 #' @param complexity Numeric value specifying the amount of nonlinearity modelled. Defaults to 0 (i.e., a linear model).
+#' @param rep.nnet Numeric value specifying the number of nnet-objects to choose the best model from.
+#' @param attrModel Logical value specifying whether to add the model as an attribute to the object returned.
 #' @param na.rm Logical value indicating whether missing values should be skipped. Defaults to T.
 #' @param color1 Color of points in the scattergram. Defaults to rgb(0,0,0,.7).
 #' @param color2 Color of the regression line. Defaults to rgb(0,0,1).
@@ -99,7 +101,9 @@ plotXY <- function (x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
             title(sub = sub, cex.sub = cex.sub)
     polygon(c(in1, in1[length(in1):1]), c(inner, outer[length(outer):1]), 
         col = color3[1], border = NA)
-    points(data0[, 1], data0[, 2], pch = pch, col = color1[1])
+    if (length(data0[, 1]) != length(color1)) 
+        color1 = color1[1]
+    points(data0[, 1], data0[, 2], pch = pch, col = color1)
     lines(in1, ou1, , col = color2[1], lwd = lwd)
     dat = data.frame(predictor = in1, prediction = ou1, lower.bound = inner, 
         upper.bound = outer)

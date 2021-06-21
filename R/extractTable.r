@@ -1,12 +1,12 @@
 #' Function extractTable
 #' 
 #' Extracts table as data.frames from multiple lines of text.
+#' @param x A character element containing all the text toextract the table from (or a character vector containing one text-line per element).
 #' @param reg.up Regular expression spefifying the top of the table. Defaults to NULL.
 #' @param reg.down Regular expression spefifying the bottom of the table. Defaults to NULL.
 #' @param reg.left Regular expression spefifying the bottom of the table. Defaults to "^".
 #' @param reg.right Regular expression spefifying the bottom of the table. Defaults to "$"
 #' @param reg.fix Regular expression spefifying the bottom of the table. Defaults to NULL.
-#' @param x A character element containing all the text textract the table from (or a character vector containing one text-line per element).
 #' @param header Logical value that specifies, whether to treat first row and column as row- and column-names. Defaults to F.
 #' @param trim Logical value that specifies, whether to trim entries. Defaults to T.
 #' @param convert Logical value that specifies, whether to convert table to numeric (after correcting for notation in case correctNotation is set to T). Please use with care, if table contains non-numeric information. Defaults to T.

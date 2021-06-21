@@ -6,7 +6,9 @@
 \usage{
 flowerplot(x = NULL, maximum = NULL, rownames = NULL,
   colnames = NULL, main = NULL, color = NULL, color2 = "lightgrey",
-  add.numbers = F, ncex = 0.8, ndigits = 1, ncol = "black")
+  add.numbers = F, ncex = 0.8, ndigits = 1, ncol = "black",
+  cex = 0.8, xlim = NULL, ylim = NULL, dist = 4, legend = NULL,
+  xshift = 0)
 }
 \arguments{
 \item{x}{Numeric data.frame or matrix containing the values to be displayed.}
@@ -19,7 +21,7 @@ flowerplot(x = NULL, maximum = NULL, rownames = NULL,
 
 \item{main}{Character value, containing the title to be displayed. Defaults to NULL.}
 
-\item{color}{Character vector, containing the colors of petals. If NULL (default) rainbow palette is applied.}
+\item{color}{Character vector, containing the colors of petals. If NULL (default) the rainbow palette is applied.}
 
 \item{color2}{Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".}
 

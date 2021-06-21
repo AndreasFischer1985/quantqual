@@ -42,7 +42,10 @@ compareDocs <- function (a = NULL, b = NULL, relative = T, vertLine = T, horizLi
             ]
         warning(paste("Only", max, "differences are displayed"))
     }
-    dotchart(com[, 3], pch = pch, main = main, cex = cex, ...)
+    quantqual::dotplot(com[, 3], pch = pch, main = main, cex = cex, 
+        vertLine = ifelse(vertLine[1] == T, 0, ifelse(vertLine[1] == 
+            F, NA, vertLine)), horizLines = horizLines, max = max + 
+            1, ...)
     if (horizLines) 
         segments(x0 = 0, y0 = 1:dim(com)[1], x1 = round(com[, 
             3], 2), y1 = 1:dim(com)[1])

@@ -6,16 +6,17 @@
 #' @param pattern Regular expression further specifying subsets of interest. If NULL (default) equals tag.
 #' @param edit Logical value specifying whether the data.frame should be plotted/edited.
 #' @param save Logical value specifying whether the HTML-code should be saved to a csv-file.
-#' @param prefix Character value specifying the beginning of the filename (in case of saving). If NULL (default) as.numeric(Sys.time()) is applied.
+#' @param plot Logical value specifying whether to plot the frequency of each HTML-tag found in the html-object.
+#' @param filename Character value specifying the filename (if save is TRUE). If NULL (default) as.numeric(Sys.time()) is applied.
 #' @param trim Logical value specifying whether to trim text. Defaults to T.
-#' @details Extracts a coherent subset of code from HTML-code.
+#' @details Extracts a coherent subset of code from HTML-code (as returned by quantqual::getHTML, for example).
 #' @keywords scraping
 #' @export
 #' @examples
 #' subsetHTML(getHTML("https://jobs.meinestadt.de/nuernberg/suche?words=Wissenschaftlicher%20Mitarbeiter",tag="div",pattern="class=\"m-resultListEntries__content\""))
 
 subsetHTML <- function (html, tag = "div", pattern = NULL, edit = F, save = F, 
-    plot = F, prefix = NULL, trim = T) 
+    plot = F, filename = NULL, trim = T) 
 {
     if (length(html) > 1) 
         if (length(dim(html)) > 2) 
@@ -76,13 +77,13 @@ subsetHTML <- function (html, tag = "div", pattern = NULL, edit = F, save = F,
         }
     }
     result = data.frame(entry = result0, info = result2, links = result3, 
-        text = result1, stringsAsFactors = F)
+        stringsAsFactors = F)
     result = result[grep(paste0("^", start), result[, 1]), ]
     if (edit) 
         result = edit(result)
     if (save) {
-        write.csv2(data.frame(result), paste0(ifelse(is.character(prefix), 
-            prefix, as.numeric(Sys.time())), "_result.csv"))
+        write.csv2(data.frame(result), paste0(ifelse(is.character(filename), 
+            filename, as.numeric(Sys.time())), ".csv"))
     }
     return(invisible(result))
 }

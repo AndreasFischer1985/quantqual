@@ -6,6 +6,7 @@
 #' @param cex Size of axis fonts. Defaults to 1.
 #' @param beside Logical value indicating if bars should be placed next to each other. Defaults to T.
 #' @param horiz Logical value indicating if bars should be placed horizontal. Defaults to F.
+#' @param breakLabels Logical value indicating if labels of bars should be tranformed by quantqual::labelbreaker. Defaults to F.
 #' @param add.numbers Logical value indicating if numbers should be placed above bars. Defaults to F.
 #' @param ndigits Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.
 #' @param ncex Size of fonts. If NA (default) is set to cex.
@@ -45,18 +46,18 @@
 #' bp(data.frame(group1=c(variable1=1,variable2=2),group2=c(variable1=3,variable2=4)),horiz=T,main="Example")
 
 bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F, 
-    add.numbers = F, ndigits = 2, ncex = NA, nsrt = 0, npos = NA, 
-    ncol = "black", sdcol = "grey", grid = T, plot = T, main = NULL, 
-    sub = NULL, xlim.factor = 1.5, las = 1, srt = 45, xlim = NULL, 
-    ylim = NULL, names.arg = NULL, legend.text = NULL, optimize.legend = T, 
-    args.legend = NULL, density = NULL, angle = 45, col = NULL, 
-    grid.col = "grey", axes = T, add = F, adj = 0.5, default.labels = F, 
-    xlab = NA, ylab = NA, border = NA, grid.mode = 0, main1 = NULL, 
-    main2 = NULL, main3 = NULL, adj.main1 = 0, adj.main2 = 0, 
-    adj.main3 = 0, col.main1 = "black", col.main2 = "black", 
-    col.main3 = "black", cex.main1 = 1.2, cex.main2 = 1.2, cex.main3 = 1.2, 
-    font.main1 = 1, font.main2 = 2, font.main3 = 4, omitZeros = T, 
-    mar = NA, automar = F, ...) 
+    breakLabels = F, add.numbers = F, ndigits = 2, ncex = NA, 
+    nsrt = 0, npos = NA, ncol = "black", sdcol = "grey", grid = T, 
+    plot = T, main = NULL, sub = NULL, xlim.factor = 1.5, las = 1, 
+    srt = 45, xlim = NULL, ylim = NULL, names.arg = NULL, legend.text = NULL, 
+    optimize.legend = T, args.legend = NULL, density = NULL, 
+    angle = 45, col = NULL, grid.col = "grey", axes = T, add = F, 
+    adj = 0.5, default.labels = F, xlab = NA, ylab = NA, border = NA, 
+    grid.mode = 0, main1 = NULL, main2 = NULL, main3 = NULL, 
+    adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black", 
+    col.main2 = "black", col.main3 = "black", cex.main1 = 1.2, 
+    cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2, 
+    font.main3 = 4, omitZeros = T, mar = NA, automar = F, ...) 
 {
     addChars = ifelse(is.character(add.numbers), add.numbers, 
         "")
@@ -258,6 +259,11 @@ bp <- function (x = NULL, sd = NULL, cex = 1, beside = T, horiz = F,
             x2[x2 == addChars] = ""
             return(x2)
         }
+        if (breakLabels == T) 
+            colnames(b2) = quantqual::labelbreaker(colnames(b2))
+        if (is.numeric(breakLabels)) 
+            colnames(b2) = quantqual::labelbreaker(colnames(b2), 
+                breakLabels[1])
         if (!horiz) {
             if (axes != F) {
                 xaxp <- ifelse((length(dev.list()) > 0 | plot == 

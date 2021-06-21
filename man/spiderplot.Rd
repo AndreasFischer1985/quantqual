@@ -9,7 +9,7 @@ spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
   add.scale = T, col = NULL, col2 = NULL, border = NA, mode = 0,
   arrows.lwd = 3, arrows.length = 0.01, add = F, add.numbers = F,
   numbers = 2, add.grid = T, add.labels = T, line.type = "o",
-  grid.detail = 1, grid.points = NULL)
+  grid.detail = 1, grid.points = NULL, shift = 0)
 }
 \arguments{
 \item{x}{Numeric vector containing the values to be displayed. Values should be between 0 and 1.}

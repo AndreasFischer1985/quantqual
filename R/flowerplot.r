@@ -6,7 +6,7 @@
 #' @param rownames Character vector of the same length as x, containing the row names to be displayed. If NULL (default) rownames of x are applied.
 #' @param colnames Character vector of the same length as x, containing the column names to be displayed. If NULL (default) colnames of x are applied.
 #' @param main Character value, containing the title to be displayed. Defaults to NULL.
-#' @param color Character vector, containing the colors of petals. If NULL (default) rainbow palette is applied.
+#' @param color Character vector, containing the colors of petals. If NULL (default) the rainbow palette is applied.
 #' @param color2 Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".
 #' @param add.numbers Logical value specifying whether to draw numbers next to each petal. Defaults to F.
 #' @details Plots data.frame as a field of flowers. Each column is represented as a separate flower, each row as a flower's petal.
@@ -17,10 +17,12 @@
 
 flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NULL, 
     main = NULL, color = NULL, color2 = "lightgrey", add.numbers = F, 
-    ncex = 0.8, ndigits = 1, ncol = "black") 
+    ncex = 0.8, ndigits = 1, ncol = "black", cex = 0.8, xlim = NULL, 
+    ylim = NULL, dist = 4, legend = NULL, xshift = 0) 
 {
-    if (!is.null(x)) 
+    if (!is.null(x)) {
         data = data.frame(x)
+    }
     else data = NULL
     if (is.null(data)) 
         data = data.frame(option1 = c(1, 1, 1, 1, 1, 1, 1), option2 = c(0.9, 
@@ -28,7 +30,6 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
             0.8, 0.9, 1, 0.9, 0.7), option4 = c(0.9, 1, 0.7, 
             0.5, 0.5, 0.5, 0.5), option5 = c(0.4, 0.4, 0.4, 1, 
             1, 1, 1))
-    dist = 4
     x = seq(-2, (dim(data)[2] - 1) * dist + 2, length.out = 2)
     if (!is.numeric(as.matrix(data))) 
         stop("Wrong input. Please provide a numerical matrix.")
@@ -62,9 +63,10 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
         r = seq(0, 2 * pi, length.out = max.l)[l]
         x = a * b * cos(theta)
         y = b * sin(theta)
-        xr = dist * (fl - 1) + x0 + x * cos(r) + y * sin(r)
+        xr = dist * (fl - 1) + xshift + x0 + x * cos(r) + y * 
+            sin(r)
         yr = he + y0 - x * sin(r) + y * cos(r)
-        polygon(xr, yr, col = col, border = border)
+        polygon(xr, yr, col = col, border = border, xpd = T)
         if (add.numbers == T) 
             if (!is.na(text)) {
                 c = b + 0.2
@@ -77,34 +79,44 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
                 yr = he + y0 - x * sin(r) + y * cos(r)
                 text(xr[20], yr[20], ifelse(text == 1, "1.0", 
                   ifelse(text == 0, "0.0", round(text, ndigits))), 
-                  cex = ncex, col = ncol)
+                  cex = ncex, col = ncol, xpd = T)
             }
     }
-    plot(x, x, type = "n", xlab = "", ylab = "", axes = FALSE, 
+    if (is.null(xlim)) 
         xlim = c(-2 - dist/2, dist * 3/4 + dist * (dim(data)[2])) + 
-            dist/2)
+            dist/2
+    if (is.null(ylim)) 
+        ylim = c(min(x), max(x))
+    plot(x, x, type = "n", xlab = "", ylab = "", axes = FALSE, 
+        xlim = xlim, ylim = ylim)
     for (flower1 in 1:dim(data)[2]) {
         height = (max(x) - 2) * (colSums(data)/max(colSums(data)))[flower1]
-        segments(dist * (flower1 - 1), 0, dist * (flower1 - 1), 
-            height, col = "darkgreen", lwd = 3)
+        segments(dist * (flower1 - 1) + xshift, 0, dist * (flower1 - 
+            1) + xshift, height, col = "darkgreen", lwd = 3, 
+            xpd = T)
         for (petal1 in 1:dim(data)[1]) {
             petal(0.3, 1, petal1, dim(data)[1] + 1, flower1, 
                 height, col = color2[1], border = NA, text = NA)
             petal(0.3, data[petal1, flower1], petal1, dim(data)[1] + 
                 1, flower1, height, text = data[petal1, flower1])
         }
-        polygon(dist * (flower1 - 1) + 0.5 * sin(seq(0, 2 * pi, 
-            length.out = dim(data)[1] + 1)), height + 0.5 * cos(seq(0, 
-            2 * pi, length.out = dim(data)[1] + 1)), col = "black")
-        text(dist * (flower1 - 1), 0, colnames[flower1], pos = 1)
+        polygon(dist * (flower1 - 1) + xshift + 0.5 * sin(seq(0, 
+            2 * pi, length.out = dim(data)[1] + 1)), height + 
+            0.5 * cos(seq(0, 2 * pi, length.out = dim(data)[1] + 
+                1)), col = "black", xpd = T)
+        text(dist * (flower1 - 1) + xshift, 0, colnames[flower1], 
+            pos = 1, cex = cex)
     }
-    segments(-2, 0, dist * (dim(data)[2]) + 1, 0, col = "darkgreen", 
-        lwd = 3)
+    segments(-2, 0, dist * (dim(data)[2]) + 1 + shift, 0, col = "darkgreen", 
+        lwd = 3, xpd = T)
     if (!is.null(main)) 
         title(main)
     legX = dist * 3/4 + dist * (dim(data)[2])
-    legend(x = legX - dist, y = legX - dist, legend = c(rownames), 
-        fill = farben[1:(dim(data)[1] + 1)], bg = "white", bty = "n", 
-        xpd = T)
+    if (is.null(legend)) 
+        legend(x = legX - dist, y = legX - dist, legend = c(rownames), 
+            fill = farben[1:(dim(data)[1] + 1)], bg = "white", 
+            bty = "n", xpd = T, cex = cex.legend)
+    if (!is.null(legend)) 
+        legend
     invisible(data)
 }

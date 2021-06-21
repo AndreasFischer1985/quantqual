@@ -9,7 +9,7 @@ extractTable(x, reg.up = NULL, reg.down = NULL, reg.left = "^",
   convert = F, correctNotation = F)
 }
 \arguments{
-\item{x}{A character element containing all the text textract the table from (or a character vector containing one text-line per element).}
+\item{x}{A character element containing all the text toextract the table from (or a character vector containing one text-line per element).}
 
 \item{reg.up}{Regular expression spefifying the top of the table. Defaults to NULL.}
 

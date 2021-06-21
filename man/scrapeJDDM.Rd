@@ -11,6 +11,12 @@ scrapeJDDM(plot = T,
 }
 \arguments{
 \item{plot}{Logical value specifying wether to plot data on reads and downloads.}
+
+\item{urls}{Character vector specifying the URLs of the individual issues to scrape.}
+
+\item{url2}{Character value specifying the URL of global journal statistics.}
+
+\item{plot}{Logical value specifying wether to plot data on reads and downloads.}
 }
 \description{
 Downloads and returns data and metadata from the database of the Journal of Dynamic Decision Making.

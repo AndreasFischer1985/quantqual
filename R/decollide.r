@@ -18,7 +18,7 @@
 #' set.seed(0);decollide(x=rnorm(10),y=rnorm(10),text=paste0(1:10,":",round(rnorm(10),3)),cex=1,font=1,plot=T)
 
 decollide <- function (x, y, text, jitter = F, cex = 1, font = 1, frame = 1.5, 
-    plot = F, lock.x = F, lock.y = F, verbose = T, repetitions = 100) 
+    plot = F, lock.x = F, lock.y = F, verbose = F, repetitions = 100) 
 {
     x0 = x
     y0 = y

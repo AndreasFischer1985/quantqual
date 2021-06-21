@@ -5,7 +5,7 @@
 \title{Function decollide}
 \usage{
 decollide(x, y, text, jitter = F, cex = 1, font = 1, frame = 1.5,
-  plot = F, lock.x = F, lock.y = F, verbose = T,
+  plot = F, lock.x = F, lock.y = F, verbose = F,
   repetitions = 100)
 }
 \arguments{

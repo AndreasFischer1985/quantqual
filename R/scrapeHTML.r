@@ -5,14 +5,15 @@
 #' @param short Logical value specifying whether only lines with verbal information or link should be returned. Defaults to F.
 #' @param edit Logical value specifying whether the data.frame should be plotted/edited.
 #' @param save Logical value specifying whether the HTML-code should be saved to a csv-file.
-#' @param prefix Character value specifying the beginning of the filename (in case of saving). If NULL (default) as.numeric(Sys.time()) is applied.
-#' @details Extracts Information from HTML. Returns a data.frame with three columns: the first column contains html-code, the second column contains extracted verbal information, and the third column contains extracted links.
+#' @param plot Logical value specifying whether to plot the frequency of each HTML-tag found in the html-object.
+#' @param filename Character value specifying the filename (if save is TRUE). If NULL (default) as.numeric(Sys.time()) is applied.
+#' @details Extracts Information from HTML code (as returned by quantqual::getHTML, for example). Returns a data.frame with three columns: the first column contains html-code, the second column contains extracted verbal information, and the third column contains extracted links.
 #' @keywords scraping
 #' @export
 #' @examples
 #' scrapeHTML(getHTML())
 
-scrapeHTML <- function (html, short = F, edit = T, save = F, plot = F, prefix = NULL) 
+scrapeHTML <- function (html, short = F, edit = T, save = F, plot = F, filename = NULL) 
 {
     if (length(html) > 1) 
         if (length(dim(html)) > 2) 
@@ -41,7 +42,7 @@ scrapeHTML <- function (html, short = F, edit = T, save = F, plot = F, prefix = 
     if (edit) 
         result = edit(result)
     if (save) 
-        write.csv2(data.frame(result), paste0(ifelse(is.character(prefix), 
-            prefix, as.numeric(Sys.time())), "_result.csv"))
+        write.csv2(data.frame(result), paste0(ifelse(is.character(filename), 
+            filename, as.numeric(Sys.time())), ".csv"))
     return(invisible(result))
 }

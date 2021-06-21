@@ -22,6 +22,10 @@ plotXY(x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
 
 \item{complexity}{Numeric value specifying the amount of nonlinearity modelled. Defaults to 0 (i.e., a linear model).}
 
+\item{rep.nnet}{Numeric value specifying the number of nnet-objects to choose the best model from.}
+
+\item{attrModel}{Logical value specifying whether to add the model as an attribute to the object returned.}
+
 \item{na.rm}{Logical value indicating whether missing values should be skipped. Defaults to T.}
 
 \item{color1}{Color of points in the scattergram. Defaults to rgb(0,0,0,.7).}

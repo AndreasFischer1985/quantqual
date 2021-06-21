@@ -16,15 +16,16 @@
 
 dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL, 
     cex = par("cex"), pt.cex = cex, pch = 16, gpch = 21, bg = par("bg"), 
-    color = par("fg"), gcolor = par("fg"), lcolor = "gray", xlim = range(x[is.finite(x)]), 
-    main = NULL, xlab = NULL, ylab = NULL, deviations = NA, x2 = NA, 
-    vertLine = 0, horizLines = T, max = 40, sort = F, add.numbers = F, 
-    ndigits = 2, ncex = NA, nsrt = 0, npos = NA, ncol = "black", 
-    main1 = NULL, main2 = NULL, main3 = NULL, adj.main1 = 0, 
-    adj.main2 = 0, adj.main3 = 0, col.main1 = "black", col.main2 = "black", 
-    col.main3 = "black", cex.main1 = 1.2, cex.main2 = 1.2, cex.main3 = 1.2, 
-    font.main1 = 1, font.main2 = 2, font.main3 = 4, omitZeros = F, 
-    xaxs = "i", yaxs = "i", ...) 
+    col = NULL, color = par("fg"), gcolor = par("fg"), lcolor = "gray", 
+    xlim = range(x[is.finite(x)]), main = NULL, xlab = NULL, 
+    ylab = NULL, deviations = NA, x2 = NA, vertLine = 0, horizLines = T, 
+    max = 40, sort = F, add.numbers = F, ndigits = 2, ncex = NA, 
+    nsrt = 0, npos = NA, ncol = "black", main1 = NULL, main2 = NULL, 
+    main3 = NULL, adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, 
+    col.main1 = "black", col.main2 = "black", col.main3 = "black", 
+    cex.main1 = 1.2, cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, 
+    font.main2 = 2, font.main3 = 4, omitZeros = F, xaxs = "i", 
+    yaxs = "i", ...) 
 {
     opar <- par("mai", "mar", "cex", "yaxs")
     on.exit(par(opar))
@@ -35,15 +36,16 @@ dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL,
         x = rnorm(100)
         names(x) = paste0("Var", 1:100)
     }
-    if (length(x) > max) {
-        if (!is.na(deviations[1])) 
-            deviations = deviations[c(1:floor(max/2), (length(x) - 
-                floor(max/2)):length(x))]
-        if (!is.na(x2[1])) 
-            x2 = x2[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
-        x = x[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
-        warning(paste("Only", max, "values are displayed"))
-    }
+    if (is.null(dim(x)[2])) 
+        if (length(x) > max) {
+            if (!is.na(deviations[1])) 
+                deviations = deviations[c(1:floor(max/2), (length(x) - 
+                  floor(max/2)):length(x))]
+            if (!is.na(x2[1])) 
+                x2 = x2[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
+            x = x[c(1:floor(max/2), (length(x) - floor(max/2)):length(x))]
+            warning(paste("Only", max, "values are displayed"))
+        }
     n <- length(x)
     if (sort == T) {
         if (!is.na(deviations[1])) 
@@ -88,7 +90,7 @@ dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL,
         ncex = cex
     if (!is.null(npos)) 
         if (is.na(npos)) 
-            npos = 3
+            npos = 4
     round2 = function(x, ndigits, addChars = "") {
         x2 = as.character(round(x, digits = ndigits))
         x2[is.na(x)] = ""
@@ -161,9 +163,11 @@ dotplot <- function (x = NULL, labels = NULL, groups = NULL, gdata = NULL,
     if (!is.na(x2[1])) {
         horizLines = F
         segments(x0 = x, y0 = y, x1 = x2, y1 = y, col = color)
-        points(x2, y, pch = pch, col = color, bg = bg, cex = pt.cex/cex)
+        points(x2, y, pch = pch, col = ifelse(is.null(col), list(color), 
+            list(col))[[1]], bg = bg, cex = pt.cex/cex)
     }
-    points(x, y, pch = pch, col = color, bg = bg, cex = pt.cex/cex)
+    points(x, y, pch = pch, col = ifelse(is.null(col), list(color), 
+        list(col))[[1]], bg = bg, cex = pt.cex/cex)
     if (add.numbers) 
         text(x, y, round2(x, ndigits, addChars), pos = npos, 
             col = ncol, cex = ncex, srt = nsrt, xpd = T)

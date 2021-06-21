@@ -6,7 +6,7 @@
 \usage{
 
   getHTML(url = "https://scholar.google.de/citations?user=-TjY7oEAAAAJ&hl=de&oi=sra",
-  encoding = "UTF-8", save = F, prefix = NULL, closeCon = F,
+  encoding = "UTF-8", save = F, filename = NULL, closeCon = F,
   method = "libcurl", silent = T, curlGetHeaders = F,
   browseURL = F, ...)
 }
@@ -15,9 +15,9 @@
 
 \item{encoding}{Character value specifying the encoding. Defaults to "UTF-8".}
 
-\item{save}{Logical value specifying whether the HTML-code should be saved to a csv-file.}
+\item{save}{Logical value specifying whether the HTML-code should be saved to a txt-file.}
 
-\item{prefix}{Character value specifying the beginning of the filename (in case of saving). If NULL (default) as.numeric(Sys.time()) is applied.}
+\item{filename}{Character value specifying the filename (if save is TRUE). If NULL (default) as.numeric(Sys.time()) is applied.}
 
 \item{closeCon}{Logical value specifying whether to close open connections before and after scraping. defaults to F.}
 
@@ -32,10 +32,10 @@
 \item{headers}{Logical value.}
 }
 \description{
-Extracts HTML from an URL.
+Returns HTML from an URL obained via GET-request.
 }
 \details{
-Extracts HTML from an URL. Assumes UTF-8 encoding by default. Returns a character element containing HTML-code.
+Returns HTML from an URL obained via GET-request. Assumes UTF-8 encoding by default. Returns a character element containing HTML-code.
 }
 \examples{
 getHTML()
