@@ -17,8 +17,8 @@
 
 flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NULL, 
     main = NULL, color = NULL, color2 = "lightgrey", add.numbers = F, 
-    ncex = 0.8, ndigits = 1, ncol = "black", cex = 0.8, xlim = NULL, 
-    ylim = NULL, dist = 4, legend = NULL, xshift = 0) 
+    ncex = 0.8, ndigits = 1, ncol = "black", cex = 0.8, cex.legend = 0.8, 
+    xlim = NULL, ylim = NULL, dist = 4, legend = NULL, xshift = 0) 
 {
     if (!is.null(x)) {
         data = data.frame(x)
@@ -97,6 +97,8 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
         for (petal1 in 1:dim(data)[1]) {
             petal(0.3, 1, petal1, dim(data)[1] + 1, flower1, 
                 height, col = color2[1], border = NA, text = NA)
+        }
+        for (petal1 in 1:dim(data)[1]) {
             petal(0.3, data[petal1, flower1], petal1, dim(data)[1] + 
                 1, flower1, height, text = data[petal1, flower1])
         }
@@ -105,10 +107,10 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
             0.5 * cos(seq(0, 2 * pi, length.out = dim(data)[1] + 
                 1)), col = "black", xpd = T)
         text(dist * (flower1 - 1) + xshift, 0, colnames[flower1], 
-            pos = 1, cex = cex)
+            pos = 1, cex = cex, xpd = T)
     }
-    segments(-2, 0, dist * (dim(data)[2]) + 1 + shift, 0, col = "darkgreen", 
-        lwd = 3, xpd = T)
+    segments(-2 + xshift, 0, dist * (dim(data)[2]) + 1 + xshift, 
+        0, col = "darkgreen", lwd = 3, xpd = T)
     if (!is.null(main)) 
         title(main)
     legX = dist * 3/4 + dist * (dim(data)[2])

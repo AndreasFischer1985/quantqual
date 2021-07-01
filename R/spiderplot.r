@@ -29,7 +29,7 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     add.scale = T, col = NULL, col2 = NULL, border = NA, mode = 0, 
     arrows.lwd = 3, arrows.length = 0.01, add = F, add.numbers = F, 
     numbers = 2, add.grid = T, add.labels = T, line.type = "o", 
-    grid.detail = 1, grid.points = NULL, shift = 0) 
+    grid.detail = 1, grid.points = NULL, shift = 0, arrows.transparency = 0.7) 
 {
     dimensions = x
     if (!is.null(grid.points)) 
@@ -38,32 +38,43 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     if (is.null(col)) 
         col = "#00547A"
     if (is.null(col2)) 
-        col2 = quantqual::cols2(col)
-    if (!is.null(upper) & !is.null(dimensions)) {
-        if (max < max(c(lower, upper, dimensions))) 
-            max = max(c(lower, upper, dimensions))
-        if (min > min(c(lower, upper, dimensions))) 
-            min = min(c(lower, upper, dimensions))
+        col2 = quantqual::cols2(col, arrows.transparency)
+    if (!is.null(max)) {
+        max = 1
+        if (!is.null(upper) & !is.null(dimensions)) {
+            if (max < max(c(lower, upper, dimensions))) 
+                max = max(c(lower, upper, dimensions))
+            if (min > min(c(lower, upper, dimensions))) 
+                min = min(c(lower, upper, dimensions))
+        }
+        else {
+            if (!is.null(dimensions)) {
+                if (max < max(dimensions)) 
+                  max = max(dimensions)
+                if (min > min(dimensions)) 
+                  min = min(dimensions)
+            }
+            if (!is.null(upper)) {
+                if (max < max(upper)) 
+                  max = max(upper)
+                if (min > min(upper)) 
+                  min = min(upper)
+            }
+            if (!is.null(lower)) {
+                if (max < max(lower)) 
+                  max = max(lower)
+                if (min > min(lower)) 
+                  min = min(lower)
+            }
+        }
     }
     else {
-        if (!is.null(dimensions)) {
-            if (max < max(dimensions)) 
-                max = max(dimensions)
-            if (min > min(dimensions)) 
-                min = min(dimensions)
-        }
-        if (!is.null(upper)) {
-            if (max < max(upper)) 
-                max = max(upper)
-            if (min > min(upper)) 
-                min = min(upper)
-        }
-        if (!is.null(lower)) {
-            if (max < max(lower)) 
-                max = max(lower)
-            if (min > min(lower)) 
-                min = min(lower)
-        }
+        if (!is.null(dimensions)) 
+            dimensions[dimensions > max] = max
+        if (!is.null(dimensions)) 
+            upper[upper > max] = dimensions[upper > max]
+        if (!is.null(dimensions)) 
+            lower[lower > max] = max
     }
     if (is.null(dimensions) & is.null(weights) & is.null(main)) {
         dimensions = c(0.1, 0.2, 0.3, 0.8, 0.7, 0.1, 0.1, 0.1, 

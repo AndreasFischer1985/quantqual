@@ -57,12 +57,12 @@ distrib <- function (dat, wei = NULL, kat = NULL, plot = T, plot.o = F,
     })
     names(erg) = lev
     if (plot == T) {
-        cols2 = function(col, transparency = 0.3, opaque = T) {
+        cols2 = function(col, transparency = 0.7, opaque = T) {
             if (opaque == T) 
                 res = sapply(as.data.frame(col2rgb(col)), function(x) colorRampPalette(c(rgb(x[1]/255, 
                   x[2]/255, x[3]/255), "white"))(3)[2])
             else res = apply(col2rgb(col), 2, function(x) rgb(x[1]/255, 
-                x[2]/255, x[3]/255, transparency))
+                x[2]/255, x[3]/255, 1 - transparency))
             return(res)
         }
         x = lapply(erg, function(x) x[["w.data"]])

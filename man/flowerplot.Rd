@@ -7,8 +7,8 @@
 flowerplot(x = NULL, maximum = NULL, rownames = NULL,
   colnames = NULL, main = NULL, color = NULL, color2 = "lightgrey",
   add.numbers = F, ncex = 0.8, ndigits = 1, ncol = "black",
-  cex = 0.8, xlim = NULL, ylim = NULL, dist = 4, legend = NULL,
-  xshift = 0)
+  cex = 0.8, cex.legend = 0.8, xlim = NULL, ylim = NULL,
+  dist = 4, legend = NULL, xshift = 0)
 }
 \arguments{
 \item{x}{Numeric data.frame or matrix containing the values to be displayed.}

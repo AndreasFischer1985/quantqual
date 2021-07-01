@@ -4,7 +4,7 @@
 \alias{cols2}
 \title{Function cols2}
 \usage{
-cols2(col, transparency = 0.3)
+cols2(col, transparency = 0.7)
 }
 \arguments{
 \item{col}{Character vector specifying the colors to be transformed.}
