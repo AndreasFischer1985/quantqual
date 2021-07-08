@@ -31,6 +31,18 @@ dotplot(x = NULL, labels = NULL, groups = NULL, gdata = NULL,
 \item{horizLines}{Logical value specifying whether to plot horizontal lines between each point and the y axis. Defaults to T.}
 
 \item{max}{Numeric value indicating the maximum number of frequencies to be displayed. Defaults to 40.}
+
+\item{add.numbers}{Logical value indicating if numbers should be placed next to the dots. Defaults to F.}
+
+\item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
+
+\item{ncex}{Size of fonts. If NA (default) is set to cex.}
+
+\item{nsrt}{Numeric value specifying the rotation of the numbers (between 0 and 360 degrees). Defaults to 0.}
+
+\item{npos}{Numeric value specifying the position of numbers. If NA (default) it is determined automatically.}
+
+\item{ncol}{Vector containing the color of bars. Defaults to "black".}
 }
 \description{
 Plots a modified dotchart.

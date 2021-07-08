@@ -90,15 +90,58 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
             "legal aspects", "technical limit./poss.", "aest./art. factors", 
             "financial limit./poss.")
     }
+    if (is.null(names(dimensions))) 
+        names(dimensions) = 1:length(dimensions)
+    if (!is.null(names)) 
+        names(dimensions) = names
+    d = dim(cbind(x))[2]
+    if (length(d) > 0) 
+        if (d > 1) {
+            spiderplot(x[, 1], lower = cbind(lower)[, 1], upper = cbind(upper)[, 
+                1], weights = cbind(weights)[, 1], names = cbind(names)[, 
+                1], col = col[1], add = add[1], main = main[1], 
+                max = max[1], min = min[1], xylim = xylim[1], 
+                add.scale = add.scale[1], col2 = col2[1], border = border[1], 
+                mode = mode[1], arrows.lwd = arrows.lwd[1], arrows.length = arrows.length[1], 
+                add.numbers = add.numbers[1], numbers = numbers[1], 
+                add.grid = add.grid[1], add.labels = add.labels[1], 
+                line.type = line.type[1], grid.detail = grid.detail[1], 
+                grid.points = grid.points[1], shift = shift[1], 
+                arrows.transparency = arrows.transparency[1])
+            e = function(x) {
+                if (is.null(x)) 
+                  return(x)
+                if (length(x) == d) 
+                  return(x)
+                else return(rep(x, d))
+            }
+            f = function(x) {
+                if (is.null(x)) 
+                  return(x)
+                if (dim(cbind(x))[2] == d) 
+                  return(x)
+                else return(matrix(rep(cbind(x)[, 1], each = d), 
+                  ncol = d, byrow = T))
+            }
+            lapply(2:d, function(i) spiderplot(x[, i], lower = cbind(f(lower))[, 
+                i], upper = cbind(f(upper))[, i], weights = cbind(f(weights))[, 
+                i], names = cbind(f(names))[, i], col = e(col)[i], 
+                col2 = e(col2)[i], arrows.lwd = e(arrows.lwd)[i], 
+                arrows.length = e(arrows.length)[i], line.type = e(line.type)[i], 
+                shift = e(shift)[i], arrows.transparency = e(arrows.transparency)[i], 
+                mode = e(mode)[i], add = T, main = NULL, max = max[1], 
+                min = min[1], xylim = xylim[1], add.scale = add.scale[1], 
+                border = border[1], add.numbers = add.numbers[1], 
+                numbers = numbers[1], add.grid = add.grid[1], 
+                add.labels = add.labels[1], grid.detail = grid.detail[1], 
+                grid.points = grid.points[1]))
+            return(invisible())
+        }
     if (length(weights) == 1) 
         weights = rep(weights[1], length(dimensions))
     if (is.null(weights)) 
         weights = rep(1, length(dimensions))
     weights2 = c(weights, weights[1])
-    if (is.null(names(dimensions))) 
-        names(dimensions) = 1:length(dimensions)
-    if (!is.null(names)) 
-        names(dimensions) = names
     theta = seq(0, 2 * pi, length = length(dimensions) + 1)
     if (add == F) 
         plot(weights2 * cos(theta), weights2 * sin(theta), type = "l", 

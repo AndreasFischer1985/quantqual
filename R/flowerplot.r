@@ -1,6 +1,6 @@
 #' Function flowerplot
 #' 
-#' Plots data.frame as a field of flowers.
+#' Plots numeric matrix as a field of flowers.
 #' @param x Numeric data.frame or matrix containing the values to be displayed.
 #' @param maximum Numeric value representing the maximum value. Only needs to be specified when the data does not contain the theoretically possible maximum.
 #' @param rownames Character vector of the same length as x, containing the row names to be displayed. If NULL (default) rownames of x are applied.
@@ -9,6 +9,10 @@
 #' @param color Character vector, containing the colors of petals. If NULL (default) the rainbow palette is applied.
 #' @param color2 Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".
 #' @param add.numbers Logical value specifying whether to draw numbers next to each petal. Defaults to F.
+#' @param ndigits Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.
+#' @param ncex Size of fonts. If NA (default) is set to cex.
+#' @param ncol Vector containing the color of bars. Defaults to "black".
+#' @param xshift Numeric value specifying how much to shift flowers to the right. Defaults to 0.
 #' @details Plots data.frame as a field of flowers. Each column is represented as a separate flower, each row as a flower's petal.
 #' @keywords plotting
 #' @export
@@ -21,11 +25,11 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
     xlim = NULL, ylim = NULL, dist = 4, legend = NULL, xshift = 0) 
 {
     if (!is.null(x)) {
-        data = data.frame(x)
+        data = cbind(x)
     }
     else data = NULL
     if (is.null(data)) 
-        data = data.frame(option1 = c(1, 1, 1, 1, 1, 1, 1), option2 = c(0.9, 
+        data = cbind(option1 = c(1, 1, 1, 1, 1, 1, 1), option2 = c(0.9, 
             0.8, 0.5, 0.9, 1, 0, 0.1), option3 = c(0.8, 0.9, 
             0.8, 0.9, 1, 0.9, 0.7), option4 = c(0.9, 1, 0.7, 
             0.5, 0.5, 0.5, 0.5), option5 = c(0.4, 0.4, 0.4, 1, 
@@ -33,7 +37,6 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
     x = seq(-2, (dim(data)[2] - 1) * dist + 2, length.out = 2)
     if (!is.numeric(as.matrix(data))) 
         stop("Wrong input. Please provide a numerical matrix.")
-    data = as.matrix(data)
     if (is.null(maximum)) 
         maximum = max(data)
     data = data/max(c(data, maximum))

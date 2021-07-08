@@ -8,6 +8,12 @@
 #' @param main Character value specifying the plot's title. Defaults to "Comparison of Word Frequencies"
 #' @param pch Numeric element speccifying the symbol to represent points. Defaults to 16
 #' @param cex Numeric value indicating the text size. Defaults to .7.
+#' @param add.numbers Logical value indicating if numbers should be placed next to the dots. Defaults to F.
+#' @param ndigits Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.
+#' @param ncex Size of fonts. If NA (default) is set to cex.
+#' @param nsrt Numeric value specifying the rotation of the numbers (between 0 and 360 degrees). Defaults to 0.
+#' @param npos Numeric value specifying the position of numbers. If NA (default) it is determined automatically.
+#' @param ncol Vector containing the color of bars. Defaults to "black".
 #' @details Plots vector as modified dotchart.
 #' @keywords plotting
 #' @export

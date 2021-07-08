@@ -26,9 +26,17 @@ flowerplot(x = NULL, maximum = NULL, rownames = NULL,
 \item{color2}{Character value, containing the color of the background petals. If NULL, no background petals are plotted. Defaults to "lightgrey".}
 
 \item{add.numbers}{Logical value specifying whether to draw numbers next to each petal. Defaults to F.}
+
+\item{ncex}{Size of fonts. If NA (default) is set to cex.}
+
+\item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
+
+\item{ncol}{Vector containing the color of bars. Defaults to "black".}
+
+\item{xshift}{Numeric value specifying how much to shift flowers to the right. Defaults to 0.}
 }
 \description{
-Plots data.frame as a field of flowers.
+Plots numeric matrix as a field of flowers.
 }
 \details{
 Plots data.frame as a field of flowers. Each column is represented as a separate flower, each row as a flower's petal.
