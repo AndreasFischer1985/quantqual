@@ -7,8 +7,8 @@
 #' @param beak.names Logical value indicating whether line breaks should be added after each whitespace. Defaults to F.
 #' @param beak.names Logical value indicating whether values of vec should be added to vec's names before labelling the bubbles.
 #' @param cex Numeric value indicating the text size. Defaults to .8.
-#' @param a Numeric value multiplied with normalizd vec. Defaults to 90.
-#' @param b Numeric value added to normalized vec*a. Defaults to 10.
+#' @param a Numeric value multiplied with normalizd vec. Defaults to 1.
+#' @param b Numeric value added to normalized vec*a. Defaults to 0.
 #' @param col Character vector indicating the bubbles' color. If NULL (default) the rainbow palette is applied to vec's ranks.
 #' @details Plots vector as packed bubble chart. Returns coordinates and radius of each bubble
 #' @keywords plotting
@@ -17,7 +17,7 @@
 #' packedBubbleChart()
 
 packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.names = F, 
-    add.vec = T, cex = 0.8, col = NULL, cutoff = 2, a = 90, b = 10) 
+    add.vec = T, cex = 0.8, col = NULL, cutoff = 2, a = 1, b = 0) 
 {
     parmar = par()$mar
     par(mar = parmar - min(parmar))
@@ -40,7 +40,10 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
         names(vec) = gsub(" ", "\n", names(vec))
     if (add.vec) 
         names(vec) = paste0(vec, " x\n", names(vec))
-    vec = (((vec - min(vec))/(max(vec) - min(vec)))) * a + b
+    if(length(cex)!=length(vec))
+        cex=rep(cex[1],length(vec))
+    if(!(a==1&b==0))
+        vec = (((vec - min(vec))/(max(vec) - min(vec)))) * a + b
     if (is.null(col)) 
         col = rainbow(max(rank(vec)))[max(rank(vec)) + 1 - round(rank(vec))]
     dat = cbind(vec, col)[order(vec, decreasing = T), ]
@@ -57,7 +60,7 @@ packedBubbleChart <- function (vec = NULL, main = NULL, show.text = T, break.nam
     for (i in 1:dim(coord)[1]) {
         circle(coord[i, 1], coord[i, 2], coord[i, 3], col[i])
         text(coord[i, 1], coord[i, 2], names(vec)[i], cex = ifelse(coord[i, 
-            3] < cutoff, cex * 0.7, cex))
+            3] < cutoff, cex[i] * 0.7, cex[i]))
     }
     par(mar = parmar)
     return(coord)
