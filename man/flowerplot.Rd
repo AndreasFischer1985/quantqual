@@ -4,11 +4,28 @@
 \alias{flowerplot}
 \title{Function flowerplot}
 \usage{
-flowerplot(x = NULL, maximum = NULL, rownames = NULL,
-  colnames = NULL, main = NULL, color = NULL, color2 = "lightgrey",
-  add.numbers = F, ncex = 0.8, ndigits = 1, ncol = "black",
-  cex = 0.8, cex.legend = 0.8, xlim = NULL, ylim = NULL,
-  dist = 4, legend = NULL, xshift = 0)
+flowerplot(
+  x = NULL,
+  maximum = NULL,
+  rownames = NULL,
+  colnames = NULL,
+  main = NULL,
+  color = NULL,
+  color2 = "lightgrey",
+  add.numbers = F,
+  ncex = 0.8,
+  ndigits = 1,
+  ncol = "black",
+  circle = 0.5,
+  reverseLegend = F,
+  cex = 0.8,
+  cex.legend = 0.8,
+  xlim = NULL,
+  ylim = NULL,
+  dist = 4,
+  legend = NULL,
+  xshift = 0
+)
 }
 \arguments{
 \item{x}{Numeric data.frame or matrix containing the values to be displayed.}
@@ -32,6 +49,10 @@ flowerplot(x = NULL, maximum = NULL, rownames = NULL,
 \item{ndigits}{Numeric value specifying the number of digits to be plotted (if add.numbers==T). Defaults to 2.}
 
 \item{ncol}{Vector containing the color of bars. Defaults to "black".}
+
+\item{circle}{Numeric value specifying the size of the black circle at the center of each flower. Defaults to 0.}
+
+\item{reverseLegend}{Logical value specifying whether to reverse the order of legend entries. Defaults to F.}
 
 \item{xshift}{Numeric value specifying how much to shift flowers to the right. Defaults to 0.}
 }

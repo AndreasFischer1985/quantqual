@@ -4,11 +4,18 @@
 \alias{getHTML}
 \title{Function getHTML}
 \usage{
-
-  getHTML(url = "https://scholar.google.de/citations?user=-TjY7oEAAAAJ&hl=de&oi=sra",
-  encoding = "UTF-8", save = F, filename = NULL, closeCon = F,
-  method = "libcurl", silent = T, curlGetHeaders = F,
-  browseURL = F, ...)
+getHTML(
+  url = "https://scholar.google.de/citations?user=-TjY7oEAAAAJ&hl=de&oi=sra",
+  encoding = "UTF-8",
+  save = F,
+  filename = NULL,
+  closeCon = F,
+  method = "libcurl",
+  silent = T,
+  curlGetHeaders = F,
+  browseURL = F,
+  ...
+)
 }
 \arguments{
 \item{url}{Character string speficying a valid URL.}

@@ -40,7 +40,6 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
     if (is.null(col2)) 
         col2 = quantqual::cols2(col, arrows.transparency)
     if (!is.null(max)) {
-        max = 1
         if (!is.null(upper) & !is.null(dimensions)) {
             if (max < max(c(lower, upper, dimensions))) 
                 max = max(c(lower, upper, dimensions))
@@ -69,11 +68,13 @@ spiderplot <- function (x = NULL, lower = NULL, upper = NULL, weights = NULL,
         }
     }
     else {
-        if (!is.null(dimensions)) 
+        if (!is.null(dimensions)) {
             dimensions[dimensions > max] = max
-        if (!is.null(dimensions)) 
-            upper[upper > max] = dimensions[upper > max]
-        if (!is.null(dimensions)) 
+            x[x > max] = max
+        }
+        if (!is.null(upper)) 
+            upper[upper > max] = max
+        if (!is.null(lower)) 
             lower[lower > max] = max
     }
     if (is.null(dimensions) & is.null(weights) & is.null(main)) {

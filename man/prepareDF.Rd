@@ -4,8 +4,7 @@
 \alias{prepareDF}
 \title{Function prepareDF}
 \usage{
-prepareDF(data, output = NULL, scale = T, out.omit = T,
-  na.omit = T)
+prepareDF(data, output = NULL, scale = T, out.omit = T, na.omit = T)
 }
 \arguments{
 \item{data}{data.frame containing data.}

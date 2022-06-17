@@ -4,10 +4,17 @@
 \alias{textbreaker}
 \title{Function textbreaker}
 \usage{
-
-  textbreaker(text = "Let's write some text with many different words and plot it in a nice little device.",
-  maxlength = 30, maxlines = 10, centered = F, separator = "\\n",
-  trim = T, plot = F, ...)
+textbreaker(
+ 
+    text = "Let's write some text with many different words and plot it in a nice little device.",
+  maxlength = 30,
+  maxlines = 10,
+  centered = F,
+  separator = "\\n",
+  trim = T,
+  plot = F,
+  ...
+)
 }
 \arguments{
 \item{text}{Character value containing the text to be split into multiple lines.}

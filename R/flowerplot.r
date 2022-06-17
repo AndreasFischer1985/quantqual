@@ -13,6 +13,8 @@
 #' @param ncex Size of fonts. If NA (default) is set to cex.
 #' @param ncol Vector containing the color of bars. Defaults to "black".
 #' @param xshift Numeric value specifying how much to shift flowers to the right. Defaults to 0.
+#' @param circle Numeric value specifying the size of the black circle at the center of each flower. Defaults to 0.
+#' @param reverseLegend Logical value specifying whether to reverse the order of legend entries. Defaults to F.
 #' @details Plots data.frame as a field of flowers. Each column is represented as a separate flower, each row as a flower's petal.
 #' @keywords plotting
 #' @export
@@ -21,11 +23,14 @@
 
 flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NULL, 
     main = NULL, color = NULL, color2 = "lightgrey", add.numbers = F, 
-    ncex = 0.8, ndigits = 1, ncol = "black", cex = 0.8, cex.legend = 0.8, 
-    xlim = NULL, ylim = NULL, dist = 4, legend = NULL, xshift = 0) 
+    ncex = 0.8, ndigits = 1, ncol = "black", circle = 0.5, reverseLegend = F, 
+    cex = 0.8, cex.legend = 0.8, xlim = NULL, ylim = NULL, dist = 4, 
+    legend = NULL, xshift = 0) 
 {
     if (!is.null(x)) {
         data = cbind(x)
+        data[is.na(data)] = 0
+        warning("Input contains missing data.")
     }
     else data = NULL
     if (is.null(data)) 
@@ -105,9 +110,9 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
             petal(0.3, data[petal1, flower1], petal1, dim(data)[1] + 
                 1, flower1, height, text = data[petal1, flower1])
         }
-        polygon(dist * (flower1 - 1) + xshift + 0.5 * sin(seq(0, 
+        polygon(dist * (flower1 - 1) + xshift + circle * sin(seq(0, 
             2 * pi, length.out = dim(data)[1] + 1)), height + 
-            0.5 * cos(seq(0, 2 * pi, length.out = dim(data)[1] + 
+            circle * cos(seq(0, 2 * pi, length.out = dim(data)[1] + 
                 1)), col = "black", xpd = T)
         text(dist * (flower1 - 1) + xshift, 0, colnames[flower1], 
             pos = 1, cex = cex, xpd = T)
@@ -118,9 +123,16 @@ flowerplot <- function (x = NULL, maximum = NULL, rownames = NULL, colnames = NU
         title(main)
     legX = dist * 3/4 + dist * (dim(data)[2])
     if (is.null(legend)) 
-        legend(x = legX - dist, y = legX - dist, legend = c(rownames), 
-            fill = farben[1:(dim(data)[1] + 1)], bg = "white", 
-            bty = "n", xpd = T, cex = cex.legend)
+        if (reverseLegend == T) {
+            legend(x = legX - dist, y = legX - dist, legend = c(rownames), 
+                fill = farben[1:(dim(data)[1] + 1)], bg = "white", 
+                bty = "n", xpd = T, cex = cex.legend)
+        }
+        else {
+            legend(x = legX - dist, y = legX - dist, legend = c(rownames)[length(rownames):1], 
+                fill = farben[(dim(data)[1]):1], bg = "white", 
+                bty = "n", xpd = T, cex = cex.legend)
+        }
     if (!is.null(legend)) 
         legend
     invisible(data)

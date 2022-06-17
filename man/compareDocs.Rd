@@ -4,9 +4,18 @@
 \alias{compareDocs}
 \title{Function compareDocs}
 \usage{
-compareDocs(a = NULL, b = NULL, relative = T, vertLine = T,
-  horizLines = T, max = 40, main = "Comparison of Word Frequencies",
-  pch = 16, cex = 0.7, ...)
+compareDocs(
+  a = NULL,
+  b = NULL,
+  relative = T,
+  vertLine = T,
+  horizLines = T,
+  max = 40,
+  main = "Comparison of Word Frequencies",
+  pch = 16,
+  cex = 0.7,
+  ...
+)
 }
 \arguments{
 \item{a}{Character value.}

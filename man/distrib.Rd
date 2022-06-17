@@ -4,9 +4,21 @@
 \alias{distrib}
 \title{Function distrib}
 \usage{
-distrib(dat, wei = NULL, kat = NULL, plot = T, plot.o = F,
-  simplify = T, mar = NULL, width = NULL, height = NULL,
-  main2 = "Boxplot", main1 = "", round = T, ...)
+distrib(
+  dat,
+  wei = NULL,
+  kat = NULL,
+  plot = T,
+  plot.o = F,
+  simplify = T,
+  mar = NULL,
+  width = NULL,
+  height = NULL,
+  main2 = "Boxplot",
+  main1 = "",
+  round = T,
+  ...
+)
 }
 \arguments{
 \item{dat}{Numeric vector.}

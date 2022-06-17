@@ -4,17 +4,37 @@
 \alias{plotMAT}
 \title{Function plotMAT}
 \usage{
-plotMAT(matrix = NULL, main = NULL, xlab = "", ylab = NULL,
-  lwd = 2, lty = 1, pch = NULL, type = "l", xlim = NULL,
-  ylim = NULL, xlim.factor = 1.5, las = 1, srt = 45, cumsum = F,
-  show.legend = F, add = F, add.shadow = F, grid = T, col = NULL,
-  cex = 0.7, cex.axis1 = 0.5, cex.axis2 = 0.7, frame = 1,
-  manual.addon = NULL)
+plotMAT(
+  matrix = NULL,
+  main = NULL,
+  xlab = "",
+  ylab = NULL,
+  lwd = 2,
+  lty = 1,
+  pch = NULL,
+  type = "l",
+  xlim = NULL,
+  ylim = NULL,
+  xlim.factor = 1.5,
+  las = 1,
+  srt = 45,
+  cumsum = F,
+  show.legend = F,
+  add = F,
+  add.shadow = F,
+  grid = T,
+  col = NULL,
+  cex = 0.7,
+  cex.axis1 = 0.5,
+  cex.axis2 = 0.7,
+  frame = 1,
+  manual.addon = NULL
+)
 }
 \arguments{
 \item{matrix}{Numeric matrix containing the values to be displayed.}
 
-\item{main}{Character value representing the barplot's title. If NULL (default) it's set to "Cumulation over time"}
+\item{main}{Character value representing the title. Defaults to NULL.}
 
 \item{xlab}{Character value representing the x-axis label. If NULL it's set to "time". Defaults to ""}
 
@@ -59,8 +79,6 @@ plotMAT(matrix = NULL, main = NULL, xlab = "", ylab = NULL,
 \item{frame}{Relative size of invisible frame around fonts. Defaults to 1.}
 
 \item{manual.addon}{Numeric vector containing verical adjustments.}
-
-\item{main}{Character value representing the title. Defaults to NULL.}
 }
 \description{
 Plots a numeric matrix as one line per row.

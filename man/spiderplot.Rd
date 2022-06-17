@@ -4,13 +4,34 @@
 \alias{spiderplot}
 \title{Function spiderplot}
 \usage{
-spiderplot(x = NULL, lower = NULL, upper = NULL, weights = NULL,
-  names = NULL, main = NULL, max = 1, min = 0, xylim = 1.5,
-  add.scale = T, col = NULL, col2 = NULL, border = NA, mode = 0,
-  arrows.lwd = 3, arrows.length = 0.01, add = F, add.numbers = F,
-  numbers = 2, add.grid = T, add.labels = T, line.type = "o",
-  grid.detail = 1, grid.points = NULL, shift = 0,
-  arrows.transparency = 0.7)
+spiderplot(
+  x = NULL,
+  lower = NULL,
+  upper = NULL,
+  weights = NULL,
+  names = NULL,
+  main = NULL,
+  max = 1,
+  min = 0,
+  xylim = 1.5,
+  add.scale = T,
+  col = NULL,
+  col2 = NULL,
+  border = NA,
+  mode = 0,
+  arrows.lwd = 3,
+  arrows.length = 0.01,
+  add = F,
+  add.numbers = F,
+  numbers = 2,
+  add.grid = T,
+  add.labels = T,
+  line.type = "o",
+  grid.detail = 1,
+  grid.points = NULL,
+  shift = 0,
+  arrows.transparency = 0.7
+)
 }
 \arguments{
 \item{x}{Numeric vector containing the values to be displayed. Values should be between 0 and 1.}

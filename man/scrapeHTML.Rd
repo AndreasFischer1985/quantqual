@@ -4,8 +4,7 @@
 \alias{scrapeHTML}
 \title{Function scrapeHTML}
 \usage{
-scrapeHTML(html, short = F, edit = T, save = F, plot = F,
-  filename = NULL)
+scrapeHTML(html, short = F, edit = T, save = F, plot = F, filename = NULL)
 }
 \arguments{
 \item{html}{A character element containing HTML-code.}

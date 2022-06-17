@@ -4,8 +4,13 @@
 \alias{classify}
 \title{Function classify}
 \usage{
-classify(dat, cat = character(0), cod = character(0),
-  pos = numeric(0), resort = T)
+classify(
+  dat,
+  cat = character(0),
+  cod = character(0),
+  pos = numeric(0),
+  resort = T
+)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

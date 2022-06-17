@@ -4,16 +4,45 @@
 \alias{plotXY}
 \title{Function plotXY}
 \usage{
-plotXY(x = NULL, y = NULL, complexity = 0, rep.nnet = 10,
-  attrModel = T, na.rm = T, color1 = rgb(0, 0, 0, 0.7),
-  color2 = rgb(0, 0, 1), color3 = rgb(0, 0, 1, 0.2), xlab = "x",
-  ylab = "y", axes = T, add = F, main = NA, sub = NA, pch = 16,
-  lwd = 2, cex = 0.7, cex.sub = 0.7, generalize = F,
-  main1 = NULL, main2 = NULL, main3 = NULL, mar = NA,
-  adj.main1 = 0, adj.main2 = 0, adj.main3 = 0, col.main1 = "black",
-  col.main2 = "black", col.main3 = "black", cex.main1 = 1.2,
-  cex.main2 = 1.2, cex.main3 = 1.2, font.main1 = 1, font.main2 = 2,
-  font.main3 = 4, ...)
+plotXY(
+  x = NULL,
+  y = NULL,
+  complexity = 0,
+  rep.nnet = 10,
+  attrModel = T,
+  na.rm = T,
+  color1 = rgb(0, 0, 0, 0.7),
+  color2 = rgb(0, 0, 1),
+  color3 = rgb(0, 0, 1, 0.2),
+  xlab = "x",
+  ylab = "y",
+  axes = T,
+  add = F,
+  main = NA,
+  sub = NA,
+  pch = 16,
+  lwd = 2,
+  cex = 0.7,
+  cex.sub = 0.7,
+  generalize = F,
+  main1 = NULL,
+  main2 = NULL,
+  main3 = NULL,
+  mar = NA,
+  adj.main1 = 0,
+  adj.main2 = 0,
+  adj.main3 = 0,
+  col.main1 = "black",
+  col.main2 = "black",
+  col.main3 = "black",
+  cex.main1 = 1.2,
+  cex.main2 = 1.2,
+  cex.main3 = 1.2,
+  font.main1 = 1,
+  font.main2 = 2,
+  font.main3 = 4,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector.}

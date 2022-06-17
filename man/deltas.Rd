@@ -4,9 +4,18 @@
 \alias{deltas}
 \title{Function deltas}
 \usage{
-deltas(model, x = NULL, y = NULL, fun = mean, plot = T,
-  main = "Fischer's Delta", xlab = "Predictor",
-  ylab = expression(R^2), col = NULL, ...)
+deltas(
+  model,
+  x = NULL,
+  y = NULL,
+  fun = mean,
+  plot = T,
+  main = "Fischer's Delta",
+  xlab = "Predictor",
+  ylab = expression(R^2),
+  col = NULL,
+  ...
+)
 }
 \arguments{
 \item{model}{Any object that works as input for function predict.}

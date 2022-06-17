@@ -4,8 +4,13 @@
 \alias{correlateWordFrequencies}
 \title{Function correlateCodeFrequencies}
 \usage{
-correlateWordFrequencies(corpus, binary = T, min = NULL,
-  returnVector = T, plot = T)
+correlateWordFrequencies(
+  corpus,
+  binary = T,
+  min = NULL,
+  returnVector = T,
+  plot = T
+)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

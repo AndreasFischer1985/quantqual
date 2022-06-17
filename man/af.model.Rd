@@ -4,8 +4,7 @@
 \alias{af.model}
 \title{Function af.model}
 \usage{
-af.model(formula, data, direction = "top", model = lm, scope = NULL,
-  ...)
+af.model(formula, data, direction = "top", model = lm, scope = NULL, ...)
 }
 \arguments{
 \item{formula}{A formula specifying the criterion and its relation to all predictors possibly relevant.}

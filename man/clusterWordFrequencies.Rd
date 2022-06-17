@@ -4,8 +4,7 @@
 \alias{clusterWordFrequencies}
 \title{Function clusterWordFrequencies}
 \usage{
-clusterWordFrequencies(corpus, cor = F, binary = T, min = 0,
-  plot = T)
+clusterWordFrequencies(corpus, cor = F, binary = T, min = 0, plot = T)
 }
 \arguments{
 \item{corpus}{Character vector containing one document per element.}

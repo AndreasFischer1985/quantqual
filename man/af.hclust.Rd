@@ -4,8 +4,13 @@
 \alias{af.hclust}
 \title{Function af.hclust}
 \usage{
-af.hclust(data, dist.function = function(x) as.dist(1 - cor(x)),
-  method = "complete", k = NULL, plot = T)
+af.hclust(
+  data,
+  dist.function = function(x) as.dist(1 - cor(x)),
+  method = "complete",
+  k = NULL,
+  plot = T
+)
 }
 \arguments{
 \item{data}{Numeric data.frame.}

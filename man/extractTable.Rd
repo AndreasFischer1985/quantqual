@@ -4,9 +4,18 @@
 \alias{extractTable}
 \title{Function extractTable}
 \usage{
-extractTable(x, reg.up = NULL, reg.down = NULL, reg.left = "^",
-  reg.right = "$", reg.fix = NULL, header = F, trim = T,
-  convert = F, correctNotation = F)
+extractTable(
+  x,
+  reg.up = NULL,
+  reg.down = NULL,
+  reg.left = "^",
+  reg.right = "$",
+  reg.fix = NULL,
+  header = F,
+  trim = T,
+  convert = F,
+  correctNotation = F
+)
 }
 \arguments{
 \item{x}{A character element containing all the text toextract the table from (or a character vector containing one text-line per element).}

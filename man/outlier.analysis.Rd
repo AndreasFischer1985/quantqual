@@ -4,9 +4,17 @@
 \alias{outlier.analysis}
 \title{Function outlier.anaysis}
 \usage{
-outlier.analysis(df = NULL, cutoff = NULL, plot = T,
-  col = rgb(106/255, 160/255, 186/255), varwidth = T, outline = T,
-  main = "Outlier Analysis", cex = 0.8, ...)
+outlier.analysis(
+  df = NULL,
+  cutoff = NULL,
+  plot = T,
+  col = rgb(106/255, 160/255, 186/255),
+  varwidth = T,
+  outline = T,
+  main = "Outlier Analysis",
+  cex = 0.8,
+  ...
+)
 }
 \arguments{
 \item{df}{A data.frame containing numeric vectors.}

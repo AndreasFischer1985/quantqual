@@ -4,9 +4,17 @@
 \alias{mar}
 \title{Function mar}
 \usage{
-mar(mar = c(5.1, 4.1, 4.1, 2.1), mar1 = c(1, 1, 1, 1), mar0 = c(0, 0,
-  0, 0), labels1 = NULL, labels2 = NULL, labels3 = NULL,
-  labels4 = NULL, labelFactor = 3, set = T)
+mar(
+  mar = c(5.1, 4.1, 4.1, 2.1),
+  mar1 = c(1, 1, 1, 1),
+  mar0 = c(0, 0, 0, 0),
+  labels1 = NULL,
+  labels2 = NULL,
+  labels3 = NULL,
+  labels4 = NULL,
+  labelFactor = 3,
+  set = T
+)
 }
 \arguments{
 \item{mar}{Numeric vector containing default margins. Defaults to c(5.1, 4.1, 4.1, 2.1).}
